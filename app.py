@@ -294,17 +294,6 @@ if selected_page == "⚡ 1-Click Daily Viral Hub (2 Videos/Day)":
                                 output_zip_path=str(EXPORTS_DIR / f"Upload_Part2_{part2_export.id}.zip"),
                             )
                         st.rerun()
-                    else:
-                        st.info("Approval granted! YouTube OAuth is not yet connected; downloading instant upload package...")
-                        pkg = YouTubePublisher.create_manual_upload_package(
-                            video_export_id=part2_export.id,
-                            title=p2_script.title if p2_script else "Part 2",
-                            description="Dissecting the balance sheets and boardroom blunders.",
-                            tags="business, case study, economics, modernmba",
-                            output_zip_path=str(EXPORTS_DIR / f"Upload_Part2_{part2_export.id}.zip"),
-                        )
-                        st.success(f"Package ready: {Path(pkg).name}")
-                    st.rerun()
 
         st.divider()
 
