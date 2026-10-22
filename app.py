@@ -152,13 +152,25 @@ if selected_page == "⚡ 1-Click Daily Viral Hub (2 Videos/Day)":
 
     st.divider()
 
+    auth_status = YouTubeAuthManager.get_auth_status()
+    if auth_status["is_authenticated"]:
+        st.success("🟢 **YouTube Channel Connected:** `Apex op legend` — Ready for 1-click automated publishing!")
+    else:
+        st.warning("⚠️ YouTube Channel Not Connected. Connect in Settings or use the instant ZIP package.")
+
+    if "last_upload_url" in st.session_state:
+        st.success(f"🚀 **Successfully Uploaded Video!** Watch in YouTube Studio: [{st.session_state['last_upload_url']}]({st.session_state['last_upload_url']})")
+
     # Look for the latest Part 1 and Part 2 exports in exports directory
     exports = VideoExportRepository.list_exports()
     part1_export = next((e for e in exports if "Part1" in e.file_path and Path(e.file_path).exists()), None)
     part2_export = next((e for e in exports if "Part2" in e.file_path and Path(e.file_path).exists()), None)
 
     if part1_export and part2_export:
-        st.subheader("📺 Today's 2 Viral Videos (Ready for 1-Click Approval & Auto-Publishing)")
+        col_hdr1, col_hdr2 = st.columns([3, 1])
+        col_hdr1.subheader("📺 Today's 2 Viral Videos (Ready for 1-Click Approval & Auto-Publishing)")
+        upload_privacy = col_hdr2.selectbox("Upload Visibility", ["private", "unlisted", "public"], index=0, help="Default is Private for safe review in YouTube Studio before going Public.")
+
         p1_script = ScriptRepository.get_script(part1_export.script_id)
         p2_script = ScriptRepository.get_script(part2_export.script_id)
 
@@ -180,40 +192,49 @@ if selected_page == "⚡ 1-Click Daily Viral Hub (2 Videos/Day)":
             if is_p1_approved:
                 st.success(f"✅ Approved by {p1_approval.approved_by}")
             else:
-                if st.button("✅ Approve & Auto-Publish Part 1", key="btn_app_p1", type="primary", use_container_width=True):
-                    approval = HumanApproval(
-                        script_id=part1_export.script_id,
-                        video_export_id=part1_export.id,
-                        content_hash=part1_export.content_hash,
-                        approved_by="Channel Lead",
-                        approval_notes="Approved Part 1 viral cut.",
-                        is_valid=True,
-                    )
-                    ApprovalRepository.record_approval(approval)
+                if st.button("🚀 Approve & Auto-Publish Part 1", key="btn_app_p1", type="primary", use_container_width=True):
+                    with st.spinner("Recording approval and uploading to your YouTube channel..."):
+                        approval = HumanApproval(
+                            script_id=part1_export.script_id,
+                            video_export_id=part1_export.id,
+                            content_hash=part1_export.content_hash,
+                            approved_by="Channel Lead",
+                            approval_notes="Approved Part 1 viral cut.",
+                            is_valid=True,
+                        )
+                        ApprovalRepository.record_approval(approval)
 
-                    # Trigger auto-upload
-                    auth_status = YouTubeAuthManager.get_auth_status()
-                    if auth_status["is_authenticated"]:
-                        up_res = YouTubePublisher.upload_video_via_api(
-                            video_export_id=part1_export.id,
-                            title=p1_script.title if p1_script else "Part 1",
-                            description="Watch Part 2 for the final verdict.",
-                            tags="business, case study, economics",
-                            privacy_status="private",
-                        )
-                        if up_res.get("success"):
-                            st.success(f"🚀 Auto-Uploaded to YouTube: {up_res['url']}")
-                    else:
-                        st.info("Approval granted! YouTube OAuth is not yet connected; downloading instant upload package...")
-                        pkg = YouTubePublisher.create_manual_upload_package(
-                            video_export_id=part1_export.id,
-                            title=p1_script.title if p1_script else "Part 1",
-                            description="Watch Part 2 for the final verdict.",
-                            tags="business, case study, economics",
-                            output_zip_path=str(EXPORTS_DIR / f"Upload_Part1_{part1_export.id}.zip"),
-                        )
-                        st.success(f"Package ready: {Path(pkg).name}")
-                    st.rerun()
+                        # Trigger auto-upload
+                        if auth_status["is_authenticated"]:
+                            up_res = YouTubePublisher.upload_video_via_api(
+                                video_export_id=part1_export.id,
+                                title=p1_script.title if p1_script else "Part 1",
+                                description=(
+                                    f"{p1_script.hook_text}\n\n"
+                                    f"TIMESTAMPS:\n"
+                                    f"00:00 - The Unseen Trap\n"
+                                    f"00:30 - The Monopoly Era\n"
+                                    f"01:10 - The Hidden Wall Street Deal\n"
+                                    f"01:45 - The Fatal Flaw\n\n"
+                                    f"Watch Part 2 for the final verdict!\n\n"
+                                    f"Educational and analytical documentary. Narration generated with neural voice technology."
+                                ),
+                                tags="business case study, corporate autopsy, economics, modernmba",
+                                privacy_status=upload_privacy,
+                            )
+                            if up_res.get("success"):
+                                st.session_state["last_upload_url"] = up_res["url"]
+                            else:
+                                st.error(up_res.get("error"))
+                        else:
+                            pkg = YouTubePublisher.create_manual_upload_package(
+                                video_export_id=part1_export.id,
+                                title=p1_script.title if p1_script else "Part 1",
+                                description="Watch Part 2 for the final verdict.",
+                                tags="business, case study, economics",
+                                output_zip_path=str(EXPORTS_DIR / f"Upload_Part1_{part1_export.id}.zip"),
+                            )
+                        st.rerun()
 
         # ----------------------------- PART 2 CARD -----------------------------
         with c_v2:
@@ -231,28 +252,48 @@ if selected_page == "⚡ 1-Click Daily Viral Hub (2 Videos/Day)":
             if is_p2_approved:
                 st.success(f"✅ Approved by {p2_approval.approved_by}")
             else:
-                if st.button("✅ Approve & Auto-Publish Part 2", key="btn_app_p2", type="primary", use_container_width=True):
-                    approval = HumanApproval(
-                        script_id=part2_export.script_id,
-                        video_export_id=part2_export.id,
-                        content_hash=part2_export.content_hash,
-                        approved_by="Channel Lead",
-                        approval_notes="Approved Part 2 viral cut.",
-                        is_valid=True,
-                    )
-                    ApprovalRepository.record_approval(approval)
-
-                    auth_status = YouTubeAuthManager.get_auth_status()
-                    if auth_status["is_authenticated"]:
-                        up_res = YouTubePublisher.upload_video_via_api(
+                if st.button("🚀 Approve & Auto-Publish Part 2", key="btn_app_p2", type="primary", use_container_width=True):
+                    with st.spinner("Recording approval and uploading to your YouTube channel..."):
+                        approval = HumanApproval(
+                            script_id=part2_export.script_id,
                             video_export_id=part2_export.id,
-                            title=p2_script.title if p2_script else "Part 2",
-                            description="Dissecting the balance sheets and boardroom blunders.",
-                            tags="business, case study, economics, modernmba",
-                            privacy_status="private",
+                            content_hash=part2_export.content_hash,
+                            approved_by="Channel Lead",
+                            approval_notes="Approved Part 2 viral cut.",
+                            is_valid=True,
                         )
-                        if up_res.get("success"):
-                            st.success(f"🚀 Auto-Uploaded to YouTube: {up_res['url']}")
+                        ApprovalRepository.record_approval(approval)
+
+                        if auth_status["is_authenticated"]:
+                            up_res = YouTubePublisher.upload_video_via_api(
+                                video_export_id=part2_export.id,
+                                title=p2_script.title if p2_script else "Part 2",
+                                description=(
+                                    f"{p2_script.hook_text}\n\n"
+                                    f"TIMESTAMPS:\n"
+                                    f"00:00 - Recap & The Panic\n"
+                                    f"00:25 - The $400M Interest Bloodbath\n"
+                                    f"01:00 - The Paralyzed Balance Sheet\n"
+                                    f"01:30 - The Chapter 11 Liquidation\n\n"
+                                    f"Subscribe to Apex Enterprise for more forensic corporate dissections.\n\n"
+                                    f"Educational and analytical documentary. Narration generated with neural voice technology."
+                                ),
+                                tags="business case study, corporate autopsy, economics, modernmba",
+                                privacy_status=upload_privacy,
+                            )
+                            if up_res.get("success"):
+                                st.session_state["last_upload_url"] = up_res["url"]
+                            else:
+                                st.error(up_res.get("error"))
+                        else:
+                            pkg = YouTubePublisher.create_manual_upload_package(
+                                video_export_id=part2_export.id,
+                                title=p2_script.title if p2_script else "Part 2",
+                                description="Dissecting the balance sheets and boardroom blunders.",
+                                tags="business, case study, economics, modernmba",
+                                output_zip_path=str(EXPORTS_DIR / f"Upload_Part2_{part2_export.id}.zip"),
+                            )
+                        st.rerun()
                     else:
                         st.info("Approval granted! YouTube OAuth is not yet connected; downloading instant upload package...")
                         pkg = YouTubePublisher.create_manual_upload_package(
