@@ -1,0 +1,9 @@
+file 'C:/Users/Sohail/Antigravity/faceless-media-studio/projects/costco_intro_slide.png'
+duration 27.27
+file 'C:/Users/Sohail/Antigravity/faceless-media-studio/projects/costco_markup_chart.png'
+duration 27.27
+file 'C:/Users/Sohail/Antigravity/faceless-media-studio/projects/costco_profit_waterfall.png'
+duration 27.27
+file 'C:/Users/Sohail/Antigravity/faceless-media-studio/projects/costco_moat_slide.png'
+duration 27.27
+file 'C:/Users/Sohail/Antigravity/faceless-media-studio/projects/costco_moat_slide.png'
