@@ -115,25 +115,37 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         if total_audio_duration <= 0.0:
             total_audio_duration = sum(s.duration_sec for s in scenes)
 
-        per_scene_duration = max(3.0, total_audio_duration / max(1, len(scene_images)))
+        # Proportional scene timing matching spoken narration sentences exactly
+        num_images = max(1, len(scene_images))
+        if scenes and len(scenes) == len(scene_images):
+            raw_durations = [max(2.5, s.duration_sec) for s in scenes]
+            sum_target = sum(raw_durations)
+            scale = total_audio_duration / sum_target if sum_target > 0 else 1.0
+            scene_durations = [d * scale for d in raw_durations]
+        else:
+            per_dur = max(3.0, total_audio_duration / num_images)
+            scene_durations = [per_dur] * num_images
 
         # Step 2: Render each scene into a dynamic Ken Burns clip
         RenderJobRepository.update_job_status(job_id, "rendering", 30)
         scene_clips = []
         for idx, img_path in enumerate(scene_images):
             clip_out = temp_dir / f"clip_{idx}.mp4"
-            # Alternate between slow zoom-in and slow zoom-out
-            zoom_expr = "min(zoom+0.0014,1.3)" if idx % 2 == 0 else "max(1.3-0.0014*on,1.0)"
+            dur = scene_durations[idx]
+            num_frames = int(dur * 30)
+
+            # Alternate between dynamic push-in and pull-out camera movement
+            zoom_expr = "min(zoom+0.0015,1.28)" if idx % 2 == 0 else "max(1.28-0.0015*on,1.0)"
             pan_vf = (
                 f"scale=1920:1080,"
-                f"zoompan=z='{zoom_expr}':d={int(per_scene_duration * 30)}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1920x1080"
+                f"zoompan=z='{zoom_expr}':d={num_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1920x1080:fps=30"
             )
 
             cmd_clip = [
                 self.ffmpeg_bin, "-y",
                 "-loop", "1", "-i", str(Path(img_path).resolve()),
                 "-vf", pan_vf,
-                "-t", f"{per_scene_duration:.2f}",
+                "-t", f"{dur:.2f}",
                 "-c:v", "libx264",
                 "-preset", "veryfast",
                 "-pix_fmt", "yuv420p",
@@ -171,31 +183,41 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         ass_subtitles = temp_dir / "subtitles.ass"
         self.generate_ass_subtitles(scenes, str(ass_subtitles))
 
-        # Step 5: Composite Multi-Track Audio (Voiceover + Sub-Bass Drone + Boom + Whooshes)
+        # Step 5: Composite Multi-Track Audio (Voiceover + Sub-Bass Drone + Precision SFX Cues)
         RenderJobRepository.update_job_status(job_id, "rendering", 75)
-        boom = self.sfx.get("impact_boom", "")
-        whoosh = self.sfx.get("whoosh", "")
-        drone = self.sfx.get("tension_drone", "")
+        scene_cues = []
+        cur_t = 0.0
+        for idx, s in enumerate(scenes):
+            dur = scene_durations[idx] if idx < len(scene_durations) else 6.0
+            vtype = getattr(s, "visual_type", "")
+            if idx == 0:
+                scene_cues.append((cur_t, "impact_boom", 0.55))
+            elif vtype == "archival_photo":
+                scene_cues.append((cur_t, "shutter_click", 0.45))
+            elif vtype == "newspaper":
+                scene_cues.append((cur_t, "paper_rustle", 0.45))
+            elif vtype == "court_docket":
+                scene_cues.append((cur_t, "stamp_thud", 0.55))
+            elif vtype == "financial_autopsy":
+                scene_cues.append((cur_t, "impact_boom", 0.40))
+            elif vtype == "split_verdict":
+                scene_cues.append((cur_t, "stamp_thud", 0.50))
+            elif vtype == "cliffhanger":
+                scene_cues.append((cur_t, "impact_boom", 0.65))
+            else:
+                scene_cues.append((cur_t, "whoosh", 0.35))
+            cur_t += dur
 
-        # Complex audio filter: mix voiceover (1.0) with subtle drone (0.08) and impact hit (0.35)
         mixed_audio = temp_dir / "mixed_audio.wav"
-        cmd_audio = [
-            self.ffmpeg_bin, "-y",
-            "-i", str(Path(narration_audio_path).resolve()),
-            "-stream_loop", "-1", "-i", str(Path(drone).resolve()),
-            "-i", str(Path(boom).resolve()),
-            "-filter_complex",
-            "[0:a]volume=1.0[voice];"
-            "[1:a]volume=0.08,atrim=0:duration=" + f"{total_audio_duration}" + "[drone];"
-            "[2:a]volume=0.35[hit];"
-            "[voice][drone][hit]amix=inputs=3:duration=first:dropout_transition=2[aout]",
-            "-map", "[aout]",
-            "-ac", "2",
-            "-ar", "44100",
-            str(mixed_audio),
-        ]
-        subprocess.run(cmd_audio, capture_output=True, timeout=60)
-        audio_source = str(mixed_audio) if mixed_audio.exists() else narration_audio_path
+        try:
+            audio_source = SoundDesigner.composite_master_soundtrack(
+                narration_audio_path=narration_audio_path,
+                scene_cues=scene_cues,
+                output_wav_path=str(mixed_audio),
+                ffmpeg_bin=self.ffmpeg_bin,
+            )
+        except Exception:
+            audio_source = narration_audio_path
 
         # Step 6: Final Composite with Subtitle Overlay and Broadcast Audio
         RenderJobRepository.update_job_status(job_id, "rendering", 90)

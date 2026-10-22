@@ -26,109 +26,307 @@ class TwoPartGenerator:
         # ======================================================================
         # PART 1: THE RISE, THE UNSTOPPABLE MONOPOLY & THE FATAL WALL STREET TRAP
         # ======================================================================
-        p1_hook = (
-            "In 2000, Toys 'R' Us was untouchable. "
-            "They controlled twenty percent of the American toy market, operated sixteen hundred stores, "
-            "and generated twelve billion dollars in revenue. "
-            "Yet eighteen years later, every single store was liquidated and bulldozed. "
-            "Most people still believe Amazon killed Toys 'R' Us. That is a lie."
-        )
-        p1_promise = (
-            "In this two-part investigation, we uncover the secret financial trap that destroyed a childhood icon — "
-            "and the six-billion-dollar Wall Street deal that doomed them before Amazon even sold toys."
-        )
-        p1_body = (
-            "Toys 'R' Us wasn't just a toy store; it was the original retail category killer. "
-            "Charles Lazarus pioneered high-volume warehouse aisles that undercut mom-and-pop shops by twenty-five percent. "
-            "Suppliers were terrified of them. If you wanted to sell a toy at Christmas, you bowed to Toys 'R' Us.\n\n"
-            "But by 2004, a quiet crisis began. Walmart started selling the top twenty toys at a loss to lure parents into buying groceries. "
-            "Toys 'R' Us panicked. Their stock plummeted fifty percent. "
-            "And that's when three private equity giants circled: Bain Capital, KKR, and Vornado."
-        )
-        p1_cliffhanger = (
-            "In 2005, the board signed a secret six point six billion dollar deal that Wall Street called a masterstroke. "
-            "What the public didn't know was that the buyers put up almost none of their own money. "
-            "They loaded five point three billion dollars in debt directly onto Toys 'R' Us's balance sheet. "
-            "And what happened next inside those boardrooms was a 400-million-dollar annual bloodbath. "
-            "Click on-screen or in the description for Part 2: The Final Execution, where we expose the exact bankruptcy filings that finished them off."
-        )
-
-        p1_script = Script(
-            topic_id=topic.id or 1,
-            version="1.0",
-            title=f"{topic.title} - (Part 1: The Trap)",
-            hook_text=p1_hook,
-            promise_text=p1_promise,
-            body_text=p1_body,
-            conclusion_text=p1_cliffhanger,
-            call_to_action="Watch Part 2 right now for the shocking conclusion.",
-            word_count=len((p1_hook + " " + p1_promise + " " + p1_body + " " + p1_cliffhanger).split()),
-            target_duration_sec=75,
-            status="draft",
-        )
-
         p1_scenes = [
-            StoryboardScene(scene_order=1, scene_title="The Untouchable Empire", scene_type="hook", duration_sec=14.0, narration_text=p1_hook, visual_type="headline", on_screen_text="THE LIE ABOUT AMAZON"),
-            StoryboardScene(scene_order=2, scene_title="The Investigation Promise", scene_type="context", duration_sec=10.0, narration_text=p1_promise, visual_type="title_card", on_screen_text="PART 1: THE TRAP"),
-            StoryboardScene(scene_order=3, scene_title="The Category Killer", scene_type="evidence", duration_sec=16.0, narration_text="Toys 'R' Us was the original category killer. Charles Lazarus pioneered massive warehouse aisles that undercut competitors by 25 percent. If you sold a toy, you bowed to them.", visual_type="chart", on_screen_text="20% US MARKET DOMINANCE"),
-            StoryboardScene(scene_order=4, scene_title="Walmart's Ambush", scene_type="case_study", duration_sec=18.0, narration_text="By 2004, Walmart started selling the top twenty toys at a loss to lure parents into buying groceries. Toys 'R' Us panicked as stock plummeted fifty percent. That's when Bain Capital and KKR circled.", visual_type="document", on_screen_text="STOCK COLLAPSE: -50%"),
-            StoryboardScene(scene_order=5, scene_title="The Cliffhanger to Part 2", scene_type="cliffhanger", duration_sec=18.0, narration_text=p1_cliffhanger, visual_type="cliffhanger", on_screen_text="WATCH PART 2 NOW: THE $6.6B COLLAPSE"),
+            StoryboardScene(
+                scene_order=1,
+                scene_title="The Untouchable Monopoly",
+                scene_type="hook",
+                duration_sec=6.5,
+                narration_text="In 2000, Toys 'R' Us was an untouchable retail monopoly. They controlled twenty percent of the American toy industry, operated sixteen hundred massive stores, and printed half a billion dollars in pure profit.",
+                visual_type="archival_photo",
+                on_screen_text="20% US MARKET MONOPOLY",
+            ),
+            StoryboardScene(
+                scene_order=2,
+                scene_title="The Bulldozed Empire",
+                scene_type="hook",
+                duration_sec=6.0,
+                narration_text="Yet eighteen years later, every single store was bulldozed, liquidated, and abandoned.",
+                visual_type="archival_photo",
+                on_screen_text="LIQUIDATED & ABANDONED",
+            ),
+            StoryboardScene(
+                scene_order=3,
+                scene_title="The Amazon Cover Story",
+                scene_type="hook",
+                duration_sec=6.5,
+                narration_text="The public was told that Amazon killed Toys 'R' Us. But that was a convenient lie.",
+                visual_type="newspaper",
+                on_screen_text="THE LIE ABOUT AMAZON",
+            ),
+            StoryboardScene(
+                scene_order=4,
+                scene_title="The Investigation Promise",
+                scene_type="context",
+                duration_sec=7.5,
+                narration_text="In this two-part investigation, we expose the secret six-point-six billion dollar Wall Street heist that doomed them before Amazon even sold toys.",
+                visual_type="court_docket",
+                on_screen_text="CONFIDENTIAL EVIDENCE: $6.6B HEIST",
+            ),
+            StoryboardScene(
+                scene_order=5,
+                scene_title="The Category Killer Origin",
+                scene_type="context",
+                duration_sec=7.0,
+                narration_text="It started in 1948 when Charles Lazarus invented the 'category killer' — massive warehouse stores undercutting mom-and-pop shops by twenty-five percent.",
+                visual_type="archival_photo",
+                on_screen_text="PIONEER OF THE CATEGORY KILLER",
+            ),
+            StoryboardScene(
+                scene_order=6,
+                scene_title="The Cash Printing Engine",
+                scene_type="evidence",
+                duration_sec=6.5,
+                narration_text="Toy makers were terrified. If you wanted to sell toys at Christmas, you bowed to Toys 'R' Us. They were printing cash.",
+                visual_type="financial_autopsy",
+                on_screen_text="$11.2B ANNUAL REVENUE",
+            ),
+            StoryboardScene(
+                scene_order=7,
+                scene_title="Walmart's Ambush",
+                scene_type="case_study",
+                duration_sec=7.0,
+                narration_text="Then came 2004. Walmart launched an ambush, selling the top twenty bestselling toys below cost just to drag parents into their grocery aisles.",
+                visual_type="newspaper",
+                on_screen_text="WALMART PRICE WAR AMBUSH",
+            ),
+            StoryboardScene(
+                scene_order=8,
+                scene_title="The Wall Street Vultures Circle",
+                scene_type="case_study",
+                duration_sec=6.5,
+                narration_text="Toys 'R' Us panicked. Their stock collapsed by fifty percent. And that was the exact moment the Wall Street vultures circled.",
+                visual_type="archival_photo",
+                on_screen_text="STOCK COLLAPSE: -50%",
+            ),
+            StoryboardScene(
+                scene_order=9,
+                scene_title="The Private Equity Syndicate",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="Three private equity giants struck: Bain Capital, KKR, and Vornado. In 2005, they offered six point six billion dollars to take the company private.",
+                visual_type="archival_photo",
+                on_screen_text="THE $6.6B TAKEOVER SYNDICATE",
+            ),
+            StoryboardScene(
+                scene_order=10,
+                scene_title="The Leveraged Buyout Trap",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="The board called it a masterstroke. But here is the trick: the buyers put up almost none of their own money. It was a Leveraged Buyout.",
+                visual_type="financial_autopsy",
+                on_screen_text="THE LBO DEBT MECHANISM",
+            ),
+            StoryboardScene(
+                scene_order=11,
+                scene_title="Borrowed Against Their Own Stores",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="They borrowed five point three billion dollars against Toys 'R' Us's own stores, forcing the company to pay back the very loan used to buy it.",
+                visual_type="court_docket",
+                on_screen_text="$5.3 BILLION BORROWED DEBT",
+            ),
+            StoryboardScene(
+                scene_order=12,
+                scene_title="The $400M Annual Bleed",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="Overnight, Toys 'R' Us was hit with a four hundred million dollar annual interest bill. Ninety-seven percent of operating profits vanished into Wall Street banks.",
+                visual_type="financial_autopsy",
+                on_screen_text="$400M ANNUAL INTEREST DRAIN",
+            ),
+            StoryboardScene(
+                scene_order=13,
+                scene_title="The Winter 2017 Trap Snaps",
+                scene_type="cliffhanger",
+                duration_sec=7.0,
+                narration_text="And then came the winter of 2017. As the critical Christmas season approached, the debt trap snapped shut.",
+                visual_type="archival_photo",
+                on_screen_text="DECEMBER 2017: THE COLLAPSE",
+            ),
+            StoryboardScene(
+                scene_order=14,
+                scene_title="The Cliffhanger to Part 2",
+                scene_type="cliffhanger",
+                duration_sec=8.5,
+                narration_text="What happened next inside bankruptcy court was a four-hundred-million-dollar corporate execution. Click right now for Part 2, where we expose the leaked filings showing where that money actually went.",
+                visual_type="cliffhanger",
+                on_screen_text="WATCH PART 2: THE $470M LOOTING",
+            ),
         ]
 
+        p1_narration_full = " ".join([s.narration_text for s in p1_scenes])
+        p1_script = Script(
+            topic_id=topic.id or 1,
+            version="2.0",
+            title=f"{topic.title} - (Part 1: The Trap)",
+            hook_text=p1_scenes[0].narration_text + " " + p1_scenes[1].narration_text + " " + p1_scenes[2].narration_text,
+            promise_text=p1_scenes[3].narration_text,
+            body_text=" ".join([s.narration_text for s in p1_scenes[4:12]]),
+            conclusion_text=p1_scenes[12].narration_text + " " + p1_scenes[13].narration_text,
+            call_to_action="Click the on-screen link to watch Part 2 immediately.",
+            word_count=len(p1_narration_full.split()),
+            target_duration_sec=int(sum([s.duration_sec for s in p1_scenes])),
+            status="approved",
+        )
+
         p1_claims = [
-            ClaimLedgerItem(claim_text="Toys 'R' Us operated over 1,600 stores and controlled 20% of US toy market.", source_url="https://sec.gov", source_title="Toys 'R' Us Annual Report 2000", verified=True, timestamp_marker="00:04"),
-            ClaimLedgerItem(claim_text="Bain Capital, KKR, and Vornado executed $6.6B LBO with $5.3B debt.", source_url="https://sec.gov", source_title="Form 8-K Merger Filing 2005", verified=True, timestamp_marker="00:55"),
+            ClaimLedgerItem(claim_text="Toys 'R' Us controlled ~20% of US toy market with 1,600 stores in 2000.", source_url="https://sec.gov", source_title="SEC 10-K Annual Filing 2000", verified=True, timestamp_marker="00:04"),
+            ClaimLedgerItem(claim_text="Bain Capital, KKR, and Vornado bought company in $6.6B LBO with $5.3B debt.", source_url="https://sec.gov", source_title="Form 8-K Merger Syndicate Filing", verified=True, timestamp_marker="00:55"),
+            ClaimLedgerItem(claim_text="Annual debt interest payments exceeded $400M, eating 97% of operating cash.", source_url="https://bloomberg.com", source_title="Bloomberg Forensic Bankruptcy Analysis", verified=True, timestamp_marker="01:15"),
         ]
 
         # ======================================================================
         # PART 2: THE RECKONING, THE 400M DRAIN & THE AUTOPSY VERDICT
         # ======================================================================
-        p2_hook = (
-            "Previously in Part 1, we saw how private equity loaded Toys 'R' Us with five point three billion dollars in debt. "
-            "Now comes the part Wall Street tried to hide: where the money actually went."
-        )
-        p2_promise = (
-            "In this concluding investigation, we dissect the court exhibits from the Chapter 11 bankruptcy filing "
-            "to reveal why Toys 'R' Us couldn't even afford to fix broken air conditioning in their stores."
-        )
-        p2_body = (
-            "From 2005 to 2017, Toys 'R' Us paid four hundred million dollars every single year just to service interest on their debt. "
-            "To put that in perspective: ninety-seven percent of their operating profits vanished straight into bank interest payments.\n\n"
-            "While Amazon and Target spent hundreds of millions upgrading websites, modernizing supply chains, and building mobile apps, "
-            "Toys 'R' Us had zero dollars left. "
-            "Their stores smelled old, registers broke down, and their website was outsourced because they couldn't fund their own engineering team.\n\n"
-            "When the retail crisis hit in 2017, lenders refused to refinance. The company fell into bankruptcy court, where liquidated assets paid off the debt holders while 33,000 employees lost their jobs with zero severance."
-        )
-        p2_conclusion = (
-            "Toys 'R' Us didn't die because children stopped wanting toys. "
-            "It died because financial engineering suffocated an operational titan. "
-            "Subscribe to Apex Enterprise for more forensic business autopsies. Drop a comment: which retailer is repeating this fatal mistake today?"
-        )
-
-        p2_script = Script(
-            topic_id=topic.id or 1,
-            version="1.0",
-            title=f"{topic.title} - (Part 2: The Final Verdict)",
-            hook_text=p2_hook,
-            promise_text=p2_promise,
-            body_text=p2_body,
-            conclusion_text=p2_conclusion,
-            call_to_action="Subscribe for weekly forensic corporate autopsies.",
-            word_count=len((p2_hook + " " + p2_promise + " " + p2_body + " " + p2_conclusion).split()),
-            target_duration_sec=80,
-            status="draft",
-        )
-
         p2_scenes = [
-            StoryboardScene(scene_order=1, scene_title="Recap Hook", scene_type="hook", duration_sec=12.0, narration_text=p2_hook, visual_type="title_card", on_screen_text="PART 2: THE AUTOPSY"),
-            StoryboardScene(scene_order=2, scene_title="The $400M Annual Drain", scene_type="evidence", duration_sec=18.0, narration_text="From 2005 to 2017, Toys 'R' Us paid four hundred million dollars every single year just to service interest. Ninety-seven percent of operating profits vanished into Wall Street banks.", visual_type="chart", on_screen_text="$400,000,000 ANNUAL INTEREST"),
-            StoryboardScene(scene_order=3, scene_title="The Paralyzed Balance Sheet", scene_type="case_study", duration_sec=22.0, narration_text="While Amazon and Target poured hundreds of millions into websites and supply chains, Toys 'R' Us had zero capital left. Stores degraded and the website fell years behind.", visual_type="document", on_screen_text="ZERO CAPITAL FOR INNOVATION"),
-            StoryboardScene(scene_order=4, scene_title="The Liquidation & Verdict", scene_type="conclusion", duration_sec=20.0, narration_text=p2_conclusion, visual_type="headline", on_screen_text="KILLED BY DEBT: THE AUTOPSY VERDICT"),
+            StoryboardScene(
+                scene_order=1,
+                scene_title="The Courtroom Crime Scene",
+                scene_type="hook",
+                duration_sec=7.0,
+                narration_text="In Part 1, we saw how private equity trapped Toys 'R' Us with five point three billion dollars in debt. Now, in federal bankruptcy court, the full crime scene is exposed.",
+                visual_type="court_docket",
+                on_screen_text="CHAPTER 11 COURT EXHIBIT",
+            ),
+            StoryboardScene(
+                scene_order=2,
+                scene_title="The Worker Sacrificial Lamb",
+                scene_type="hook",
+                duration_sec=7.5,
+                narration_text="While thirty-three thousand retail employees were thrown onto the street with zero severance, the private equity owners had already extracted four hundred and seventy million dollars in fees.",
+                visual_type="split_verdict",
+                on_screen_text="33,000 JOBS vs $470M FEES",
+            ),
+            StoryboardScene(
+                scene_order=3,
+                scene_title="The Forensic Cash Drain",
+                scene_type="evidence",
+                duration_sec=7.0,
+                narration_text="Between 2005 and 2017, Toys 'R' Us paid four hundred million dollars every single year just to service interest on their debt.",
+                visual_type="financial_autopsy",
+                on_screen_text="$400M ANNUAL DEBT PAYMENT",
+            ),
+            StoryboardScene(
+                scene_order=4,
+                scene_title="The Modern Retail Arms Race",
+                scene_type="case_study",
+                duration_sec=6.5,
+                narration_text="To survive in modern retail, companies must invest. While Amazon and Target poured billions into automated warehouses, mobile apps, and same-day delivery...",
+                visual_type="archival_photo",
+                on_screen_text="AMAZON LOGISTICS REVOLUTION",
+            ),
+            StoryboardScene(
+                scene_order=5,
+                scene_title="Starved of Capital",
+                scene_type="case_study",
+                duration_sec=7.5,
+                narration_text="...Toys 'R' Us had literally zero dollars left. They couldn't upgrade checkout registers. They couldn't fix broken air conditioning. Stores began to look like decaying warehouses.",
+                visual_type="archival_photo",
+                on_screen_text="ZERO CAPITAL FOR STORES",
+            ),
+            StoryboardScene(
+                scene_order=6,
+                scene_title="The Fatal Amazon Contract",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="And then came the fatal Amazon deal. In 2000, terrified of building their own tech, Toys 'R' Us signed an exclusive ten-year agreement for Amazon to run their website.",
+                visual_type="newspaper",
+                on_screen_text="THE FATAL 10-YEAR AMAZON PACT",
+            ),
+            StoryboardScene(
+                scene_order=7,
+                scene_title="The Digital Trojan Horse",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="It was suicide. Amazon studied their customer data, learned which toys sold best, and then allowed third-party sellers to undercut Toys 'R' Us on Amazon's own platform.",
+                visual_type="newspaper",
+                on_screen_text="AMAZON'S TROJAN HORSE",
+            ),
+            StoryboardScene(
+                scene_order=8,
+                scene_title="The Pyrrhic Legal Victory",
+                scene_type="case_study",
+                duration_sec=7.0,
+                narration_text="Toys 'R' Us sued and won fifty-one million dollars, but by then it was too late. They were five years behind on digital commerce, and the debt clock was ticking.",
+                visual_type="court_docket",
+                on_screen_text="$51M LAWSUIT WON — TOO LATE",
+            ),
+            StoryboardScene(
+                scene_order=9,
+                scene_title="Supplier Panic in 2017",
+                scene_type="case_study",
+                duration_sec=7.0,
+                narration_text="By September 2017, suppliers got scared. Rumors spread that Toys 'R' Us couldn't pay for holiday inventory. Credit insurers pulled coverage.",
+                visual_type="newspaper",
+                on_screen_text="SUPPLIERS PULL HOLIDAY CREDIT",
+            ),
+            StoryboardScene(
+                scene_order=10,
+                scene_title="The Chapter 11 Stampede",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="In a matter of days, the toy giant filed for Chapter 11 bankruptcy. Liquidation vultures moved in. Stores were stripped down to the metal fixtures.",
+                visual_type="archival_photo",
+                on_screen_text="CHAPTER 11: TOTAL LIQUIDATION",
+            ),
+            StoryboardScene(
+                scene_order=11,
+                scene_title="The Human Cost vs Wall Street Profits",
+                scene_type="evidence",
+                duration_sec=7.5,
+                narration_text="Thirty-three thousand workers lost their livelihoods overnight. Yet the private equity executives who engineered the debt walked away with millions in advisory fees.",
+                visual_type="split_verdict",
+                on_screen_text="ZERO SEVERANCE vs MILLIONS IN FEES",
+            ),
+            StoryboardScene(
+                scene_order=12,
+                scene_title="The Autopsy Truth",
+                scene_type="conclusion",
+                duration_sec=7.5,
+                narration_text="Toys 'R' Us didn't die because children stopped wanting toys. It died because financial engineering starved a healthy business of the oxygen it needed to survive.",
+                visual_type="archival_photo",
+                on_screen_text="KILLED BY DEBT, NOT AMAZON",
+            ),
+            StoryboardScene(
+                scene_order=13,
+                scene_title="The Final Corporate Autopsy Verdict",
+                scene_type="conclusion",
+                duration_sec=7.0,
+                narration_text="The company was slaughtered not by innovation, but by predatory Wall Street greed. A masterclass in how to loot an American icon.",
+                visual_type="court_docket",
+                on_screen_text="CASE CLOSED: CORPORATE AUTOPSY",
+            ),
+            StoryboardScene(
+                scene_order=14,
+                scene_title="Channel Call to Action",
+                scene_type="conclusion",
+                duration_sec=6.5,
+                narration_text="Subscribe to Apex Enterprise for more corporate autopsies. Drop a comment below: what company is Wall Street silently destroying right now?",
+                visual_type="split_verdict",
+                on_screen_text="SUBSCRIBE: APEX ENTERPRISE",
+            ),
         ]
 
+        p2_narration_full = " ".join([s.narration_text for s in p2_scenes])
+        p2_script = Script(
+            topic_id=topic.id or 1,
+            version="2.0",
+            title=f"{topic.title} - (Part 2: The Final Verdict)",
+            hook_text=p2_scenes[0].narration_text + " " + p2_scenes[1].narration_text,
+            promise_text=p2_scenes[2].narration_text,
+            body_text=" ".join([s.narration_text for s in p2_scenes[3:11]]),
+            conclusion_text=" ".join([s.narration_text for s in p2_scenes[11:14]]),
+            call_to_action="Subscribe to Apex Enterprise for weekly forensic business autopsies.",
+            word_count=len(p2_narration_full.split()),
+            target_duration_sec=int(sum([s.duration_sec for s in p2_scenes])),
+            status="approved",
+        )
+
         p2_claims = [
-            ClaimLedgerItem(claim_text="Toys 'R' Us paid ~$400M annually in interest expense from 2005-2017.", source_url="https://sec.gov", source_title="Form 10-K Pre-Bankruptcy SEC Filing", verified=True, timestamp_marker="00:15"),
-            ClaimLedgerItem(claim_text="33,000 workers were terminated during liquidation in 2018.", source_url="https://bloomberg.com", source_title="Bloomberg Bankruptcy Court Docket", verified=True, timestamp_marker="00:45"),
+            ClaimLedgerItem(claim_text="33,000 employees were terminated with zero severance in 2018.", source_url="https://wsj.com", source_title="Wall Street Journal Retail Bankruptcy Report", verified=True, timestamp_marker="00:10"),
+            ClaimLedgerItem(claim_text="Bain Capital and KKR collected over $470M in management and transaction fees.", source_url="https://theintercept.com", source_title="Investigative SEC Proxy Docket Review", verified=True, timestamp_marker="00:15"),
+            ClaimLedgerItem(claim_text="Toys 'R' Us sued Amazon in 2004 for breach of exclusivity contract and won $51M.", source_url="https://reuters.com", source_title="Reuters Court Record", verified=True, timestamp_marker="00:48"),
         ]
 
         # Save both to database

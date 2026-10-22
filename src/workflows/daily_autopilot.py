@@ -16,6 +16,7 @@ from src.scripting.two_part_generator import TwoPartGenerator
 from src.tts.voice_engine import VoiceEngine
 from src.assets.chart_generator import ChartGenerator
 from src.assets.viral_designer import ViralDesigner
+from src.assets.documentary_designer import DocumentaryDesigner
 from src.assets.thumbnail_designer import ThumbnailDesigner
 from src.editing.viral_engine import ViralEngine
 from src.youtube.uploader import YouTubePublisher
@@ -65,34 +66,181 @@ class DailyAutopilot:
         vo1 = Voiceover(script_id=p1_script.id, engine="edge_tts", voice_id=DEFAULT_VOICE_ID, audio_path=p1_vo_path)
         VoiceoverRepository.add_voiceover(vo1)
 
-        # 2. Visuals for Part 1 (Newspaper + Chart + SEC Document + Cliffhanger)
-        p1_slide1 = str(p1_dir / "scene1_headline.png")
-        p1_slide2 = str(p1_dir / "scene2_chart.png")
-        p1_slide3 = str(p1_dir / "scene3_sec_doc.png")
-        p1_slide4 = str(p1_dir / "scene4_cliffhanger.png")
+        # 2. Visuals for Part 1 (14 High-Density Documentary Scenes)
+        p1_images = []
         p1_thumb = str(p1_dir / "thumbnail_part1.jpg")
 
-        ViralDesigner.create_headline_scene(
-            title="THE LIE ABOUT AMAZON",
-            news_outlet="THE WALL STREET INVESTIGATION",
-            headline_text="HOW A $6.6B DEBT TRAP DESTROYED AN ICON",
-            date_str="SPECIAL ARCHIVE REPORT",
-            output_path=p1_slide1,
+        # Slide 1: Peak Monopoly Hero Archival Photo
+        s1 = str(p1_dir / "scene01_monopoly.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/store_exterior.jpg",
+            title="THE UNTOUCHABLE MONOPOLY",
+            caption="1,600 STORES & 20% OF US TOY INDUSTRY (CIRCA 2000)",
+            badge_text="20% MONOPOLY",
+            stamp_text="ORIGINAL TITAN",
+            output_path=s1,
         )
-        ChartGenerator.generate_costco_markup_chart(p1_slide2)
-        ViralDesigner.create_document_highlight_scene(
-            title="FORM 8-K: THE $5.3 BILLION DEBT SYNDICATE",
-            doc_header="U.S. SECURITIES AND EXCHANGE COMMISSION",
-            highlighted_claim="BORROWED DEBT: $5,300,000,000 AT 7.8% INTEREST",
-            context_body="The transaction was funded primarily through debt financing, encumbering substantially all store assets and inventory as primary collateral.",
-            output_path=p1_slide3,
-            stamp_text="CONFIDENTIAL SEC RECORD",
+        p1_images.append(s1)
+
+        # Slide 2: Bulldozed Empire Archival Photo
+        s2 = str(p1_dir / "scene02_bulldozed.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/abandoned_empty_store.jpg",
+            title="THE BULLDOZED EMPIRE",
+            caption="TOTAL LIQUIDATION: 18 YEARS LATER",
+            badge_text="CRIME SCENE",
+            stamp_text="LIQUIDATED & CLOSED",
+            output_path=s2,
         )
-        ViralDesigner.create_cliffhanger_scene(
-            part1_title="THE $6.6 BILLION PRIVATE EQUITY TRAP",
-            part2_teaser="PART 2: THE 400M BLOOD-DRAIN & THE FINAL BANKRUPTCY",
-            output_path=p1_slide4,
+        p1_images.append(s2)
+
+        # Slide 3: The Amazon Lie Newspaper
+        s3 = str(p1_dir / "scene03_amazon_lie.png")
+        DocumentaryDesigner.create_newspaper_investigation_scene(
+            publication="THE WALL STREET CHRONICLE",
+            headline="THE COVER STORY DEBUNKED",
+            subhead="How Wall Street Fabricated A Scapegoat",
+            highlighted_claim="AMAZON DID NOT KILL TOYS 'R' US",
+            date_str="SPECIAL INVESTIGATION",
+            output_path=s3,
+            investigative_tag="DEBUNKED",
         )
+        p1_images.append(s3)
+
+        # Slide 4: $6.6B Heist Evidence Docket
+        s4 = str(p1_dir / "scene04_heist_docket.png")
+        DocumentaryDesigner.create_court_docket_scene(
+            court_name="U.S. SECURITIES & EXCHANGE COMMISSION",
+            case_no="SEC-LBO-2005",
+            docket_title="THE $6.6 BILLION TAKEOVER AGREEMENT",
+            highlighted_finding="CONFIDENTIAL MERGER FILING: $6.6B BUYOUT AGREEMENT",
+            output_path=s4,
+            stamp_text="CONFIDENTIAL EVIDENCE",
+        )
+        p1_images.append(s4)
+
+        # Slide 5: Category Killer Origin Archival Photo
+        s5 = str(p1_dir / "scene05_origin.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/airport_store.jpg",
+            title="PIONEER OF THE CATEGORY KILLER",
+            caption="FOUNDED 1948 BY CHARLES LAZARUS — 25% LOWER PRICES",
+            badge_text="1948 ORIGIN",
+            stamp_text="CATEGORY KILLER",
+            output_path=s5,
+        )
+        p1_images.append(s5)
+
+        # Slide 6: Cash Printing Engine Financial Autopsy
+        s6 = str(p1_dir / "scene06_cash_engine.png")
+        DocumentaryDesigner.create_financial_autopsy_graphic(
+            title="THE CASH PRINTING ENGINE (PEAK)",
+            metric_1_label="PEAK GLOBAL REVENUE",
+            metric_1_val="$11.2 BILLION",
+            metric_2_label="ANNUAL NET PROFIT",
+            metric_2_val="$500,000,000",
+            subtext="TOY SUPPLIERS BOWED TO TOYS 'R' US FOR CHRISTMAS DISTRIBUTION",
+            output_path=s6,
+        )
+        p1_images.append(s6)
+
+        # Slide 7: Walmart Price War Newspaper
+        s7 = str(p1_dir / "scene07_walmart_ambush.png")
+        DocumentaryDesigner.create_newspaper_investigation_scene(
+            publication="RETAIL PRICE WAR ARCHIVE",
+            headline="WALMART LAUNCHES PREDATORY AMBUSH",
+            subhead="Top 20 Bestselling Toys Sold At A Cash Loss",
+            highlighted_claim="SELLING TOYS AT A LOSS TO DESTROY COMPETITORS",
+            date_str="DECEMBER 2004",
+            output_path=s7,
+            investigative_tag="PRICE WAR",
+        )
+        p1_images.append(s7)
+
+        # Slide 8: Stock Market Panic Archival Photo
+        s8 = str(p1_dir / "scene08_stock_panic.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/wall_street_nyse.jpg",
+            title="THE STOCK MARKET PANIC",
+            caption="NEW YORK STOCK EXCHANGE — EQUITY PLUMMETS 50%",
+            badge_text="WALL STREET CIRCLING",
+            stamp_text="-50% CRASH",
+            output_path=s8,
+        )
+        p1_images.append(s8)
+
+        # Slide 9: Private Equity Syndicate Archival Photo
+        s9 = str(p1_dir / "scene09_syndicate.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/bain_capital_logo.png",
+            title="THE PRIVATE EQUITY SYNDICATE",
+            caption="BAIN CAPITAL, KKR & VORNADO TEAM UP FOR $6.6B TAKEOVER",
+            badge_text="THE SYNDICATE",
+            stamp_text="$6.6B TAKEOVER",
+            output_path=s9,
+        )
+        p1_images.append(s9)
+
+        # Slide 10: LBO Mechanism Financial Autopsy
+        s10 = str(p1_dir / "scene10_lbo_trap.png")
+        DocumentaryDesigner.create_financial_autopsy_graphic(
+            title="THE LEVERAGED BUYOUT MECHANISM",
+            metric_1_label="BUYERS PUT DOWN (20%)",
+            metric_1_val="$1.3 BILLION CASH",
+            metric_2_label="BORROWED DEBT (80%)",
+            metric_2_val="$5.3 BILLION DEBT",
+            subtext="BUYERS FORCED TOYS 'R' US'S OWN STORES TO SERVE AS COLLATERAL",
+            output_path=s10,
+        )
+        p1_images.append(s10)
+
+        # Slide 11: Borrowed Against Own Stores Docket
+        s11 = str(p1_dir / "scene11_borrowed_debt.png")
+        DocumentaryDesigner.create_court_docket_scene(
+            court_name="U.S. SECURITIES & EXCHANGE COMMISSION",
+            case_no="FORM-8K-MERGER",
+            docket_title="CREDIT SYNDICATION AGREEMENT",
+            highlighted_finding="DEBT ENCUMBERING ALL STORES & INVENTORY: $5,300,000,000",
+            output_path=s11,
+            stamp_text="ENCUMBERED DEBT",
+        )
+        p1_images.append(s11)
+
+        # Slide 12: $400M Annual Bleed Financial Autopsy
+        s12 = str(p1_dir / "scene12_bleed.png")
+        DocumentaryDesigner.create_financial_autopsy_graphic(
+            title="THE $400M ANNUAL BLEED",
+            metric_1_label="ANNUAL INTEREST PAYMENT",
+            metric_1_val="$400,000,000/YR",
+            metric_2_label="OPERATING PROFIT WIPED",
+            metric_2_val="97% OF PROFITS",
+            subtext="EVERY DOLLAR EARNED SENT DIRECTLY TO WALL STREET BANKS",
+            output_path=s12,
+        )
+        p1_images.append(s12)
+
+        # Slide 13: Winter 2017 Collapse Archival Photo
+        s13 = str(p1_dir / "scene13_winter2017.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/corporate_hq.jpg",
+            title="DECEMBER 2017: THE TRAP SNAPS",
+            caption="HEADQUARTERS PARALYZED AS SUPPLIERS HALT CREDIT",
+            badge_text="DECEMBER 2017",
+            stamp_text="THE TRAP SNAPS",
+            output_path=s13,
+        )
+        p1_images.append(s13)
+
+        # Slide 14: Cliffhanger Card
+        s14 = str(p1_dir / "scene14_cliffhanger.png")
+        DocumentaryDesigner.create_cliffhanger_card(
+            part1_title="THE $6.6 BILLION WALL STREET HEIST",
+            part2_teaser="THE $470M LOOTING & CHAPTER 11 AUTOPSY",
+            cliffhanger_hook="WHERE DID THE BILLIONS ACTUALLY GO?",
+            output_path=s14,
+        )
+        p1_images.append(s14)
+
         ThumbnailDesigner.create_thumbnail(
             title_top="WHY TOYS R US DIED",
             title_bottom="IT WASN'T AMAZON",
@@ -104,14 +252,14 @@ class DailyAutopilot:
         p1_res = engine.assemble_viral_video(
             script_id=p1_script.id,
             scenes=p1_scenes,
-            scene_images=[p1_slide1, p1_slide2, p1_slide3, p1_slide4],
+            scene_images=p1_images,
             narration_audio_path=p1_vo_path,
             output_mp4_path=p1_mp4,
             thumbnail_path=p1_thumb,
         )
 
         # ======================================================================
-        # BUILD PART 2: THE AUTOPSY & THE FINAL VERDICT
+        # BUILD PART 2: THE AUTOPSY & THE FINAL VERDICT (14 High-Density Scenes)
         # ======================================================================
         p2_dir = PROJECTS_DIR / f"series_{p2_script.id}_part2"
         p2_dir.mkdir(parents=True, exist_ok=True)
@@ -124,35 +272,191 @@ class DailyAutopilot:
         vo2 = Voiceover(script_id=p2_script.id, engine="edge_tts", voice_id=DEFAULT_VOICE_ID, audio_path=p2_vo_path)
         VoiceoverRepository.add_voiceover(vo2)
 
-        # 2. Visuals for Part 2 (Recap + Waterfall + Liquidation Document + Verdict Headline)
-        p2_slide1 = str(p2_dir / "scene1_recap.png")
-        p2_slide2 = str(p2_dir / "scene2_waterfall.png")
-        p2_slide3 = str(p2_dir / "scene3_court_doc.png")
-        p2_slide4 = str(p2_dir / "scene4_verdict.png")
+        # 2. Visuals for Part 2 (14 High-Density Documentary Scenes)
+        p2_images = []
         p2_thumb = str(p2_dir / "thumbnail_part2.jpg")
 
-        ThumbnailDesigner.create_scene_slide(
-            "PART 2: THE FORENSIC AUTOPSY",
-            "Where Did The Billions Actually Go?",
-            output_path=p2_slide1,
+        # Slide 1: Chapter 11 Court Docket
+        p2_s1 = str(p2_dir / "scene01_ch11_docket.png")
+        DocumentaryDesigner.create_court_docket_scene(
+            court_name="UNITED STATES BANKRUPTCY COURT",
+            case_no="CASE NO. 17-34665",
+            docket_title="CHAPTER 11 BANKRUPTCY PETITION",
+            highlighted_finding="PETITION DATE: SEPTEMBER 18, 2017 — TOTAL DEBT: $7.9 BILLION",
+            output_path=p2_s1,
+            stamp_text="CHAPTER 11 PETITION",
         )
-        ChartGenerator.generate_membership_profit_waterfall(p2_slide2)
-        ViralDesigner.create_document_highlight_scene(
-            title="CHAPTER 11 BANKRUPTCY SCHEDULE B",
-            doc_header="UNITED STATES BANKRUPTCY COURT",
-            highlighted_claim="$400,000,000 ANNUAL INTEREST OBLIGATION",
-            context_body="Debtor cannot generate sufficient operating cash flows to service pre-petition secured senior notes while maintaining capital expenditures for store facilities.",
-            output_path=p2_slide3,
-            stamp_text="CHAPTER 11 FILING",
+        p2_images.append(p2_s1)
+
+        # Slide 2: Workers vs Wall Street Split Verdict
+        p2_s2 = str(p2_dir / "scene02_workers_vs_wallst.png")
+        DocumentaryDesigner.create_split_verdict_scene(
+            title="THE BRUTAL REALITY",
+            left_header="33,000 WORKERS",
+            left_stat="$0 SEVERANCE",
+            left_sub="TERMINATED WITHOUT A DIME",
+            right_header="WALL STREET SPONSORS",
+            right_stat="$470,000,000",
+            right_sub="EXTRACTED IN ADVISORY FEES",
+            verdict_summary="WALL STREET WALKED AWAY WITH CASH WHILE WORKERS WERE LEFT EMPTY-HANDED",
+            output_path=p2_s2,
         )
-        ViralDesigner.create_headline_scene(
-            title="THE AUTOPSY VERDICT",
-            news_outlet="APEX ENTERPRISE FORENSICS",
-            headline_text="KILLED BY DEBT: THE 33,000 WORKER CASUALTY",
-            date_str="FINAL AUDIT REPORT",
-            output_path=p2_slide4,
-            investigative_tag="AUTOPSY COMPLETE",
+        p2_images.append(p2_s2)
+
+        # Slide 3: Where Did Cash Go Financial Autopsy
+        p2_s3 = str(p2_dir / "scene03_where_cash_went.png")
+        DocumentaryDesigner.create_financial_autopsy_graphic(
+            title="WHERE DID $5 BILLION GO?",
+            metric_1_label="ANNUAL INTEREST PAID",
+            metric_1_val="$400,000,000/YR",
+            metric_2_label="CAPITAL LEFT FOR STORES",
+            metric_2_val="$0 FOR UPGRADES",
+            subtext="97% OF OPERATING CASH SACRIFICED TO SERVICE SENIOR LBO DEBT",
+            output_path=p2_s3,
         )
+        p2_images.append(p2_s3)
+
+        # Slide 4: Modern Retail Arms Race Archival Photo
+        p2_s4 = str(p2_dir / "scene04_arms_race.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/store_exterior.jpg",
+            title="THE MODERN RETAIL ARMS RACE",
+            caption="AMAZON & TARGET SPENT BILLIONS ON AUTOMATION & SAME-DAY DELIVERY",
+            badge_text="RETAIL EVOLUTION",
+            stamp_text="E-COMMERCE BOOM",
+            output_path=p2_s4,
+        )
+        p2_images.append(p2_s4)
+
+        # Slide 5: Decaying Stores Archival Photo
+        p2_s5 = str(p2_dir / "scene05_decaying_stores.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/abandoned_empty_store.jpg",
+            title="DECAYING STORE INFRASTRUCTURE",
+            caption="ZERO CAPITAL LEFT TO FIX AIR CONDITIONING, CEILINGS OR CASH REGISTERS",
+            badge_text="CAPITAL STARVATION",
+            stamp_text="DECAYING STORES",
+            output_path=p2_s5,
+        )
+        p2_images.append(p2_s5)
+
+        # Slide 6: Fatal Amazon Deal Newspaper
+        p2_s6 = str(p2_dir / "scene06_amazon_pact.png")
+        DocumentaryDesigner.create_newspaper_investigation_scene(
+            publication="THE WALL STREET JOURNAL",
+            headline="THE FATAL 10-YEAR AMAZON PACT",
+            subhead="Toys 'R' Us Signed Exclusive E-Commerce Contract in 2000",
+            highlighted_claim="OUTSOURCING ENTIRE DIGITAL FUTURE TO DIRECT COMPETITOR",
+            date_str="AUGUST 2000 ARCHIVE",
+            output_path=p2_s6,
+            investigative_tag="DIGITAL SUICIDE",
+        )
+        p2_images.append(p2_s6)
+
+        # Slide 7: Amazon Trojan Horse Newspaper
+        p2_s7 = str(p2_dir / "scene07_trojan_horse.png")
+        DocumentaryDesigner.create_newspaper_investigation_scene(
+            publication="RETAIL TECH INVESTIGATION",
+            headline="AMAZON'S DIGITAL TROJAN HORSE",
+            subhead="Amazon Leveraged Toy Buying Data To Allow 3rd-Party Merchants",
+            highlighted_claim="THIRD-PARTY SELLERS UNDERMINED TOYS 'R' US ON AMAZON",
+            date_str="SPECIAL REPORT",
+            output_path=p2_s7,
+            investigative_tag="TROJAN HORSE",
+        )
+        p2_images.append(p2_s7)
+
+        # Slide 8: Court Lawsuit Victory Docket
+        p2_s8 = str(p2_dir / "scene08_lawsuit_docket.png")
+        DocumentaryDesigner.create_court_docket_scene(
+            court_name="SUPERIOR COURT OF NEW JERSEY",
+            case_no="DOCKET NO. C-00055-04",
+            docket_title="TOYS 'R' US v. AMAZON.COM",
+            highlighted_finding="COURT ORDERS AMAZON TO PAY $51 MILLION FOR BREACH OF CONTRACT",
+            output_path=p2_s8,
+            stamp_text="$51M LAWSUIT WON",
+        )
+        p2_images.append(p2_s8)
+
+        # Slide 9: Supplier Credit Panic Newspaper
+        p2_s9 = str(p2_dir / "scene09_supplier_panic.png")
+        DocumentaryDesigner.create_newspaper_investigation_scene(
+            publication="BLOOMBERG MARKETS",
+            headline="SUPPLIERS PULL HOLIDAY CREDIT",
+            subhead="Toy Manufacturers Demand Upfront Cash Before Shipping Christmas Toys",
+            highlighted_claim="CREDIT INSURERS CANCEL TOYS 'R' US COVERAGE IN SEPTEMBER 2017",
+            date_str="SEPTEMBER 2017",
+            output_path=p2_s9,
+            investigative_tag="CREDIT CRASH",
+        )
+        p2_images.append(p2_s9)
+
+        # Slide 10: Total Liquidation Archival Photo
+        p2_s10 = str(p2_dir / "scene10_liquidation.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/airport_store.jpg",
+            title="CHAPTER 11: TOTAL LIQUIDATION",
+            caption="EVERY STORE ORDERED CLOSED — FIXTURES AND INVENTORY STRIPPED",
+            badge_text="TOTAL LIQUIDATION",
+            stamp_text="GOING OUT OF BUSINESS",
+            output_path=p2_s10,
+        )
+        p2_images.append(p2_s10)
+
+        # Slide 11: Human Cost vs Wall Street Split Verdict
+        p2_s11 = str(p2_dir / "scene11_human_cost.png")
+        DocumentaryDesigner.create_split_verdict_scene(
+            title="THE SYSTEMIC SACRIFICE",
+            left_header="33,000 EMPLOYEES",
+            left_stat="$0 SEVERANCE",
+            left_sub="PENSIONS & LIVELIHOODS WIPED OUT",
+            right_header="SPONSOR DIVIDENDS",
+            right_stat="$470,000,000",
+            right_sub="TOTAL MANAGEMENT FEES EXTRACTED",
+            verdict_summary="FINANCIAL ENGINEERING PROTECTED INVESTORS WHILE EMPLOYEES CARRIED THE FALL",
+            output_path=p2_s11,
+        )
+        p2_images.append(p2_s11)
+
+        # Slide 12: Final Forensic Truth Archival Photo
+        p2_s12 = str(p2_dir / "scene12_final_truth.png")
+        DocumentaryDesigner.create_archival_photo_scene(
+            photo_path="data/assets/toys_r_us/corporate_hq.jpg",
+            title="THE FORENSIC AUTOPSY TRUTH",
+            caption="KILLED BY DEBT ENGINEERING, NOT BY CHANGING CONSUMER DEMAND",
+            badge_text="AUTOPSY VERDICT",
+            stamp_text="KILLED BY DEBT",
+            output_path=p2_s12,
+        )
+        p2_images.append(p2_s12)
+
+        # Slide 13: Case Closed Court Decree
+        p2_s13 = str(p2_dir / "scene13_case_closed.png")
+        DocumentaryDesigner.create_court_docket_scene(
+            court_name="UNITED STATES BANKRUPTCY COURT",
+            case_no="CASE CLOSURE DOCKET",
+            docket_title="FINAL DECREE & POST-MORTEM VERDICT",
+            highlighted_finding="THE COLLAPSE WAS DRIVEN PRIMARILY BY INSUPPORTABLE LBO DEBT LEVERAGE",
+            output_path=p2_s13,
+            stamp_text="CASE CLOSED",
+        )
+        p2_images.append(p2_s13)
+
+        # Slide 14: Subscribe & Engagement Card
+        p2_s14 = str(p2_dir / "scene14_subscribe.png")
+        DocumentaryDesigner.create_split_verdict_scene(
+            title="APEX ENTERPRISE FORENSICS",
+            left_header="SUBSCRIBE FOR MORE",
+            left_stat="WEEKLY",
+            left_sub="DEEP CORPORATE AUTOPSIES",
+            right_header="JOIN THE DEBATE",
+            right_stat="COMMENT",
+            right_sub="WHAT COMPANY IS NEXT?",
+            verdict_summary="SUBSCRIBE TO APEX ENTERPRISE FOR UNCOMPROMISING BUSINESS INVESTIGATIONS",
+            output_path=p2_s14,
+        )
+        p2_images.append(p2_s14)
+
         ThumbnailDesigner.create_thumbnail(
             title_top="THE FINAL AUTOPSY",
             title_bottom="WHERE THE MONEY WENT",
@@ -164,7 +468,7 @@ class DailyAutopilot:
         p2_res = engine.assemble_viral_video(
             script_id=p2_script.id,
             scenes=p2_scenes,
-            scene_images=[p2_slide1, p2_slide2, p2_slide3, p2_slide4],
+            scene_images=p2_images,
             narration_audio_path=p2_vo_path,
             output_mp4_path=p2_mp4,
             thumbnail_path=p2_thumb,
