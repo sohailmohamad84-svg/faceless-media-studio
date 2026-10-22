@@ -536,6 +536,19 @@ elif selected_page == "11. Settings & Channel Credentials":
     st.write(f"**Client Secrets File:** `{auth_status['secrets_path']}` ({'Found ✅' if auth_status['has_secrets_file'] else 'Missing ❌'})")
     st.write(f"**Token File:** `{auth_status['token_path']}` ({'Active ✅' if auth_status['is_authenticated'] else 'Inactive ❌'})")
 
+    if auth_status["has_secrets_file"] and not auth_status["is_authenticated"]:
+        if st.button("🔗 Authorize YouTube Channel in Browser", type="primary"):
+            with st.spinner("Opening Google login in your browser..."):
+                res = YouTubeAuthManager.authenticate_channel()
+                if res.get("success"):
+                    st.success("YouTube Channel successfully authorized!")
+                    st.rerun()
+                else:
+                    st.error(f"Authorization error: {res.get('error')}")
+
+    if auth_status["is_authenticated"]:
+        st.success("🎉 YouTube Channel is Connected! When you click 'Approve & Auto-Publish' in the 1-Click Viral Hub, videos will automatically upload to your channel.")
+
     with st.expander("📝 How to Connect Your YouTube Channel for Auto-Uploading", expanded=not auth_status["is_authenticated"]):
         st.markdown(
             """

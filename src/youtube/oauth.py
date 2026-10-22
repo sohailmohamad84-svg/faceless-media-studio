@@ -31,7 +31,6 @@ class YouTubeAuthManager:
         has_token = token_file.exists() and token_file.stat().st_size > 20
 
         is_authenticated = False
-        user_info = None
 
         if has_token and GOOGLE_AUTH_AVAILABLE:
             try:
@@ -67,3 +66,26 @@ class YouTubeAuthManager:
         return Credentials.from_authorized_user_file(
             str(YOUTUBE_TOKEN_FILE), YOUTUBE_SCOPES
         )
+
+    @staticmethod
+    def authenticate_channel() -> Dict[str, Any]:
+        """Launch interactive browser window to authorize YouTube channel access."""
+        if not GOOGLE_AUTH_AVAILABLE:
+            return {"success": False, "error": "Google OAuth libraries not available."}
+
+        secrets_file = Path(YOUTUBE_CLIENT_SECRETS_FILE)
+        token_file = Path(YOUTUBE_TOKEN_FILE)
+
+        if not secrets_file.exists():
+            return {"success": False, "error": f"Client secrets file not found: {secrets_file}"}
+
+        try:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                str(secrets_file), YOUTUBE_SCOPES
+            )
+            creds = flow.run_local_server(port=0, prompt="consent")
+            with open(token_file, "w") as f:
+                f.write(creds.to_json())
+            return {"success": True, "token_path": str(token_file)}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
