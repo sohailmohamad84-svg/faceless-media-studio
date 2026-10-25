@@ -52,13 +52,40 @@ class FlowMasterEngine:
         work_dir.mkdir(parents=True, exist_ok=True)
         sfx_dir = Path("data/sfx")
         
-        # Step 1: Clean and scale all videos, and get durations
-        clean_clips = []
+        # Step 1: Generate narration takes first to dynamically drive scene timing
+        vo_files = []
+        vo_durations = []
         scene_durations = []
+        
+        for idx, sc in enumerate(scenes):
+            text = sc.get("narration_text", "")
+            vo_path = work_dir / f"vo_{idx}.mp3"
+            if text:
+                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate="+14%")
+                await comm.save(str(vo_path))
+                cmd_p = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(vo_path)]
+                dur = float(subprocess.run(cmd_p, capture_output=True, text=True, check=True).stdout.strip())
+            else:
+                dur = 5.0
+            vo_files.append(vo_path)
+            vo_durations.append(dur)
+            
+            # Dynamic viral scene duration: voice duration + tight padding (zero dead air)
+            # 0.15s leading, 0.25s trailing (0.6s trailing on the final scene for outro SFX)
+            is_last = (idx == len(scenes) - 1)
+            pad = 0.65 if is_last else 0.40
+            sc_dur = dur + pad
+            scene_durations.append(sc_dur)
+
+        total_duration = sum(scene_durations)
+
+        # Step 2: Clean, scale, and time-trim all video clips to exact scene durations
+        clean_clips = []
         for idx, sc in enumerate(scenes):
             in_vid = Path(sc["input_video"])
             out_vid = work_dir / f"clean_scene_{idx}.mp4"
             is_clean = sc.get("is_clean", False)
+            sc_dur = scene_durations[idx]
             
             # If already clean 1080x1920, don't crop watermark
             vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=24" if is_clean else cls.CROP_FILTER
@@ -66,7 +93,7 @@ class FlowMasterEngine:
             cmd_clean = [
                 "ffmpeg", "-y",
                 "-i", str(in_vid),
-                "-t", "10.0",
+                "-t", f"{sc_dur:.2f}",
                 "-vf", vfilter,
                 "-c:v", "libx264", "-preset", "fast", "-crf", "18",
                 "-an",
@@ -74,13 +101,6 @@ class FlowMasterEngine:
             ]
             subprocess.run(cmd_clean, check=True)
             clean_clips.append(out_vid)
-            
-            # probe duration
-            cmd_p = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(out_vid)]
-            dur = float(subprocess.run(cmd_p, capture_output=True, text=True, check=True).stdout.strip())
-            scene_durations.append(dur)
-
-        total_duration = sum(scene_durations)
         
         # Concatenate clean video clips
         concat_txt = work_dir / "concat_master.txt"
@@ -97,22 +117,6 @@ class FlowMasterEngine:
             str(merged_video)
         ]
         subprocess.run(cmd_cat, check=True)
-        
-        # Step 2: Generate narration takes and time-fit
-        vo_files = []
-        vo_durations = []
-        for idx, sc in enumerate(scenes):
-            text = sc.get("narration_text", "")
-            vo_path = work_dir / f"vo_{idx}.mp3"
-            if text:
-                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate="+14%")
-                await comm.save(str(vo_path))
-                cmd_p = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(vo_path)]
-                dur = float(subprocess.run(cmd_p, capture_output=True, text=True, check=True).stdout.strip())
-            else:
-                dur = 0.0
-            vo_files.append(vo_path)
-            vo_durations.append(dur)
             
         # Step 3: Mix Multi-Track Audio
         total_samples = int(total_duration * cls.SAMPLE_RATE)
@@ -134,10 +138,32 @@ class FlowMasterEngine:
             vo_dur = vo_durations[idx]
             text = sc.get("narration_text", "")
             
-            # Place narration at current_time + 0.3s
+            # Place narration tightly: starts 0.15s after scene transition
             if text and vo_files[idx].exists():
                 vo_pcm = cls._load_audio_pcm(vo_files[idx], cls.SAMPLE_RATE) * 1.05
-                v_start_sec = current_time_sec + 0.35
+                v_start_sec = current_time_sec + 0.15
+                vs = int(v_start_sec * cls.SAMPLE_RATE)
+                ve = min(total_samples, vs + len(vo_pcm))
+                master_pcm[vs:ve] += vo_pcm[:ve - vs]
+                
+                # Subtitles for this scene (3 words per burst)
+                words = text.split()
+                chunk_sz = 3
+                w_per_s = len(words) / vo_dur if vo_dur > 0 else 1.0
+                for ci in range(0, len(words), chunk_sz):
+                    c_words = words[ci:ci + chunk_sz]
+                    c_text = " ".join(c_words).upper()
+                    w_start = v_start_sec + (ci / w_per_s)
+                    w_end = min(current_time_sec + sc_dur - 0.05, v_start_sec + ((ci + chunk_sz) / w_per_s))
+                    
+                    def fmt(sec):
+                        h = int(sec // 3600)
+                        m = int((sec % 3600) // 60)
+                        s = int(sec % 60)
+                        ms = int((sec - int(sec)) * 100)
+                        return f"{h}:{m:02d}:{s:02d}.{ms:02d}"
+                        
+                    ass_events.append(f"Dialogue: 0,{fmt(w_start)},{fmt(w_end)},FlowSub,,0,0,0,,{c_text}")
                 vs = int(v_start_sec * cls.SAMPLE_RATE)
                 ve = min(total_samples, vs + len(vo_pcm))
                 master_pcm[vs:ve] += vo_pcm[:ve - vs]

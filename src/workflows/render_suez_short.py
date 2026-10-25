@@ -74,7 +74,10 @@ async def main():
 
     # Step 1: Render each dynamic clip if not existing
     for item in CLIPS_CONFIG:
-        render_dynamic_clip(item["img"], item["clip"], item["filter"])
+        if not item["clip"].exists():
+            render_dynamic_clip(item["img"], item["clip"], item["filter"])
+        else:
+            print(f"[SKIP] {item['clip'].name} already exists.")
 
     # Step 2: Build master video using FlowMasterEngine with 5 scenes
     scenes = [
@@ -140,11 +143,11 @@ async def main():
     # Step 3: Extract verification frames
     art_dir = Path(r"C:\Users\Sohail\.gemini\antigravity\brain\eb4bd0b7-d463-4e01-b351-a971179e01ed")
     frame_times = [
-        (5.0, "suez_verify_act1_5s.jpg", "Act 1: Trapped in the Desert (0-10s)"),
-        (15.0, "suez_verify_act2_15s.jpg", "Act 2: Excavator vs Colossal Bow (10-20s)"),
-        (25.0, "suez_verify_act3_25s.jpg", "Act 3: Satellite Radar Gridlock (20-30s)"),
-        (35.0, "suez_verify_act4_35s.jpg", "Act 4: High-Tension Tugboat Salvage (30-40s)"),
-        (45.0, "suez_verify_act5_45s.jpg", "Act 5: Refloated Monster at Sunset (40-50s)")
+        (4.0, "suez_verify_act1_5s.jpg", "Act 1: Trapped in the Desert"),
+        (11.0, "suez_verify_act2_15s.jpg", "Act 2: Excavator vs Colossal Bow"),
+        (17.5, "suez_verify_act3_25s.jpg", "Act 3: Satellite Radar Gridlock"),
+        (24.0, "suez_verify_act4_35s.jpg", "Act 4: High-Tension Tugboat Salvage"),
+        (30.0, "suez_verify_act5_45s.jpg", "Act 5: Refloated Monster at Sunset")
     ]
 
     print("\n[VERIFY] Extracting verification snapshot frames from the finished master...")
