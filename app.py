@@ -230,13 +230,18 @@ if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
         master_path = Path("exports/Panama_Canal_50s_Viral_Master_1080p.mp4")
 
     if master_path.exists():
-        st.subheader("📺 Finished 50-Second Master Video (Ready for Upload)")
+        st.subheader("📺 Finished 50-Second Master Video (Live on YouTube Shorts)")
+        st.success(
+            "🚀 **Live on YouTube Shorts:** [The 80,000-Ton Gravity Secret of the Panama Canal](https://youtube.com/shorts/hSRd1AfrOMI) "
+            "*(Channel: Apex op legend • Public)*"
+        )
         c_vid, c_info = st.columns([1.1, 1])
         with c_vid:
             st.video(str(master_path))
         with c_info:
             st.markdown("### 🏆 Master Quality Specifications")
             st.markdown(f"""
+            - **YouTube Link:** [youtube.com/shorts/hSRd1AfrOMI](https://youtube.com/shorts/hSRd1AfrOMI)
             - **Resolution:** `1080 x 1920` (Vertical 9:16 Full HD)
             - **Duration:** `50.00s` (5 Acts @ 10s each)
             - **Frame Rate:** `24.0 fps` (Cinematic film cadence)
@@ -247,13 +252,19 @@ if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
             - **Subtitles:** 📱 **Gold Kinetic Mobile Subtitles** (High-retention 3-word bursts)
             """)
 
+            st.link_button(
+                "▶️ Watch on YouTube Shorts",
+                "https://youtube.com/shorts/hSRd1AfrOMI",
+                type="primary",
+                use_container_width=True
+            )
+
             with open(master_path, "rb") as vf:
                 st.download_button(
                     label="⬇️ Download Master Video (1080p MP4)",
                     data=vf.read(),
                     file_name="Panama_Canal_50s_Viral_Master_1080p.mp4",
                     mime="video/mp4",
-                    type="primary",
                     use_container_width=True
                 )
 
@@ -270,6 +281,34 @@ if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
                     thumb = Path(f"scratch/master_act_{t}s.jpg")
                 if thumb.exists():
                     st.image(str(thumb), use_container_width=True)
+
+        st.divider()
+        st.subheader("📅 Automated Daily Shorts Publisher (1 Video/Day)")
+        st.markdown(
+            "Runs on an automated cloud schedule via **GitHub Actions** to generate and upload **1 high-retention vertical short per day** "
+            "directly to YouTube Shorts on your channel (`Apex op legend`)."
+        )
+
+        col_d1, col_d2 = st.columns([2, 1])
+        with col_d1:
+            st.info("🔜 **Next Up in Daily Queue:** *The 24-Hour Ghost Fleet of the Suez Canal* (Viral Score: 96/100)")
+        with col_d2:
+            if st.button("🚀 Publish Today's Daily Short Now", type="primary", use_container_width=True):
+                with st.status("🎬 Producing & Publishing Today's Short...", expanded=True) as status_box:
+                    st.write("1. Generating 5-act vertical script & duration fitting...")
+                    st.write("2. Synthesizing Edge-TTS ChristopherNeural & mixing organic Foley...")
+                    st.write("3. Burning in gold kinetic mobile subtitles...")
+                    st.write("4. Uploading to YouTube Shorts (Channel: Apex op legend)...")
+                    import asyncio
+                    from src.workflows.daily_shorts_pipeline import DailyShortsPipeline
+                    res = asyncio.run(DailyShortsPipeline.produce_and_publish_next_short(privacy_status="public"))
+                    if res.get("success"):
+                        status_box.update(label="✅ Daily Short Published!", state="complete", expanded=False)
+                        st.success(f"🚀 Successfully Published! Watch here: [{res['url']}]({res['url']})")
+                        st.rerun()
+                    else:
+                        status_box.update(label="❌ Upload Failed", state="error")
+                        st.error(res.get("error"))
 
 
 # ==============================================================================

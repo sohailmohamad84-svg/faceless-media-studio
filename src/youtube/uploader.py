@@ -198,3 +198,74 @@ class YouTubePublisher:
                 "error": f"YouTube API upload failed: {str(e)}",
                 "recommendation": "Use the Manual Upload Package to upload directly through YouTube Studio.",
             }
+
+    @staticmethod
+    def upload_short_file(
+        file_path: str,
+        title: str,
+        description: str,
+        tags: Optional[list] = None,
+        privacy_status: str = "public",
+    ) -> Dict[str, Any]:
+        """Upload any vertical MP4 directly to YouTube Shorts using YouTube Data API v3."""
+        vid_p = Path(file_path)
+        if not vid_p.exists():
+            return {"success": False, "error": f"File not found: {file_path}"}
+
+        creds = YouTubeAuthManager.get_credentials()
+        if not creds:
+            return {"success": False, "error": "YouTube OAuth credentials not configured."}
+
+        try:
+            from googleapiclient.discovery import build
+            from googleapiclient.http import MediaFileUpload
+
+            youtube = build("youtube", "v3", credentials=creds)
+
+            # Ensure #Shorts tag in title/tags
+            clean_title = title if "#shorts" in title.lower() else f"{title} #shorts"
+            tags_list = tags or ["shorts", "engineering", "documentary", "panamacanal"]
+
+            body = {
+                "snippet": {
+                    "title": clean_title[:100],
+                    "description": description,
+                    "tags": tags_list,
+                    "categoryId": "27",  # Education / Infotainment
+                },
+                "status": {
+                    "privacyStatus": privacy_status,
+                    "selfDeclaredMadeForKids": False,
+                },
+            }
+
+            media = MediaFileUpload(
+                str(vid_p),
+                mimetype="video/mp4",
+                resumable=True,
+                chunksize=1024 * 1024 * 5,  # 5MB chunks
+            )
+
+            request = youtube.videos().insert(
+                part="snippet,status",
+                body=body,
+                media_body=media,
+            )
+
+            response = None
+            while response is None:
+                status, response = request.next_chunk()
+
+            youtube_id = response.get("id")
+            return {
+                "success": True,
+                "youtube_video_id": youtube_id,
+                "privacy_status": privacy_status,
+                "url": f"https://youtube.com/shorts/{youtube_id}",
+                "watch_url": f"https://youtu.be/{youtube_id}",
+            }
+        except Exception as e:
+            return {
+                "success": False,
+                "error": f"YouTube upload failed: {str(e)}",
+            }

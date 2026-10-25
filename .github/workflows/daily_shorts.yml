@@ -1,0 +1,64 @@
+name: Automated Daily YouTube Shorts Publisher
+
+on:
+  schedule:
+    # Runs every day at 11:30 UTC (5:00 PM IST)
+    - cron: '30 11 * * *'
+  workflow_dispatch:
+    inputs:
+      privacy_status:
+        description: 'Upload Privacy Status'
+        required: true
+        default: 'public'
+        type: choice
+        options:
+          - public
+          - unlisted
+          - private
+
+jobs:
+  publish_daily_short:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install system dependencies (FFmpeg)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Restore YouTube OAuth credentials
+        env:
+          YT_TOKEN_JSON: ${{ secrets.YT_TOKEN_JSON }}
+          YT_CLIENT_SECRETS_JSON: ${{ secrets.YT_CLIENT_SECRETS_JSON }}
+        run: |
+          mkdir -p config
+          if [ -n "$YT_TOKEN_JSON" ]; then
+            echo "$YT_TOKEN_JSON" > config/token.json
+          fi
+          if [ -n "$YT_CLIENT_SECRETS_JSON" ]; then
+            echo "$YT_CLIENT_SECRETS_JSON" > config/client_secrets.json
+          fi
+
+      - name: Run Daily Shorts Pipeline
+        run: |
+          python src/workflows/daily_shorts_pipeline.py ${{ github.event.inputs.privacy_status || 'public' }}
+
+      - name: Commit and push publication log
+        run: |
+          git config --global user.name "Apex Daily Autopilot"
+          git config --global user.email "autopilot@apexenterprise.studio"
+          git add data/daily_shorts_log.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(autopilot): Record published daily short" && git push)
