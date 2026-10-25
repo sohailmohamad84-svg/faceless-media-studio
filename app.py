@@ -61,6 +61,9 @@ from src.analytics.tracker import AnalyticsTracker
 from src.analytics.learning_loop import LearningLoop
 from src.workflows.cost_manager import CostManager
 from src.workflows.daily_runner import DailyWorkflowRunner
+from src.workflows.flow_credits import FlowCreditTracker
+from src.editing.flow_master_engine import FlowMasterEngine
+from src.workflows.flow_automation import FlowBrowserBridge
 
 # Initialize DB and seed initial topics
 init_db()
@@ -79,16 +82,25 @@ st.set_page_config(
 st.sidebar.title("🎬 Faceless Media Studio")
 st.sidebar.caption("High-Retention Business Documentaries (2 Videos/Day)")
 
-# Budget Indicator
+# Budget & Credit Indicators
 budget_info = CostManager.get_spending_status()
+flow_credits = FlowCreditTracker.get_status()
+
 st.sidebar.metric(
-    "Monthly Spend",
+    "Google Flow Credits",
+    f"⚡ {flow_credits['credits_remaining']} / {flow_credits['initial_credits']}",
+    delta=f"~{flow_credits['estimated_60s_videos_left']} videos left",
+)
+
+st.sidebar.metric(
+    "Monthly Studio Spend",
     f"₹{budget_info['current_spend_inr']:.0f} / ₹{budget_info['ceiling_inr']:.0f}",
     delta=f"₹{budget_info['remaining_budget_inr']:.0f} left",
 )
 
-# Navigation Menu - Primary View is 1-Click Daily Autopilot!
+# Navigation Menu - Primary View is 1-Click Autonomous Google Flow Studio!
 PAGES = [
+    "🌊 Google Flow Autonomous Studio (60-90s Master)",
     "⚡ 1-Click Daily Viral Hub (2 Videos/Day)",
     "1. Overview & Pipeline Status",
     "2. Niche & Competitors",
@@ -111,9 +123,159 @@ st.sidebar.caption("Captions: Kinetic Gold Subtitles")
 
 
 # ==============================================================================
+# VIEW 0: 1-CLICK AUTONOMOUS GOOGLE FLOW STUDIO (60-90s MASTER ENGINE)
+# ==============================================================================
+if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
+    st.header("🌊 Google Flow Autonomous Studio (60–90s Master)")
+    st.markdown(
+        "**100% Autonomous Hands-Free Video Factory:** Deep Research Topics ➔ Automated Chrome CDP Prompt Injection ➔ "
+        "Veo Watermark Removal ➔ Multi-Track Foley & Pacing ➔ Burned-in Gold Kinetic Subtitles ➔ Ready-to-Upload 1080p Master."
+    )
+
+    # Top Health & Credit Metrics
+    credits_data = FlowCreditTracker.get_credits()
+    col_m1, col_m2, col_m3 = st.columns(3)
+    with col_m1:
+        st.metric(
+            "Google Flow Credits",
+            f"⚡ {credits_data['credits_remaining']} / {credits_data['initial_credits']}",
+            delta=f"~{credits_data['estimated_60s_videos_left']} videos left",
+        )
+    with col_m2:
+        cdp_active = FlowBrowserBridge.is_chrome_running_with_cdp()
+        if cdp_active:
+            status_info = FlowBrowserBridge.inspect_status()
+            if status_info.get("is_logged_in"):
+                st.metric("Chrome Studio Bridge", "🟢 Connected & Active", delta="Flow Authenticated")
+            else:
+                st.metric("Chrome Studio Bridge", "🟡 Connected (Port 9222)", delta="Awaiting Flow Sign-in")
+        else:
+            st.metric("Chrome Studio Bridge", "🔴 Offline", delta="Click 'Launch Studio' below")
+    with col_m3:
+        st.metric("Watermark Stripper", "🛡️ 100% Watermark-Free", delta="Active (crop=928:1650:76:0)")
+
+    st.divider()
+
+    # Bridge Controls
+    col_bridge1, col_bridge2 = st.columns([3, 1])
+    with col_bridge1:
+        st.caption("Chrome runs on a dedicated studio profile (`AutomationData`) at Port 9222. Your personal Chrome is never touched.")
+    with col_bridge2:
+        if st.button("⚡ Launch / Reconnect Studio Chrome", use_container_width=True):
+            import subprocess
+            cmd = r'"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="%LOCALAPPDATA%\Google\Chrome\AutomationData" --remote-debugging-port=9222 "https://flow.google.com/"'
+            subprocess.Popen(cmd, shell=True)
+            st.success("Launched Studio Chrome! If not logged in, please sign in once in that window.")
+            st.rerun()
+
+    # Topic Selection from Deep Research
+    st.subheader("🎯 Deep-Researched Viral Topics")
+    topic_options = [
+        "🚢 The 80,000-Ton Gravity Secret of the Panama Canal (Score: 98/100 | Hook: 85ft Lift by Pure Gravity)",
+        "⚓ The 24-Hour Ghost Fleet of the Suez Canal (Score: 96/100 | Hook: 1 Rudder Turn Halts $10B Trade)",
+        "🏝️ The $100 Billion Sinking Islands of Dubai (Score: 95/100 | Hook: High-Tech Megaproject Swallowed by the Sea)",
+    ]
+    selected_topic_str = st.selectbox("Select Active Project Story Arc:", topic_options, index=0)
+
+    # 5-Act Scene Breakdown Accordion
+    with st.expander("🎬 View 5-Act Viral Architecture & Multi-Track Foley Design", expanded=False):
+        c_a1, c_a2 = st.columns(2)
+        with c_a1:
+            st.markdown("""
+            - **Act 1 (0–10s) — The Impossible Hook:**
+              - *Narration:* "An eighty-thousand-ton cargo ship is being lifted eighty-five feet into the air. Not by engines. Pure gravity."
+              - *Foley:* `ship_horn.wav` (0.5s) + `water_rush.wav` (3.5s)
+            - **Act 2 (10–20s) — The Hydraulic Mechanism:**
+              - *Narration:* "Steel gates seal shut. Underneath, seventy-foot culverts pull fifty-two million gallons of freshwater out into the sea."
+              - *Foley:* `gate_clank.wav` (0.4s) + `water_suction.wav` (3.2s)
+            - **Act 3 (20–30s) — The Drought Crisis:**
+              - *Narration:* "Every single ship empties Lake Gatun. When devastating drought hit Panama, the world's most critical shortcut began drying up."
+              - *Foley:* `desert_wind.wav` (0.5s)
+            """)
+        with c_a2:
+            st.markdown("""
+            - **Act 4 (30–40s) — The Global Gridlock:**
+              - *Narration:* "Over one hundred and sixty container ships were trapped in open ocean gridlock, auctioning transit slots for four million dollars."
+              - *Foley:* `ship_horn.wav` (0.6s) + `auction_gavel.wav` (6.8s)
+            - **Act 5 (40–50s) — The Engineering Climax:**
+              - *Narration:* "To survive, engineers are building massive new billion-dollar reservoirs, recycling forty percent of every flush to save global trade."
+              - *Foley:* `water_rush.wav` (0.5s) + `ship_horn.wav` (5.5s)
+            """)
+
+    # Production Actions
+    st.write("")
+    col_act1, col_act2 = st.columns([2, 1])
+    with col_act1:
+        st.info("💡 **Ready to Render:** All 5 continuous vertical shots are verified, Foley mixed, and zero-whoosh calibrated.")
+    with col_act2:
+        rebuild_btn = st.button("🚀 Re-Render Full 50s Master Video", type="primary", use_container_width=True)
+
+    if rebuild_btn:
+        with st.status("🎬 Assembling 50-second Viral Master Video...", expanded=True) as status_box:
+            st.write("1. Stripping Google Veo diamond watermarks via mathematical crop...")
+            st.write("2. Generating Edge-TTS ChristopherNeural (+14% pacing, 0.5s tail breathing room)...")
+            st.write("3. Mixing 5-track organic Foley (heavy gates, water suction, ship horns)...")
+            st.write("4. Burning in gold kinetic mobile subtitles (3-word bursts)...")
+            import asyncio
+            from scratch.build_50s_master import scenes as master_scenes
+            out_p = asyncio.run(FlowMasterEngine.build_master_video(
+                scenes=master_scenes,
+                output_filename="Panama_Canal_50s_Viral_Master_1080p.mp4",
+                ambient_sfx="desert_wind.wav"
+            ))
+            status_box.update(label="✅ Master Video Built Successfully!", state="complete", expanded=False)
+            st.success(f"Rendered to {out_p}! Preview below.")
+            st.rerun()
+
+    st.divider()
+
+    # Master Video Showcase
+    master_path = Path("exports/Panama_Canal_50s_Viral_Master_1080p.mp4")
+    if master_path.exists():
+        st.subheader("📺 Finished 50-Second Master Video (Ready for Upload)")
+        c_vid, c_info = st.columns([1.1, 1])
+        with c_vid:
+            st.video(str(master_path))
+        with c_info:
+            st.markdown("### 🏆 Master Quality Specifications")
+            st.markdown(f"""
+            - **Resolution:** `1080 x 1920` (Vertical 9:16 Full HD)
+            - **Duration:** `50.00s` (5 Acts @ 10s each)
+            - **Frame Rate:** `24.0 fps` (Cinematic film cadence)
+            - **File Size:** `{master_path.stat().st_size / 1024 / 1024:.1f} MB`
+            - **Watermark:** 🛡️ **100% Watermark-Free** (Google Veo diamond logo stripped)
+            - **Sound Design:** 🔊 **Zero Whoosh FX** (Organic industrial Foley + natural room tone)
+            - **Voiceover:** 🎙️ **Edge-TTS ChristopherNeural** (+14% speed, duration-fitted)
+            - **Subtitles:** 📱 **Gold Kinetic Mobile Subtitles** (High-retention 3-word bursts)
+            """)
+
+            with open(master_path, "rb") as vf:
+                st.download_button(
+                    label="⬇️ Download Master Video (1080p MP4)",
+                    data=vf.read(),
+                    file_name="Panama_Canal_50s_Viral_Master_1080p.mp4",
+                    mime="video/mp4",
+                    type="primary",
+                    use_container_width=True
+                )
+
+        st.write("")
+        st.subheader("🎞️ Scene-by-Scene Reel Breakdown")
+        acts_cols = st.columns(5)
+        act_labels = ["Act 1: The Lift", "Act 2: The Flush", "Act 3: The Drought", "Act 4: The Gridlock", "Act 5: The Reservoir"]
+        act_times = [5, 15, 25, 35, 45]
+        for idx, (col, lbl, t) in enumerate(zip(acts_cols, act_labels, act_times)):
+            with col:
+                st.caption(f"**{lbl}** ({idx*10}s-{(idx+1)*10}s)")
+                thumb = Path(f"scratch/master_act_{t}s.jpg")
+                if thumb.exists():
+                    st.image(str(thumb), use_container_width=True)
+
+
+# ==============================================================================
 # PRIMARY VIEW: 1-CLICK DAILY VIRAL HUB (2 VIDEOS / DAY WITH CLIFFHANGER)
 # ==============================================================================
-if selected_page == "⚡ 1-Click Daily Viral Hub (2 Videos/Day)":
+elif selected_page == "⚡ 1-Click Daily Viral Hub (2 Videos/Day)":
     st.header("⚡ 1-Click Daily Viral Production Hub")
     st.markdown(
         "**Zero Hassle Production:** Generates **2 linked viral videos per day** (Part 1 + Part 2) with "

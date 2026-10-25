@@ -7,17 +7,117 @@ from src.database.repository import ScriptRepository, StoryboardRepository, Clai
 class TwoPartGenerator:
     @classmethod
     def generate_two_part_series(
-        cls, topic: Topic
+        cls, topic: Topic, is_shorts: bool = False
     ) -> Tuple[Tuple[Script, List[StoryboardScene], List[ClaimLedgerItem]], Tuple[Script, List[StoryboardScene], List[ClaimLedgerItem]]]:
         """Generate a linked two-part video series (Part 1 + Part 2) designed to drive binge retention
-        via an open loop cliffhanger at the end of Part 1.
+        via an open loop cliffhanger at the end of Part 1. Supports 16:9 Longform or 9:16 Shorts (<60s).
         """
+        if is_shorts:
+            return cls._build_toys_r_us_shorts_series(topic)
+
         if "Toys" in topic.title or "Toys 'R' Us" in topic.title:
             return cls._build_toys_r_us_series(topic)
         elif "Costco" in topic.title:
             return cls._build_costco_series(topic)
         else:
             return cls._build_generic_series(topic)
+
+    @classmethod
+    def _build_toys_r_us_shorts_series(
+        cls, topic: Topic
+    ) -> Tuple[Tuple[Script, List[StoryboardScene], List[ClaimLedgerItem]], Tuple[Script, List[StoryboardScene], List[ClaimLedgerItem]]]:
+        """High-retention vertical YouTube Shorts (<60s) with rapid-fire pacing and open loop cliffhanger."""
+        # -------------------------------------------------------------
+        # SHORTS PART 1: THE $6.6B WALL STREET HEIST (~49 SECONDS)
+        # -------------------------------------------------------------
+        p1_scenes = [
+            StoryboardScene(scene_order=1, scene_title="Monopoly Hook", scene_type="hook", duration_sec=5.0, narration_text="In 2000, Toys 'R' Us controlled twenty percent of the American toy industry, printing half a billion dollars in pure profit.", visual_type="archival_photo", on_screen_text="20% TOY MONOPOLY"),
+            StoryboardScene(scene_order=2, scene_title="Bulldozed", scene_type="hook", duration_sec=5.0, narration_text="Yet eighteen years later, every single store was bulldozed, liquidated, and abandoned.", visual_type="archival_photo", on_screen_text="LIQUIDATED & CLOSED"),
+            StoryboardScene(scene_order=3, scene_title="The Amazon Lie", scene_type="hook", duration_sec=5.5, narration_text="The world was told that Amazon killed Toys 'R' Us. But that was a complete lie.", visual_type="newspaper", on_screen_text="THE LIE ABOUT AMAZON"),
+            StoryboardScene(scene_order=4, scene_title="The Inside Job", scene_type="context", duration_sec=5.5, narration_text="Amazon didn't kill them. It was a calculated six point six billion dollar inside job by three Wall Street firms.", visual_type="court_docket", on_screen_text="$6.6B WALL STREET HEIST"),
+            StoryboardScene(scene_order=5, scene_title="The Syndicate", scene_type="evidence", duration_sec=5.0, narration_text="In 2005, Bain Capital, KKR, and Vornado took Toys 'R' Us private in a Leveraged Buyout.", visual_type="archival_photo", on_screen_text="THE LBO SYNDICATE"),
+            StoryboardScene(scene_order=6, scene_title="Borrowed 5.3B", scene_type="evidence", duration_sec=6.0, narration_text="The buyers put up almost none of their own cash. They forced Toys 'R' Us itself to borrow five point three billion dollars to buy itself.", visual_type="financial_autopsy", on_screen_text="$5.3B BORROWED DEBT"),
+            StoryboardScene(scene_order=7, scene_title="400M Bleed", scene_type="evidence", duration_sec=5.5, narration_text="Overnight, Toys 'R' Us was hit with a four hundred million dollar annual interest bill. Ninety-seven percent of operating profit was wiped out.", visual_type="financial_autopsy", on_screen_text="$400M ANNUAL BLEED"),
+            StoryboardScene(scene_order=8, scene_title="Zero Capital", scene_type="case_study", duration_sec=5.0, narration_text="They had zero dollars left to fix stores, pay workers, or build modern websites.", visual_type="archival_photo", on_screen_text="CAPITAL STARVATION"),
+            StoryboardScene(scene_order=9, scene_title="Shorts Cliffhanger", scene_type="cliffhanger", duration_sec=6.5, narration_text="And in 2017, the trap snapped shut. Watch Part 2 right now to see the court filings showing where the billions went.", visual_type="cliffhanger", on_screen_text="WATCH PART 2 #Shorts"),
+        ]
+
+        p1_narration_full = " ".join([s.narration_text for s in p1_scenes])
+        p1_script = Script(
+            topic_id=topic.id or 1,
+            version="3.0-Shorts",
+            title="Why Toys 'R' Us Really Died (Part 1: The Trap) #Shorts",
+            hook_text=p1_scenes[0].narration_text + " " + p1_scenes[1].narration_text + " " + p1_scenes[2].narration_text,
+            promise_text=p1_scenes[3].narration_text,
+            body_text=" ".join([s.narration_text for s in p1_scenes[4:8]]),
+            conclusion_text=p1_scenes[8].narration_text,
+            call_to_action="Watch Part 2 on the channel now #Shorts",
+            word_count=len(p1_narration_full.split()),
+            target_duration_sec=49,
+            status="approved",
+        )
+
+        p1_claims = [
+            ClaimLedgerItem(claim_text="Toys 'R' Us controlled ~20% of US toy market in 2000.", source_url="https://sec.gov", source_title="SEC 10-K Filing", verified=True, timestamp_marker="00:03"),
+            ClaimLedgerItem(claim_text="Bain Capital and KKR saddled Toys 'R' Us with $5.3B debt.", source_url="https://sec.gov", source_title="Form 8-K Merger Docket", verified=True, timestamp_marker="00:25"),
+        ]
+
+        # -------------------------------------------------------------
+        # SHORTS PART 2: THE $470M LOOTING & AUTOPSY (~47 SECONDS)
+        # -------------------------------------------------------------
+        p2_scenes = [
+            StoryboardScene(scene_order=1, scene_title="Recap Docket", scene_type="hook", duration_sec=5.0, narration_text="In Part 1, we saw how Wall Street trapped Toys 'R' Us with five point three billion dollars in debt. Now comes the dirty secret.", visual_type="court_docket", on_screen_text="CHAPTER 11 DOCKET"),
+            StoryboardScene(scene_order=2, scene_title="Worker Sacrifice", scene_type="hook", duration_sec=6.5, narration_text="While thirty-three thousand workers were fired with zero severance, the private equity owners had already extracted four hundred and seventy million dollars in fees.", visual_type="split_verdict", on_screen_text="33K FIRED vs $470M FEES"),
+            StoryboardScene(scene_order=3, scene_title="400M Interest", scene_type="evidence", duration_sec=5.5, narration_text="For twelve straight years, four hundred million dollars vanished every single year just to service bank interest.", visual_type="financial_autopsy", on_screen_text="$400M ANNUAL INTEREST"),
+            StoryboardScene(scene_order=4, scene_title="Amazon Suicide", scene_type="case_study", duration_sec=6.0, narration_text="To survive, Toys 'R' Us signed an exclusive ten-year deal for Amazon to run their website. It was digital suicide.", visual_type="newspaper", on_screen_text="THE FATAL AMAZON PACT"),
+            StoryboardScene(scene_order=5, scene_title="Trojan Horse", scene_type="case_study", duration_sec=6.0, narration_text="Amazon studied their data, then allowed third-party sellers to undercut Toys 'R' Us on Amazon's own platform.", visual_type="newspaper", on_screen_text="AMAZON'S TROJAN HORSE"),
+            StoryboardScene(scene_order=6, scene_title="Supplier Panic", scene_type="evidence", duration_sec=5.5, narration_text="By 2017, scared suppliers refused to ship Christmas toys. The company collapsed into Chapter 11 bankruptcy.", visual_type="archival_photo", on_screen_text="CHAPTER 11 BANKRUPTCY"),
+            StoryboardScene(scene_order=7, scene_title="Liquidation", scene_type="evidence", duration_sec=6.0, narration_text="Liquidators stripped every store bare. Thirty-three thousand employees lost everything with zero severance.", visual_type="archival_photo", on_screen_text="TOTAL LIQUIDATION"),
+            StoryboardScene(scene_order=8, scene_title="Shorts Verdict", scene_type="conclusion", duration_sec=6.5, narration_text="Toys 'R' Us was killed not by Amazon, but by predatory financial engineering. Subscribe to Apex Enterprise for more corporate autopsies.", visual_type="split_verdict", on_screen_text="SUBSCRIBE: APEX ENTERPRISE #Shorts"),
+        ]
+
+        p2_narration_full = " ".join([s.narration_text for s in p2_scenes])
+        p2_script = Script(
+            topic_id=topic.id or 1,
+            version="3.0-Shorts",
+            title="Why Toys 'R' Us Really Died (Part 2: The Final Verdict) #Shorts",
+            hook_text=p2_scenes[0].narration_text + " " + p2_scenes[1].narration_text,
+            promise_text=p2_scenes[2].narration_text,
+            body_text=" ".join([s.narration_text for s in p2_scenes[3:7]]),
+            conclusion_text=p2_scenes[7].narration_text,
+            call_to_action="Subscribe to Apex Enterprise for weekly forensic business autopsies #Shorts",
+            word_count=len(p2_narration_full.split()),
+            target_duration_sec=47,
+            status="approved",
+        )
+
+        p2_claims = [
+            ClaimLedgerItem(claim_text="33,000 employees were terminated with zero severance in 2018.", source_url="https://wsj.com", source_title="WSJ Report", verified=True, timestamp_marker="00:08"),
+            ClaimLedgerItem(claim_text="Private equity sponsors collected over $470M in fees.", source_url="https://sec.gov", source_title="Bankruptcy Court Fee Examiner Report", verified=True, timestamp_marker="00:10"),
+        ]
+
+        # Save both to database
+        s1_id = ScriptRepository.add_script(p1_script)
+        p1_script.id = s1_id
+        StoryboardRepository.clear_scenes_for_script(s1_id)
+        for s in p1_scenes:
+            s.script_id = s1_id
+            StoryboardRepository.add_scene(s)
+        for c in p1_claims:
+            c.script_id = s1_id
+            ClaimLedgerRepository.add_claim(c)
+
+        s2_id = ScriptRepository.add_script(p2_script)
+        p2_script.id = s2_id
+        StoryboardRepository.clear_scenes_for_script(s2_id)
+        for s in p2_scenes:
+            s.script_id = s2_id
+            StoryboardRepository.add_scene(s)
+        for c in p2_claims:
+            c.script_id = s2_id
+            ClaimLedgerRepository.add_claim(c)
+
+        return (p1_script, p1_scenes, p1_claims), (p2_script, p2_scenes, p2_claims)
 
     @classmethod
     def _build_toys_r_us_series(

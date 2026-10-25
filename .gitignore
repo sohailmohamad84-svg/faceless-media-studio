@@ -38,17 +38,24 @@ credentials.json
 .streamlit/secrets.toml
 
 # Project Renders & Exports (Large media files)
-projects/*/renders/
-projects/*/temp/
-exports/*.mp4
+projects/
+exports/
 data/cache/
+data/flow_clips/
+data/flow_chrome_profile/
+scratch/
 *.wav
 *.mp3
+*.mp4
+*.mkv
+*.webm
 
 # Logs & Databases (Allow structure, ignore local dev db)
 logs/*.log
-data/*.db-journal
+data/*.db
+data/*.db-shm
 data/*.db-wal
+data/*.db-journal
 
 # Pytest / Coverage
 .pytest_cache/

@@ -1,0 +1,26 @@
+{
+  "initial_credits": 500,
+  "credits_used": 30,
+  "credits_remaining": 470,
+  "last_updated": "2026-10-25T13:18:49.356994",
+  "history": [
+    {
+      "clip_name": "Shot 1 - Cargo ship transits canal lock",
+      "credits": 10,
+      "timestamp": "2026-10-25T13:18:49.356994",
+      "notes": "Scene 1: Hook and staircase of water"
+    },
+    {
+      "clip_name": "Shot 2 - Container ship descending Panama lock",
+      "credits": 10,
+      "timestamp": "2026-10-25T13:18:49.356994",
+      "notes": "Scene 2: Hydraulic lock gates and gravity drain"
+    },
+    {
+      "clip_name": "Shot 3 - Container ships stranded on drought lake",
+      "credits": 10,
+      "timestamp": "2026-10-25T13:18:49.356994",
+      "notes": "Scene 3: Lake Gatun drought and 52M gallon flush"
+    }
+  ]
+}

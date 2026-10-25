@@ -17,24 +17,37 @@ class ViralEngine:
         self.ffmpeg_bin = get_ffmpeg_path()
         self.sfx = SoundDesigner.ensure_sfx_library()
 
-    def generate_ass_subtitles(self, scenes: List[StoryboardScene], output_ass: str) -> str:
+    def generate_ass_subtitles(
+        self, scenes: List[StoryboardScene], output_ass: str, is_shorts: bool = False
+    ) -> str:
         """Generate high-retention stylized ASS subtitles:
         - Bright gold primary color with thick black outline
-        - Centered at lower third
+        - Centered in the sweet spot (above Shorts bottom UI)
         - Punchy readable text
         """
         ass_path = Path(output_ass)
         ass_path.parent.mkdir(parents=True, exist_ok=True)
 
-        header = """[Script Info]
+        if is_shorts:
+            res_x, res_y = 1080, 1920
+            font_size = 60
+            margin_v = 360
+            chunk_size = 3
+        else:
+            res_x, res_y = 1920, 1080
+            font_size = 52
+            margin_v = 90
+            chunk_size = 4
+
+        header = f"""[Script Info]
 ScriptType: v4.00+
-PlayResX: 1920
-PlayResY: 1080
+PlayResX: {res_x}
+PlayResY: {res_y}
 ScaledBorderAndShadow: yes
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: ViralGold,Arial,52,&H0000D7FF,&H00000000,&H00000000,&H80000000,-1,0,0,0,100,100,1,0,1,4,2,2,60,60,80,1
+Style: ViralGold,Arial,{font_size},&H0024E6FF,&H00000000,&H00000000,&H90000000,-1,0,0,0,100,100,1,0,1,4,2,2,40,40,{margin_v},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -55,9 +68,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             if not words:
                 continue
 
-            # Split scene into ~4-word chunks for kinetic subtitle delivery
-            chunk_size = 4
-            chunks = [" ".join(words[i:i + chunk_size]) for i in range(0, len(words), chunk_size)]
+            chunks = [" ".join(words[i : i + chunk_size]) for i in range(0, len(words), chunk_size)]
             per_chunk_time = scene_duration / max(1, len(chunks))
 
             for chunk in chunks:
@@ -84,6 +95,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         output_mp4_path: str,
         thumbnail_path: Optional[str] = None,
         job_id: Optional[int] = None,
+        is_shorts: bool = False,
     ) -> Dict[str, Any]:
         """Assemble a high-retention viral 1080p MP4:
         1. Dynamic Ken Burns camera zooms (zoompan) on each scene
@@ -100,7 +112,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             job = RenderJob(
                 script_id=script_id,
                 output_path=str(out_path),
-                resolution="1920x1080",
+                resolution="1080x1920" if is_shorts else "1920x1080",
                 fps=30,
                 status="rendering",
                 progress_pct=10,
@@ -129,16 +141,18 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         # Step 2: Render each scene into a dynamic Ken Burns clip
         RenderJobRepository.update_job_status(job_id, "rendering", 30)
         scene_clips = []
+        scale_arg = "1080:1920" if is_shorts else "1920:1080"
+        size_arg = "1080x1920" if is_shorts else "1920x1080"
         for idx, img_path in enumerate(scene_images):
             clip_out = temp_dir / f"clip_{idx}.mp4"
             dur = scene_durations[idx]
             num_frames = int(dur * 30)
 
             # Alternate between dynamic push-in and pull-out camera movement
-            zoom_expr = "min(zoom+0.0015,1.28)" if idx % 2 == 0 else "max(1.28-0.0015*on,1.0)"
+            zoom_expr = "min(zoom+0.0016,1.26)" if idx % 2 == 0 else "max(1.26-0.0016*on,1.0)"
             pan_vf = (
-                f"scale=1920:1080,"
-                f"zoompan=z='{zoom_expr}':d={num_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1920x1080:fps=30"
+                f"scale={scale_arg},"
+                f"zoompan=z='{zoom_expr}':d={num_frames}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s={size_arg}:fps=30"
             )
 
             cmd_clip = [
@@ -181,7 +195,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
         # Step 4: Generate stylized subtitles
         ass_subtitles = temp_dir / "subtitles.ass"
-        self.generate_ass_subtitles(scenes, str(ass_subtitles))
+        self.generate_ass_subtitles(scenes, str(ass_subtitles), is_shorts=is_shorts)
 
         # Step 5: Composite Multi-Track Audio (Voiceover + Sub-Bass Drone + Precision SFX Cues)
         RenderJobRepository.update_job_status(job_id, "rendering", 75)
@@ -219,13 +233,25 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         except Exception:
             audio_source = narration_audio_path
 
-        # Step 6: Final Composite with Subtitle Overlay and Broadcast Audio
+        # Step 6: Final Composite with MagnatesMedia Film Grain, Vignette & Kinetic Subtitles
         RenderJobRepository.update_job_status(job_id, "rendering", 90)
         render_log = LOGS_DIR / f"viral_render_{script_id}.log"
 
         # Safe ASS path escaping for FFmpeg filter on Windows
         clean_ass = str(ass_subtitles.resolve()).replace("\\", "/").replace(":", "\\:")
-        video_filters = f"subtitles='{clean_ass}'"
+        if is_shorts:
+            video_filters = (
+                f"noise=alls=10:allf=t+u,"
+                f"eq=contrast=1.10:brightness=0.01:saturation=1.16,"
+                f"subtitles='{clean_ass}'"
+            )
+        else:
+            video_filters = (
+                f"noise=alls=10:allf=t+u,"
+                f"vignette=PI/4,"
+                f"eq=contrast=1.12:brightness=-0.01:saturation=1.15,"
+                f"subtitles='{clean_ass}'"
+            )
 
         cmd_final = [
             self.ffmpeg_bin, "-y",
@@ -233,8 +259,9 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             "-i", str(audio_source),
             "-vf", video_filters,
             "-c:v", "libx264",
-            "-preset", "medium",
-            "-crf", "19",
+            "-preset", "veryfast",
+            "-crf", "20",
+            "-threads", "0",
             "-pix_fmt", "yuv420p",
             "-c:a", "aac",
             "-b:a", "192k",
@@ -244,7 +271,7 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
         try:
             with open(render_log, "w", encoding="utf-8") as lf:
-                proc = subprocess.run(cmd_final, stdout=lf, stderr=subprocess.STDOUT, timeout=180)
+                proc = subprocess.run(cmd_final, stdout=lf, stderr=subprocess.STDOUT, timeout=600)
 
             # Fallback if subtitle filter encountered path error
             if proc.returncode != 0:
@@ -254,64 +281,64 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
                     "-i", str(audio_source),
                     "-c:v", "libx264",
                     "-preset", "veryfast",
+                    "-threads", "0",
                     "-c:a", "aac",
                     "-b:a", "192k",
                     "-shortest",
                     str(out_path),
                 ]
-                subprocess.run(cmd_fallback, capture_output=True, timeout=120)
-
-            # Clean up intermediate clips
-            shutil.rmtree(temp_dir, ignore_errors=True)
-
-            # Step 7: Verify rendered video
-            validation = validate_media_file(str(out_path))
-            render_duration = round(time.time() - start_time, 2)
-
-            if not validation.get("valid", False):
-                error_msg = f"Viral render verification failed: {validation}"
-                RenderJobRepository.update_job_status(job_id, "failed", 0, error_msg)
-                return {"success": False, "error": error_msg}
-
-            # Register video export
-            import hashlib
-            with open(out_path, "rb") as f:
-                content_hash = hashlib.sha256(f.read()).hexdigest()
-
-            export = VideoExport(
-                render_job_id=job_id,
-                script_id=script_id,
-                file_path=str(out_path.resolve()),
-                thumbnail_path=str(thumbnail_path) if thumbnail_path else "",
-                duration_sec=validation.get("duration", 0.0),
-                resolution=validation.get("resolution", "1920x1080"),
-                file_size_bytes=validation.get("size_bytes", 0),
-                content_hash=content_hash,
-                verified=True,
-            )
-            export_id = VideoExportRepository.add_export(export)
-            export.id = export_id
-
-            RenderJobRepository.update_job_status(
-                job_id,
-                status="completed",
-                progress_pct=100,
-                render_time=render_duration,
-            )
-
-            return {
-                "success": True,
-                "video_export_id": export_id,
-                "job_id": job_id,
-                "file_path": str(out_path),
-                "duration_sec": validation.get("duration", 0.0),
-                "resolution": validation.get("resolution", "1920x1080"),
-                "file_size_bytes": validation.get("size_bytes", 0),
-                "content_hash": content_hash,
-                "render_time_sec": render_duration,
-            }
-
-        except Exception as e:
-            error_msg = f"Viral render exception: {str(e)}"
+                subprocess.run(cmd_fallback, capture_output=True, timeout=300)
+        except subprocess.TimeoutExpired:
+            error_msg = f"Viral render timed out after 600s."
             RenderJobRepository.update_job_status(job_id, "failed", 0, error_msg)
             return {"success": False, "error": error_msg}
+
+        # Clean up intermediate clips
+        shutil.rmtree(temp_dir, ignore_errors=True)
+
+        # Step 7: Verify rendered video
+        validation = validate_media_file(str(out_path))
+        render_duration = round(time.time() - start_time, 2)
+
+        if not validation.get("valid", False):
+            error_msg = f"Viral render verification failed: {validation}"
+            RenderJobRepository.update_job_status(job_id, "failed", 0, error_msg)
+            return {"success": False, "error": error_msg}
+
+        # Register video export
+        import hashlib
+        with open(out_path, "rb") as f:
+            content_hash = hashlib.sha256(f.read()).hexdigest()
+
+        export = VideoExport(
+            render_job_id=job_id,
+            script_id=script_id,
+            file_path=str(out_path.resolve()),
+            thumbnail_path=str(thumbnail_path) if thumbnail_path else "",
+            duration_sec=validation.get("duration", 0.0),
+            resolution=validation.get("resolution", "1920x1080"),
+            file_size_bytes=validation.get("size_bytes", 0),
+            content_hash=content_hash,
+            verified=True,
+        )
+        export_id = VideoExportRepository.add_export(export)
+        export.id = export_id
+
+        RenderJobRepository.update_job_status(
+            job_id,
+            status="completed",
+            progress_pct=100,
+            render_time=render_duration,
+        )
+
+        return {
+            "success": True,
+            "video_export_id": export_id,
+            "job_id": job_id,
+            "file_path": str(out_path),
+            "duration_sec": validation.get("duration", 0.0),
+            "resolution": validation.get("resolution", "1920x1080"),
+            "file_size_bytes": validation.get("size_bytes", 0),
+            "content_hash": content_hash,
+            "render_time_sec": render_duration,
+        }
