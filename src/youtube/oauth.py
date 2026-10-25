@@ -22,8 +22,32 @@ YOUTUBE_SCOPES = [
 
 class YouTubeAuthManager:
     @staticmethod
+    def _restore_from_cloud_secrets():
+        """Restore tokens from Streamlit secrets or environment if running in the cloud."""
+        secrets_file = Path(YOUTUBE_CLIENT_SECRETS_FILE)
+        token_file = Path(YOUTUBE_TOKEN_FILE)
+        secrets_file.parent.mkdir(parents=True, exist_ok=True)
+
+        # Check Streamlit secrets
+        try:
+            import streamlit as st
+            if "YT_TOKEN_JSON" in st.secrets and not token_file.exists():
+                token_file.write_text(st.secrets["YT_TOKEN_JSON"], encoding="utf-8")
+            if "YT_CLIENT_SECRETS_JSON" in st.secrets and not secrets_file.exists():
+                secrets_file.write_text(st.secrets["YT_CLIENT_SECRETS_JSON"], encoding="utf-8")
+        except Exception:
+            pass
+
+        # Check Environment variables
+        if os.getenv("YT_TOKEN_JSON") and not token_file.exists():
+            token_file.write_text(os.getenv("YT_TOKEN_JSON"), encoding="utf-8")
+        if os.getenv("YT_CLIENT_SECRETS_JSON") and not secrets_file.exists():
+            secrets_file.write_text(os.getenv("YT_CLIENT_SECRETS_JSON"), encoding="utf-8")
+
+    @staticmethod
     def get_auth_status() -> Dict[str, Any]:
         """Check if OAuth client secrets exist and if valid tokens are present."""
+        YouTubeAuthManager._restore_from_cloud_secrets()
         secrets_file = Path(YOUTUBE_CLIENT_SECRETS_FILE)
         token_file = Path(YOUTUBE_TOKEN_FILE)
 
