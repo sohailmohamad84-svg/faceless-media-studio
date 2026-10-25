@@ -49,6 +49,7 @@ scratch/
 *.mp4
 *.mkv
 *.webm
+!data/showcase/*.mp4
 
 # Logs & Databases (Allow structure, ignore local dev db)
 logs/*.log
