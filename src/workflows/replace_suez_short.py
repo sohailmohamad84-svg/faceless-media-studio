@@ -20,7 +20,7 @@ from googleapiclient.discovery import build
 from src.youtube.oauth import YouTubeAuthManager
 from src.youtube.uploader import YouTubePublisher
 
-OLD_VIDEO_ID = "NX2fEul0zvA"
+OLD_VIDEO_ID = "k0asYQNh45U"
 
 def main():
     creds = YouTubeAuthManager.get_credentials()

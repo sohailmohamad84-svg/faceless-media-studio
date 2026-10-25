@@ -164,28 +164,6 @@ class FlowMasterEngine:
                         return f"{h}:{m:02d}:{s:02d}.{ms:02d}"
                         
                     ass_events.append(f"Dialogue: 0,{fmt(w_start)},{fmt(w_end)},FlowSub,,0,0,0,,{c_text}")
-                vs = int(v_start_sec * cls.SAMPLE_RATE)
-                ve = min(total_samples, vs + len(vo_pcm))
-                master_pcm[vs:ve] += vo_pcm[:ve - vs]
-                
-                # Subtitles for this scene (3 words per burst)
-                words = text.split()
-                chunk_sz = 3
-                w_per_s = len(words) / vo_dur if vo_dur > 0 else 1.0
-                for ci in range(0, len(words), chunk_sz):
-                    c_words = words[ci:ci + chunk_sz]
-                    c_text = " ".join(c_words).upper()
-                    w_start = v_start_sec + (ci / w_per_s)
-                    w_end = min(current_time_sec + sc_dur - 0.3, v_start_sec + ((ci + chunk_sz) / w_per_s))
-                    
-                    def fmt(sec):
-                        h = int(sec // 3600)
-                        m = int((sec % 3600) // 60)
-                        s = int(sec % 60)
-                        ms = int((sec - int(sec)) * 100)
-                        return f"{h}:{m:02d}:{s:02d}.{ms:02d}"
-                        
-                    ass_events.append(f"Dialogue: 0,{fmt(w_start)},{fmt(w_end)},FlowSub,,0,0,0,,{c_text}")
                     
             # Scene Foley
             for foley in sc.get("foley", []):
