@@ -58,11 +58,16 @@ class FlowMasterEngine:
         for idx, sc in enumerate(scenes):
             in_vid = Path(sc["input_video"])
             out_vid = work_dir / f"clean_scene_{idx}.mp4"
+            is_clean = sc.get("is_clean", False)
+            
+            # If already clean 1080x1920, don't crop watermark
+            vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=24" if is_clean else cls.CROP_FILTER
+            
             cmd_clean = [
                 "ffmpeg", "-y",
                 "-i", str(in_vid),
                 "-t", "10.0",
-                "-vf", cls.CROP_FILTER,
+                "-vf", vfilter,
                 "-c:v", "libx264", "-preset", "fast", "-crf", "18",
                 "-an",
                 str(out_vid)

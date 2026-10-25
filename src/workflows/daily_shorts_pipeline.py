@@ -42,7 +42,8 @@ VIRAL_SHORTS_QUEUE = [
         "tags": ["shorts", "suezcanal", "evergiven", "engineering", "megaprojects", "shipping", "documentary"],
         "scenes": [
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",  # Fallback source or generated visual
+                "input_video": "data/suez_assets/suez_clip_1.mp4",
+                "is_clean": True,
                 "narration_text": "Four hundred cargo ships were trapped in the desert. Not by pirates. By an invisible wall of sand.",
                 "foley": [
                     {"sfx": "tension_drone.wav", "time_offset": 0.0, "gain": 0.3},
@@ -50,28 +51,32 @@ VIRAL_SHORTS_QUEUE = [
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/suez_assets/suez_clip_2.mp4",
+                "is_clean": True,
                 "narration_text": "A forty-knot wind struck the world's longest container ship, jamming its twenty-thousand-ton bow into solid clay.",
                 "foley": [
                     {"sfx": "gate_clank.wav", "time_offset": 0.4, "gain": 0.35}
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/suez_assets/suez_clip_3.mp4",
+                "is_clean": True,
                 "narration_text": "Every single hour it remained stuck cost the global economy four hundred million dollars in frozen cargo.",
                 "foley": [
                     {"sfx": "warning_beep.wav", "time_offset": 0.2, "gain": 0.3}
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/suez_assets/suez_clip_4.mp4",
+                "is_clean": True,
                 "narration_text": "Fourteen massive tugboats and thirty thousand tons of dredged silt fought against the Mediterranean tide.",
                 "foley": [
                     {"sfx": "water_rush.wav", "time_offset": 0.5, "gain": 0.35}
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/suez_assets/suez_clip_5.mp4",
+                "is_clean": True,
                 "narration_text": "Six days later, a full moon super-tide lifted the monster free, proving the fragility of modern civilization.",
                 "foley": [
                     {"sfx": "ship_horn.wav", "time_offset": 0.5, "gain": 0.4}
