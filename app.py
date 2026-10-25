@@ -146,11 +146,11 @@ if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
         if cdp_active:
             status_info = FlowBrowserBridge.inspect_status()
             if status_info.get("is_logged_in"):
-                st.metric("Chrome Studio Bridge", "🟢 Connected & Active", delta="Flow Authenticated")
+                st.metric("Chrome Studio Bridge", "🟢 Active & Ready", delta="Flow Authenticated")
             else:
                 st.metric("Chrome Studio Bridge", "🟡 Connected (Port 9222)", delta="Awaiting Flow Sign-in")
         else:
-            st.metric("Chrome Studio Bridge", "🔴 Offline", delta="Click 'Launch Studio' below")
+            st.metric("Cloud Production Node", "🟢 Live & Synced", delta="Streamlit Cloud App")
     with col_m3:
         st.metric("Watermark Stripper", "🛡️ 100% Watermark-Free", delta="Active (crop=928:1650:76:0)")
 
@@ -159,14 +159,9 @@ if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
     # Bridge Controls
     col_bridge1, col_bridge2 = st.columns([3, 1])
     with col_bridge1:
-        st.caption("Chrome runs on a dedicated studio profile (`AutomationData`) at Port 9222. Your personal Chrome is never touched.")
+        st.caption("☁️ **Cloud Studio Mode:** Hosted live at `https://faceless-media-studio.streamlit.app/`. All renders and storyboards sync directly to GitHub.")
     with col_bridge2:
-        if st.button("⚡ Launch / Reconnect Studio Chrome", use_container_width=True):
-            import subprocess
-            cmd = r'"C:\Program Files\Google\Chrome\Application\chrome.exe" --user-data-dir="%LOCALAPPDATA%\Google\Chrome\AutomationData" --remote-debugging-port=9222 "https://flow.google.com/"'
-            subprocess.Popen(cmd, shell=True)
-            st.success("Launched Studio Chrome! If not logged in, please sign in once in that window.")
-            st.rerun()
+        st.button("🔄 Sync Cloud State", use_container_width=True)
 
     # Topic Selection from Deep Research
     st.subheader("🎯 Deep-Researched Viral Topics")
@@ -230,7 +225,10 @@ if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
     st.divider()
 
     # Master Video Showcase
-    master_path = Path("exports/Panama_Canal_50s_Viral_Master_1080p.mp4")
+    master_path = Path("data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4")
+    if not master_path.exists():
+        master_path = Path("exports/Panama_Canal_50s_Viral_Master_1080p.mp4")
+
     if master_path.exists():
         st.subheader("📺 Finished 50-Second Master Video (Ready for Upload)")
         c_vid, c_info = st.columns([1.1, 1])
@@ -267,7 +265,9 @@ if selected_page == "🌊 Google Flow Autonomous Studio (60-90s Master)":
         for idx, (col, lbl, t) in enumerate(zip(acts_cols, act_labels, act_times)):
             with col:
                 st.caption(f"**{lbl}** ({idx*10}s-{(idx+1)*10}s)")
-                thumb = Path(f"scratch/master_act_{t}s.jpg")
+                thumb = Path(f"data/showcase/master_act_{t}s.jpg")
+                if not thumb.exists():
+                    thumb = Path(f"scratch/master_act_{t}s.jpg")
                 if thumb.exists():
                     st.image(str(thumb), use_container_width=True)
 
