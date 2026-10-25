@@ -31,10 +31,9 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install system dependencies (FFmpeg)
+      - name: Verify FFmpeg
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          which ffmpeg && ffmpeg -version || (sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends ffmpeg)
 
       - name: Install Python dependencies
         run: |
@@ -43,10 +42,11 @@ jobs:
 
       - name: Run Daily Shorts Pipeline
         env:
+          PYTHONPATH: .
           YT_TOKEN_JSON: ${{ secrets.YT_TOKEN_JSON }}
           YT_CLIENT_SECRETS_JSON: ${{ secrets.YT_CLIENT_SECRETS_JSON }}
         run: |
-          python src/workflows/daily_shorts_pipeline.py ${{ github.event.inputs.privacy_status || 'public' }}
+          python src/workflows/daily_shorts_pipeline.py "${{ inputs.privacy_status || 'public' }}"
 
       - name: Commit and push publication log
         run: |

@@ -14,6 +14,11 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, Optional
 
+# Ensure project root is always in sys.path
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 from src.database.connection import init_db
 from src.research.discovery import TopicDiscoveryEngine
 from src.database.repository import TopicRepository
@@ -214,7 +219,9 @@ class DailyShortsPipeline:
 
 if __name__ == "__main__":
     privacy = "public"
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 1 and sys.argv[1]:
         privacy = sys.argv[1]
     res = asyncio.run(DailyShortsPipeline.produce_and_publish_next_short(privacy_status=privacy))
     print("Daily Pipeline Result:", res)
+    if not res.get("success"):
+        sys.exit(1)
