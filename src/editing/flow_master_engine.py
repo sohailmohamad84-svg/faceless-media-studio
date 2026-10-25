@@ -205,13 +205,13 @@ class FlowMasterEngine:
         out_final = Path(f"exports/{output_filename}")
         out_final.parent.mkdir(parents=True, exist_ok=True)
         
-        # Relative path without colon to prevent FFmpeg Windows filter parsing error
+        # Relative path without colon to prevent FFmpeg filter parsing error on Windows/Linux
         clean_ass_sub = ass_path.as_posix().replace(":", r"\:")
         cmd_mux = [
             "ffmpeg", "-y",
             "-i", str(merged_video),
             "-i", str(master_wav),
-            "-vf", f"subtitles='{clean_ass_sub}'",
+            "-vf", f"subtitles={clean_ass_sub}",
             "-c:v", "libx264", "-preset", "fast", "-crf", "18",
             "-c:a", "aac", "-b:a", "192k",
             "-t", f"{total_duration:.2f}",

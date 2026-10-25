@@ -14,8 +14,8 @@ from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any, Optional
 
-from src.database.models import init_db
-from src.topics.discovery import TopicDiscoveryEngine
+from src.database.connection import init_db
+from src.research.discovery import TopicDiscoveryEngine
 from src.database.repository import TopicRepository
 from src.assets.sound_designer import SoundDesigner
 from src.youtube.oauth import YouTubeAuthManager
