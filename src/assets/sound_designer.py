@@ -84,6 +84,47 @@ class SoundDesigner:
             paper = (rustle * 32767 * 0.55).astype(np.int16)
             cls._write_wav(str(paper_path), paper, sr)
 
+        # 8. Ship Foghorn (3.0s low deep brass resonance)
+        horn_path = cls.SFX_DIR / "ship_horn.wav"
+        if not horn_path.exists():
+            t_h = np.linspace(0, 3.0, int(sr * 3.0))
+            horn = (np.sin(2 * np.pi * 92.5 * t_h) * 0.7 + np.sin(2 * np.pi * 185.0 * t_h) * 0.3)
+            env_h = np.clip(t_h / 0.3, 0, 1) * np.clip((3.0 - t_h) / 0.6, 0, 1)
+            horn = (horn * env_h * 32767 * 0.85).astype(np.int16)
+            cls._write_wav(str(horn_path), horn, sr)
+
+        # 9. Gate Clank (1.0s industrial steel lock clank)
+        clank_path = cls.SFX_DIR / "gate_clank.wav"
+        if not clank_path.exists():
+            t_k = np.linspace(0, 1.0, int(sr * 1.0))
+            clank = np.sin(2 * np.pi * 140 * t_k) * np.exp(-14 * t_k) + (np.random.rand(len(t_k)) * 2 - 1) * np.exp(-30 * t_k) * 0.5
+            clank = (clank * 32767 * 0.8).astype(np.int16)
+            cls._write_wav(str(clank_path), clank, sr)
+
+        # 10. Water Rush (4.0s rushing surge)
+        rush_path = cls.SFX_DIR / "water_rush.wav"
+        if not rush_path.exists():
+            t_r = np.linspace(0, 4.0, int(sr * 4.0))
+            rush = (np.random.rand(len(t_r)) * 2 - 1) * np.sin(np.pi * t_r / 4.0)
+            rush = (rush * 32767 * 0.45).astype(np.int16)
+            cls._write_wav(str(rush_path), rush, sr)
+
+        # 11. Warning Beep (0.8s pulsing sonar ping)
+        beep_path = cls.SFX_DIR / "warning_beep.wav"
+        if not beep_path.exists():
+            t_b = np.linspace(0, 0.8, int(sr * 0.8))
+            beep = np.sin(2 * np.pi * 880 * t_b) * np.exp(-5.0 * t_b)
+            beep = (beep * 32767 * 0.6).astype(np.int16)
+            cls._write_wav(str(beep_path), beep, sr)
+
+        # 12. Desert Wind (8.0s atmospheric wind)
+        wind_path = cls.SFX_DIR / "desert_wind.wav"
+        if not wind_path.exists():
+            t_w = np.linspace(0, 8.0, int(sr * 8.0))
+            wind = (np.random.rand(len(t_w)) * 2 - 1) * (0.5 + 0.5 * np.sin(2 * np.pi * 0.2 * t_w))
+            wind = (wind * 32767 * 0.25).astype(np.int16)
+            cls._write_wav(str(wind_path), wind, sr)
+
         return {
             "impact_boom": str(boom_path),
             "whoosh": str(whoosh_path),
@@ -92,6 +133,11 @@ class SoundDesigner:
             "shutter_click": str(shutter_path),
             "stamp_thud": str(stamp_path),
             "paper_rustle": str(paper_path),
+            "ship_horn": str(horn_path),
+            "gate_clank": str(clank_path),
+            "water_rush": str(rush_path),
+            "warning_beep": str(beep_path),
+            "desert_wind": str(wind_path),
         }
 
     @classmethod
