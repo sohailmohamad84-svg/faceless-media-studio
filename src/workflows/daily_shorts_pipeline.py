@@ -142,6 +142,156 @@ VIRAL_SHORTS_QUEUE = [
                 ]
             }
         ]
+    },
+    {
+        "id": "japan_maglev_speed",
+        "title": "The 375 MPH Train That Levitates on Superconductors",
+        "hook": "Why Japan mastered 375 MPH levitating trains while Hyperloop collapsed.",
+        "description": (
+            "Floating four inches above the track, Japan's L0 Series Maglev travels at half the speed of sound. "
+            "Why did California and Silicon Valley fail after burning billions while Japan succeeded?\n\n"
+            "🚄 Like & Subscribe for daily high-retention engineering & business documentaries!\n\n"
+            "#shorts #maglev #bullettrain #engineering #japan #hyperloop #technology #speed #physics"
+        ),
+        "tags": ["shorts", "maglev", "bullettrain", "engineering", "japan", "hyperloop", "technology", "documentary"],
+        "scenes": [
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Floating four inches above the track, this train travels at half the speed of sound.",
+                "foley": [
+                    {"sfx": "tension_drone.wav", "time_offset": 0.0, "gain": 0.35},
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.4}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Superconducting electromagnets cooled to minus four hundred degrees eliminate friction completely.",
+                "foley": [
+                    {"sfx": "drill_rumble.wav", "time_offset": 0.4, "gain": 0.35}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Meanwhile, Silicon Valley burned billions on vacuum tubes that buckled under atmospheric pressure.",
+                "foley": [
+                    {"sfx": "gate_clank.wav", "time_offset": 0.5, "gain": 0.35}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Japan spent fifty billion dollars carving fifty miles of granite tunnels through the Southern Alps.",
+                "foley": [
+                    {"sfx": "water_rush.wav", "time_offset": 0.4, "gain": 0.3}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "In twenty-twenty-seven, Tokyo to Nagoya will take forty minutes, proving true engineering beats tech hype.",
+                "foley": [
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.45}
+                ]
+            }
+        ]
+    },
+    {
+        "id": "concorde_sonic_tragedy",
+        "title": "Why You Can't Fly Supersonic Anymore",
+        "hook": "How a single piece of runway titanium destroyed the world's fastest passenger airliner.",
+        "description": (
+            "Concorde flew from New York to London in under three hours at Mach 2. "
+            "Why did commercial aviation become 40% slower after 2003?\n\n"
+            "✈️ Like & Subscribe for daily high-retention engineering & business documentaries!\n\n"
+            "#shorts #concorde #aviation #engineering #planes #history #supersonic #travel #speed"
+        ),
+        "tags": ["shorts", "concorde", "aviation", "engineering", "planes", "history", "supersonic", "documentary"],
+        "scenes": [
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "In nineteen-ninety-six, you could fly from London to New York faster than the Earth's rotation.",
+                "foley": [
+                    {"sfx": "tension_drone.wav", "time_offset": 0.0, "gain": 0.35},
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.4}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Cruising at sixty thousand feet, Concorde's titanium nose stretched eight inches from atmospheric heat.",
+                "foley": [
+                    {"sfx": "radar_ping.wav", "time_offset": 0.4, "gain": 0.35}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Then in Paris, a sixteen-inch titanium strip dropped on the runway shredded a tire at two hundred miles an hour.",
+                "foley": [
+                    {"sfx": "gate_clank.wav", "time_offset": 0.5, "gain": 0.35}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "The supersonic boom was banned over land, passenger demand collapsed, and airline speeds dropped forty percent.",
+                "foley": [
+                    {"sfx": "warning_beep.wav", "time_offset": 0.3, "gain": 0.3}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Twenty-three years later, we still fly slower than passengers did in nineteen-seventy-six.",
+                "foley": [
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.45}
+                ]
+            }
+        ]
+    },
+    {
+        "id": "singapore_sand_empire",
+        "title": "The Secret Ocean War for Singapore's Sand",
+        "hook": "How a tiny island nation grew twenty-five percent bigger using smuggled seabed sand.",
+        "description": (
+            "Singapore has expanded its land area by over 130 square kilometers. "
+            "Where did hundreds of millions of tons of ocean sand come from?\n\n"
+            "🏝️ Like & Subscribe for daily high-retention engineering & business documentaries!\n\n"
+            "#shorts #singapore #megaprojects #geopolitics #engineering #landreclamation #facts #ocean"
+        ),
+        "tags": ["shorts", "singapore", "megaprojects", "geopolitics", "engineering", "landreclamation", "documentary"],
+        "scenes": [
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Singapore is twenty-five percent larger today than when it gained independence in nineteen-sixty-five.",
+                "foley": [
+                    {"sfx": "tension_drone.wav", "time_offset": 0.0, "gain": 0.35},
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.4}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "To build skyscrapers and mega-ports, the city devoured over five hundred million tons of foreign sand.",
+                "foley": [
+                    {"sfx": "drill_rumble.wav", "time_offset": 0.4, "gain": 0.35}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "When neighboring nations banned sand exports, an illicit billion-dollar black market dredged entire Indonesian islands out of existence.",
+                "foley": [
+                    {"sfx": "water_rush.wav", "time_offset": 0.5, "gain": 0.35}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Today, massive polder dikes and recycled clay are replacing sand to push the coastline even further into the sea.",
+                "foley": [
+                    {"sfx": "gate_clank.wav", "time_offset": 0.4, "gain": 0.3}
+                ]
+            },
+            {
+                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
+                "narration_text": "Proving that when you run out of territory on Earth, money can build you a new country.",
+                "foley": [
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.45}
+                ]
+            }
+        ]
     }
 ]
 
