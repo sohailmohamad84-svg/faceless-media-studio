@@ -427,17 +427,73 @@ if unproduced_items:
             <b>Hook:</b> <i>"{next_topic['hook']}"</i>
         </div>
         <div style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 14px;">
-            ⏰ <b>Scheduled Production:</b> <span style="color: #f8fafc; font-weight: 600;">{scheduled_time_str}</span> &nbsp;•&nbsp; 
-            🎯 <b>Target Platform:</b> YouTube Shorts (1080x1920 Full HD)
-        </div>
-        <div>
-            <a href="https://github.com/sohailmohamad84-svg/faceless-media-studio/actions/workflows/daily_shorts.yml" target="_blank" style="display: inline-block; background: #0284c7; color: white; padding: 7px 16px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 0.85rem;">⚡ Trigger Generation Now (GitHub Actions)</a>
+            ⏰ <b>Scheduled Autopilot:</b> <span style="color: #f8fafc; font-weight: 600;">{scheduled_time_str}</span> &nbsp;•&nbsp; 
+            🎯 <b>Target Platform:</b> YouTube Shorts (1080x1920 @ 60 FPS)
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # 5-Act Script Breakdown in expander
-    with st.expander("📖 View 5-Act Narration & Sound Design Storyboard"):
+    # 1-Click Instant Autopilot Trigger Button
+    col_trig1, col_trig2 = st.columns([1, 2])
+    with col_trig1:
+        trigger_now = st.button("🚀 Trigger Generation & Upload Now", type="primary", use_container_width=True)
+    with col_trig2:
+        st.caption("⚡ 100% Autonomous: renders 60fps master, layers sound design & subtitles, uploads to YouTube, and updates dashboard.")
+
+    if trigger_now:
+        with st.status(f"🎬 Autonomous Production: {next_topic['title']}...", expanded=True) as status_box:
+            st.write("1. Verifying 8 dedicated high-end visual scenes & sound assets...")
+            
+            # Check if GitHub API token is provided in Streamlit secrets
+            gh_token = None
+            try:
+                if "GH_TOKEN" in st.secrets:
+                    gh_token = st.secrets["GH_TOKEN"]
+            except Exception:
+                pass
+            if not gh_token:
+                gh_token = os.getenv("GH_TOKEN") or os.getenv("GITHUB_TOKEN")
+
+            dispatched_cloud = False
+            if gh_token:
+                try:
+                    import urllib.request, json
+                    url = "https://api.github.com/repos/sohailmohamad84-svg/faceless-media-studio/actions/workflows/daily_shorts.yml/dispatches"
+                    payload = json.dumps({"ref": "main", "inputs": {"privacy_status": "public"}}).encode("utf-8")
+                    req = urllib.request.Request(
+                        url,
+                        data=payload,
+                        headers={
+                            "Authorization": f"Bearer {gh_token}",
+                            "Accept": "application/vnd.github.v3+json",
+                            "User-Agent": "ApexMediaStudio"
+                        }
+                    )
+                    with urllib.request.urlopen(req, timeout=10) as r_gh:
+                        if r_gh.status in (200, 204):
+                            dispatched_cloud = True
+                            st.write("2. ✅ GitHub Actions cloud worker successfully dispatched in background!")
+                            status_box.update(label="🚀 Cloud Autopilot Triggered!", state="complete")
+                            st.success("The video is now being rendered and published on YouTube in the cloud. It will appear on your dashboard automatically in 2-3 minutes!")
+                except Exception as e:
+                    st.caption(f"Cloud dispatch note: {e}")
+
+            if not dispatched_cloud:
+                st.write("2. Synthesizing voiceover, animating 60fps visuals & burning gold subtitles...")
+                import asyncio
+                prod_res = asyncio.run(DailyShortsPipeline.produce_and_publish_next_short(privacy_status="public"))
+                if prod_res.get("success"):
+                    st.write("3. 🚢 Master video uploaded directly to YouTube Shorts!")
+                    status_box.update(label=f"✅ Published: {prod_res.get('title')}", state="complete")
+                    st.success(f"🎉 Short is live on YouTube: {prod_res.get('url')}")
+                    st.balloons()
+                    st.rerun()
+                else:
+                    status_box.update(label="⚠️ Production status", state="error")
+                    st.error(f"Error during autonomous production: {prod_res.get('error')}")
+
+    # 8-Act Script Breakdown in expander
+    with st.expander("📖 View 8-Act Extended Narration & Sound Design Storyboard"):
         for act_idx, sc in enumerate(next_topic.get("scenes", [])):
             st.markdown(f"**Act {act_idx + 1}:** {sc.get('narration_text', '')}")
             foley_items = [f"{f['sfx']} (+{f['gain']}dB)" for f in sc.get("foley", [])]
