@@ -174,8 +174,16 @@ def fetch_public_youtube_stats(video_id: str) -> Dict[str, int]:
     try:
         with urllib.request.urlopen(req, timeout=5) as resp:
             html = resp.read().decode("utf-8", errors="ignore")
-            views_match = re.search(r'"viewCount":\s*"(\d+)"', html)
-            views = int(views_match.group(1)) if views_match else 0
+            
+            # Robust multi-layered view parsing for desktop, mobile & datacenter responses
+            vm = re.search(r'"viewCount":\s*"(\d+)"', html)
+            if not vm:
+                vm = re.search(r'"viewCount":\s*\{\s*"simpleText":\s*"([\d,]+)', html)
+            if not vm:
+                vm = re.search(r'"shortViewCount":\s*\{\s*"simpleText":\s*"([\d,]+)', html)
+            if not vm:
+                vm = re.search(r'([\d,]+)\s*views', html)
+            views = int(vm.group(1).replace(",", "")) if vm else 0
             
             likes_match = re.search(r'"likeCount":\s*"(\d+)"', html)
             if not likes_match:
@@ -265,6 +273,21 @@ st.sidebar.metric(
 )
 st.sidebar.progress(credits["credits_remaining"] / max(1, credits["initial_credits"]))
 st.sidebar.caption(f"Credits Used: {credits['credits_used']} • Cost: ₹0")
+
+# Active Video Profile Configuration
+st.sidebar.markdown("---")
+st.sidebar.subheader("🎯 Active Production Profile")
+st.sidebar.markdown("""
+<div style="background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 8px; padding: 12px; font-size: 0.82rem; line-height: 1.5;">
+    <b>Preset:</b> US/Global Viral Documentary<br>
+    <b>Target Audience:</b> United States & Global<br>
+    <b>Target Length:</b> 90 – 120s (8 Acts)<br>
+    <b>Resolution & FPS:</b> 1080x1920 @ 60 FPS<br>
+    <b>Voice:</b> en-US-ChristopherNeural<br>
+    <b>Visual Engine:</b> Google Veo 2 / VideoFX<br>
+    <b>Graphic Pillars:</b> 3D Cross-Sections, Satellite DEM
+</div>
+""", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
 st.sidebar.caption("☁️ Hosted live on Streamlit Cloud")

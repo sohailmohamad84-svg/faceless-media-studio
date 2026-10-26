@@ -1,0 +1,87 @@
+{
+  "profile_name": "US_GLOBAL_DOCUMENTARY_VEO_60FPS",
+  "version": "2.0.0",
+  "description": "High-retention 90-120s vertical documentary format modeled after top-performing civil engineering shorts (42k+ views benchmark)",
+  "audience": {
+    "target_region": "United States & Global",
+    "primary_language": "en-US",
+    "demographic": "Engineering, Megaprojects, Technology, and History enthusiasts",
+    "tone": "Authoritative, dramatic, investigative, highly engaging"
+  },
+  "video_specs": {
+    "aspect_ratio": "9:16",
+    "resolution_width": 1080,
+    "resolution_height": 1920,
+    "render_scale_4k": {
+      "width": 2160,
+      "height": 3840
+    },
+    "frame_rate": 60,
+    "video_codec": "libx264",
+    "pixel_format": "yuv420p",
+    "crf": 17,
+    "preset": "fast",
+    "container": "mp4"
+  },
+  "duration_specs": {
+    "target_tier": "EXTENDED_SHORT",
+    "min_duration_seconds": 90,
+    "max_duration_seconds": 120,
+    "optimal_duration_seconds": 115,
+    "scene_count_target": 8,
+    "avg_scene_duration_seconds": 12.5,
+    "dead_air_padding_seconds": 0.35
+  },
+  "visual_style_directives": {
+    "ai_engine": "Google Veo 2 / VideoFX (Google Flow)",
+    "aesthetic_pillars": [
+      {
+        "type": "3D_SATELLITE_CARTOGRAPHY",
+        "description": "Dramatic 3D satellite earth flyover with topographic relief, glowing route lines, and clean typographic ocean/land callouts.",
+        "prompt_template": "Cinematic 3D satellite earth flyover zooming down into {location}, topographic digital elevation relief map, emerald blue oceans, dramatic orbital camera push-in, 4k 60fps vertical 9:16"
+      },
+      {
+        "type": "HISTORICAL_RECONSTRUCTION",
+        "description": "Authentic period dramatization with steam machinery, period workers, atmospheric smoke, volumetric lighting, and humid haze.",
+        "prompt_template": "{year} historical construction site of {subject}, early 20th century industrial steam machinery puffing black smoke, workers in period clothing digging through mud and blasted rock in a steep canyon, cinematic historical documentary footage, 4k 60fps vertical 9:16"
+      },
+      {
+        "type": "ARCHITECTURAL_CUTAWAY_CROSS_SECTION",
+        "description": "Transparent cutaway revealing subterranean engineering, fluid dynamics, magnetic fields, or hidden mechanics.",
+        "prompt_template": "Architectural cutaway cross-section of {structure}, {subject} inside, transparent exterior showing subterranean {mechanism} discharging rushing foaming white water bubbles, 3D technical engineering visualization, photorealistic lighting, 4k 60fps vertical 9:16"
+      },
+      {
+        "type": "EPIC_DRONE_FLYOVER",
+        "description": "Sweeping cinematic aerial drone tracking over megastructure landscapes.",
+        "prompt_template": "Cinematic wide aerial drone shot flying over {megaproject}, dramatic scale, clear blue sky, photorealistic 8k vertical 9:16"
+      }
+    ]
+  },
+  "audio_specs": {
+    "sample_rate": 48000,
+    "audio_codec": "aac",
+    "audio_bitrate": "192k",
+    "voice_id": "en-US-ChristopherNeural",
+    "speech_rate": "+10%",
+    "voice_gain": 1.10,
+    "sound_design": {
+      "ambient_bed": "tension_drone.wav",
+      "ambient_gain": 0.08,
+      "impact_sfx": "impact_boom.wav",
+      "foley_sync_mandatory": true
+    }
+  },
+  "subtitles": {
+    "engine": "ASS",
+    "style_name": "FlowSubGold",
+    "font_name": "Arial",
+    "font_size": 64,
+    "primary_color": "&H0020FFFF",
+    "outline_color": "&H00000000",
+    "back_color": "&HA0000000",
+    "outline_width": 5.5,
+    "shadow_depth": 3.0,
+    "words_per_burst": 3,
+    "vertical_margin": 820
+  }
+}

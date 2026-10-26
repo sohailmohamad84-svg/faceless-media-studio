@@ -12,12 +12,14 @@ import numpy as np
 import edge_tts
 
 class FlowMasterEngine:
-    CROP_FILTER = "crop=928:1650:76:0,scale=1080:1920:flags=lanczos,fps=24"
-    SAMPLE_RATE = 44100
+    CROP_FILTER = "crop=928:1650:76:0,scale=1080:1920:flags=lanczos,fps=60"
+    SAMPLE_RATE = 48000
     VOICE_ID = "en-US-ChristopherNeural"
+    FPS = 60
+    CRF = 17
 
     @classmethod
-    def _load_audio_pcm(cls, file_path: Path, sample_rate: int = 44100) -> np.ndarray:
+    def _load_audio_pcm(cls, file_path: Path, sample_rate: int = 48000) -> np.ndarray:
         if not file_path.exists():
             return np.zeros(sample_rate, dtype=np.float32)
         cmd = [
@@ -88,14 +90,16 @@ class FlowMasterEngine:
             sc_dur = scene_durations[idx]
             
             # If already clean 1080x1920, don't crop watermark
-            vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=24" if is_clean else cls.CROP_FILTER
+            vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60" if is_clean else cls.CROP_FILTER
             
             cmd_clean = [
                 "ffmpeg", "-y",
                 "-i", str(in_vid),
                 "-t", f"{sc_dur:.2f}",
                 "-vf", vfilter,
-                "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+                "-r", "60",
+                "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
+                "-pix_fmt", "yuv420p",
                 "-an",
                 str(out_vid)
             ]
@@ -221,8 +225,10 @@ class FlowMasterEngine:
             "-i", str(merged_video),
             "-i", str(master_wav),
             "-vf", f"subtitles={clean_ass_sub}",
-            "-c:v", "libx264", "-preset", "fast", "-crf", "18",
-            "-c:a", "aac", "-b:a", "192k",
+            "-r", "60",
+            "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
+            "-pix_fmt", "yuv420p",
+            "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
             "-t", f"{total_duration:.2f}",
             str(out_final)
         ]

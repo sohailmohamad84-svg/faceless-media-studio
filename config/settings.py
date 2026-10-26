@@ -24,6 +24,20 @@ if ENV_FILE.exists():
 # SQLite Database
 DATABASE_PATH = DATA_DIR / "studio.db"
 
+# Production Profile (Global US Standard / High-End Extended Shorts)
+PRODUCTION_PROFILE_PATH = CONFIG_DIR / "production_profile.json"
+
+def load_production_profile():
+    """Load active video production profile settings."""
+    import json
+    if PRODUCTION_PROFILE_PATH.exists():
+        try:
+            with open(PRODUCTION_PROFILE_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
 # Budget Protection Controls
 MONTHLY_BUDGET_CEILING_INR = float(os.getenv("MONTHLY_BUDGET_CEILING_INR", "3000.0"))
 DEFAULT_BUDGET_INR = float(os.getenv("DEFAULT_BUDGET_INR", "0.0"))
