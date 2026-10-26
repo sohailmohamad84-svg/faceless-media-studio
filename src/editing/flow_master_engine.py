@@ -81,7 +81,7 @@ class FlowMasterEngine:
 
         total_duration = sum(scene_durations)
 
-        # Step 2: Clean, scale, and time-trim all video clips to exact scene durations
+        # Step 2: Clean, scale, and time-trim all video/image assets to exact scene durations
         clean_clips = []
         for idx, sc in enumerate(scenes):
             in_vid = Path(sc["input_video"])
@@ -89,20 +89,36 @@ class FlowMasterEngine:
             is_clean = sc.get("is_clean", False)
             sc_dur = scene_durations[idx]
             
-            # If already clean 1080x1920, don't crop watermark
-            vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60" if is_clean else cls.CROP_FILTER
+            # Check if input is an image (convert to 60fps dynamic motion clip)
+            is_image = in_vid.suffix.lower() in [".jpg", ".jpeg", ".png"]
             
-            cmd_clean = [
-                "ffmpeg", "-y",
-                "-i", str(in_vid),
-                "-t", f"{sc_dur:.2f}",
-                "-vf", vfilter,
-                "-r", "60",
-                "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
-                "-pix_fmt", "yuv420p",
-                "-an",
-                str(out_vid)
-            ]
+            if is_image and in_vid.exists():
+                cmd_clean = [
+                    "ffmpeg", "-y",
+                    "-loop", "1",
+                    "-i", str(in_vid),
+                    "-t", f"{sc_dur:.2f}",
+                    "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1200:s=1080x1920:fps=60",
+                    "-r", "60",
+                    "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
+                    "-pix_fmt", "yuv420p",
+                    "-an",
+                    str(out_vid)
+                ]
+            else:
+                # If already clean 1080x1920, don't crop watermark
+                vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60" if is_clean else cls.CROP_FILTER
+                cmd_clean = [
+                    "ffmpeg", "-y",
+                    "-i", str(in_vid),
+                    "-t", f"{sc_dur:.2f}",
+                    "-vf", vfilter,
+                    "-r", "60",
+                    "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
+                    "-pix_fmt", "yuv420p",
+                    "-an",
+                    str(out_vid)
+                ]
             subprocess.run(cmd_clean, check=True)
             clean_clips.append(out_vid)
         
