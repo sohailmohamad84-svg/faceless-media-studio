@@ -436,3 +436,16 @@ if credits.get("history"):
     with st.expander("📜 View Generation Credit Ledger"):
         for h in reversed(credits["history"][-5:]):
             st.markdown(f"- **{h.get('clip_name', 'Clip Generation')}**: spent `{h.get('credits', 10)} credits` &nbsp;<span style='color: #94a3b8;'>({h.get('notes', '')})</span>", unsafe_allow_html=True)
+
+with st.expander("⚙️ Calibrate Live Google Flow Credits"):
+    st.caption("Since Google Flow currently does not have an external public API for third-party balance queries, you can calibrate your exact live balance from flow.google.com whenever needed:")
+    col_bal_in, col_bal_btn = st.columns([3, 1])
+    with col_bal_in:
+        new_bal = st.number_input("Current Live Balance on flow.google.com", min_value=0, max_value=50000, value=int(credits['credits_remaining']), step=25)
+    with col_bal_btn:
+        st.write("")
+        st.write("")
+        if st.button("Sync Balance", use_container_width=True):
+            FlowCreditTracker.set_balance(int(new_bal))
+            st.success(f"Dashboard updated to {new_bal} Google Flow credits!")
+            st.rerun()

@@ -84,6 +84,16 @@ class FlowCreditTracker:
         return cls.get_status()
 
     @classmethod
+    def set_balance(cls, current_balance: int):
+        """Calibrate credit balance directly from user's live flow.google.com account."""
+        data = cls._load_data()
+        used = data.get("credits_used", 0)
+        data["credits_remaining"] = current_balance
+        data["initial_credits"] = current_balance + used
+        data["last_updated"] = datetime.utcnow().isoformat()
+        cls._save_data(data)
+
+    @classmethod
     def record_generation(cls, clip_name: str, credits_spent: int = 10, notes: str = ""):
         data = cls._load_data()
         data["credits_used"] = data.get("credits_used", 0) + credits_spent
