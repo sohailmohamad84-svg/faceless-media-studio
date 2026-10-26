@@ -416,14 +416,24 @@ class DailyShortsPipeline:
         if not master_video_path.exists():
             return {"success": False, "error": f"Failed to render master video at {master_video_path}"}
 
+        # Step 1.5: Automated AI Video Quality Inspection Gate
+        from src.quality.ai_video_inspector import AIVideoInspector
+        qa_result = AIVideoInspector.evaluate_video(str(master_video_path))
+        print(f"AI Quality Score: {qa_result.get('score')}/100 | Verdict: {qa_result.get('verdict')}")
+        if qa_result.get("flags"):
+            print("AI Inspector Flags:", qa_result.get("flags"))
+
+        # Safety Gate: Default to private for creator preview if quality score is below threshold
+        upload_privacy = "private" if qa_result.get("score", 0) < 90 else privacy_status
+
         # Step 2: Upload to YouTube Shorts
-        print(f"Uploading to YouTube Shorts ({privacy_status})...")
+        print(f"Uploading to YouTube Shorts ({upload_privacy})...")
         upload_res = YouTubePublisher.upload_short_file(
             file_path=str(master_video_path),
             title=next_item["title"],
             description=next_item["description"],
             tags=next_item["tags"],
-            privacy_status=privacy_status
+            privacy_status=upload_privacy
         )
 
         if upload_res.get("success"):
