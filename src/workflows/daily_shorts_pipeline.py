@@ -97,39 +97,48 @@ VIRAL_SHORTS_QUEUE = [
         "tags": ["shorts", "dubai", "theworld", "megaprojects", "engineering", "architecture", "documentary"],
         "scenes": [
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/dubai_assets/dubai_clip_1.mp4",
+                "is_clean": True,
                 "narration_text": "Three hundred artificial islands were carved into the ocean to look like the planet Earth.",
                 "foley": [
-                    {"sfx": "tension_drone.wav", "time_offset": 0.0, "gain": 0.3},
-                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.35}
+                    {"sfx": "tension_drone.wav", "time_offset": 0.0, "gain": 0.35},
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.4}
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/dubai_assets/dubai_clip_2.mp4",
+                "is_clean": True,
                 "narration_text": "Over three hundred million cubic meters of sand were dredged from the seabed to build paradise.",
                 "foley": [
-                    {"sfx": "drill_rumble.wav", "time_offset": 0.4, "gain": 0.3}
+                    {"sfx": "drill_rumble.wav", "time_offset": 0.4, "gain": 0.35},
+                    {"sfx": "water_rush.wav", "time_offset": 1.0, "gain": 0.35}
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/dubai_assets/dubai_clip_3.mp4",
+                "is_clean": True,
                 "narration_text": "Then the financial crash hit. Construction froze, and the ocean currents began reclaiming the coastlines.",
                 "foley": [
-                    {"sfx": "water_rush.wav", "time_offset": 0.3, "gain": 0.3}
+                    {"sfx": "gate_clank.wav", "time_offset": 0.5, "gain": 0.35},
+                    {"sfx": "dust_puff.wav", "time_offset": 1.5, "gain": 0.3}
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/dubai_assets/dubai_clip_4.mp4",
+                "is_clean": True,
                 "narration_text": "Satellite tracking showed the islands slowly sinking and eroding back into the Persian Gulf.",
                 "foley": [
-                    {"sfx": "radar_ping.wav", "time_offset": 0.5, "gain": 0.35}
+                    {"sfx": "radar_ping.wav", "time_offset": 0.4, "gain": 0.35},
+                    {"sfx": "warning_beep.wav", "time_offset": 1.2, "gain": 0.3}
                 ]
             },
             {
-                "input_video": "data/showcase/Panama_Canal_50s_Viral_Master_1080p.mp4",
+                "input_video": "data/dubai_assets/dubai_clip_5.mp4",
+                "is_clean": True,
                 "narration_text": "Now, luxury developers are racing to fortify the sea walls before this hundred-billion-dollar wonder disappears.",
                 "foley": [
-                    {"sfx": "impact_boom.wav", "time_offset": 0.6, "gain": 0.4}
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.4},
+                    {"sfx": "desert_wind.wav", "time_offset": 1.0, "gain": 0.25}
                 ]
             }
         ]
