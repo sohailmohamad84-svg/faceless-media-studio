@@ -110,6 +110,7 @@ class FlowMasterEngine:
                 vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60" if is_clean else cls.CROP_FILTER
                 cmd_clean = [
                     "ffmpeg", "-y",
+                    "-stream_loop", "-1",
                     "-i", str(in_vid),
                     "-t", f"{sc_dur:.2f}",
                     "-vf", vfilter,

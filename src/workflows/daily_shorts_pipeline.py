@@ -160,7 +160,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "The Supersonic Ground Hook",
                 "graphic_type": "DYNAMIC_SPEED_TRACKING",
                 "prompt": "Cinematic low-angle ground tracking shot of the Japanese L0 Series Maglev bullet train rushing past the camera at 375 MPH through a concrete U-shaped guideway, vapor trails peeling off the aerodynamic nose, ultra-smooth motion, photorealistic, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act1.jpg",
+                "input_video": "data/flow_clips/maglev_scene_1.mp4",
                 "is_clean": True,
                 "narration_text": "Floating four inches above the ground, this train travels at half the speed of sound without ever touching the track. It is not science fiction. It is Japan's L0 Series Maglev.",
                 "foley": [
@@ -173,7 +173,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "Topographic Barrier / Map Flyover",
                 "graphic_type": "3D_SATELLITE_CARTOGRAPHY",
                 "prompt": "Cinematic 3D satellite digital elevation model flyover over the jagged snowcapped mountains of the Japanese Southern Alps, glowing neon cyan route line tunneling straight through granite peaks from Tokyo to Osaka, photorealistic cartography, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act2.jpg",
+                "input_video": "data/flow_clips/maglev_scene_2.mp4",
                 "is_clean": True,
                 "narration_text": "Japan is covered in jagged granite mountains. Connecting Tokyo to Osaka through the Southern Alps by traditional rail was physically impossible at supersonic speeds. Engineers had to literally conquer gravity.",
                 "foley": [
@@ -185,7 +185,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "Silicon Valley Hype vs Engineering Reality",
                 "graphic_type": "HISTORICAL_CONTRAST",
                 "prompt": "Cinematic split-screen documentary style: left side showing an experimental vacuum hyperloop steel tube buckling under atmospheric pressure, right side showing a high-tech Japanese cryogenic laboratory testing superconducting coils glowing with cold blue light, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act3.jpg",
+                "input_video": "data/flow_clips/maglev_scene_3.mp4",
                 "is_clean": True,
                 "narration_text": "While Silicon Valley burned billions trying to build vacuum tubes that buckled under atmospheric pressure, Japanese engineers focused on pure physics: superconducting magnets cooled to minus four hundred and fifty degrees.",
                 "foley": [
@@ -197,7 +197,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "3D Architectural Cutaway / Cross-Section",
                 "graphic_type": "ARCHITECTURAL_CUTAWAY_CROSS_SECTION",
                 "prompt": "Architectural 3D cutaway cross-section of a Maglev train bogie and concrete guideway sidewall, transparent metal chassis revealing niobium-titanium superconducting coils inside liquid helium tanks, glowing magnetic flux lines repelling the track and lifting the train four inches high, technical engineering visualization, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act4.jpg",
+                "input_video": "data/flow_clips/maglev_scene_4.mp4",
                 "is_clean": True,
                 "narration_text": "Here is the secret. Inside the bogies are superconducting coils cooled by liquid helium. As the train accelerates, these coils induce a massive magnetic field in the concrete guideway walls, creating pure repulsive levitation.",
                 "foley": [
@@ -209,7 +209,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "Linear Synchronous Motor Propulsion",
                 "graphic_type": "3D_TECHNICAL_SCHEMATIC",
                 "prompt": "3D animated technical schematic inside the concrete guideway walls, alternating electromagnetic coils pulsing in synchronized blue and orange light wave packets pulling the train forward at high velocity, cinematic motion graphic, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act5.jpg",
+                "input_video": "data/flow_clips/maglev_scene_5.mp4",
                 "is_clean": True,
                 "narration_text": "There is no engine on board. Electric power is fed directly into the track walls, pulling the front of each car forward while pushing from behind. The entire guideway acts as a giant electric motor.",
                 "foley": [
@@ -221,7 +221,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "Carving 50 Miles of Granite Tunnels",
                 "graphic_type": "SUBTERRANEAN_ENGINEERING",
                 "prompt": "Heavy industrial underground construction shot inside a deep Alpine mountain tunnel, massive tunnel boring machine cutterhead spinning against solid granite rock with high pressure water mist, industrial floodlights, muddy bedrock, cinematic documentary, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act6.jpg",
+                "input_video": "data/flow_clips/maglev_scene_6.mp4",
                 "is_clean": True,
                 "narration_text": "To keep the line completely straight at six hundred kilometers per hour, Japan is spending sixty billion dollars drilling fifty miles of continuous deep mountain tunnels through tectonic fault lines.",
                 "foley": [
@@ -233,7 +233,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "Cockpit Telemetry & Passenger Sensation",
                 "graphic_type": "FIRST_PERSON_TELEMETRY",
                 "prompt": "Futuristic high-tech train driver console view looking through the cockpit window down an illuminated guideway, digital HUD telemetry overlay showing 603 km/h 375 MPH with zero vibration, lush Japanese landscape blurring by, photorealistic, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act7.jpg",
+                "input_video": "data/flow_clips/maglev_scene_7.mp4",
                 "is_clean": True,
                 "narration_text": "Inside the cockpit, there is no vibration. The digital speedometer climbs past three hundred and seventy-five miles per hour. Passengers feel like they are cruising in a private jet at ground level.",
                 "foley": [
@@ -245,7 +245,7 @@ VIRAL_SHORTS_QUEUE = [
                 "title": "The Civil Engineering Triumph & Call to Action",
                 "graphic_type": "EPIC_DRONE_FLYOVER",
                 "prompt": "Cinematic wide aerial drone shot of the gleaming silver aerodynamic Maglev bullet train bursting out of an Alpine mountain portal onto a soaring viaduct over a crystal clear river gorge, morning sun reflecting off the fuselage, epic documentary finish, 4k 60fps vertical 9:16",
-                "input_video": "data/maglev_assets/maglev_act8.jpg",
+                "input_video": "data/flow_clips/maglev_scene_8.mp4",
                 "is_clean": True,
                 "narration_text": "In twenty-twenty-seven, the journey from Tokyo to Nagoya will take just forty minutes. Proving that true civil engineering always beats tech hype. Would you ride a train with no wheels? Let us know in the comments.",
                 "foley": [
