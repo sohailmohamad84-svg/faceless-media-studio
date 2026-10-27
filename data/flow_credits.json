@@ -1,8 +1,8 @@
 {
-  "initial_credits": 1055,
-  "credits_used": 30,
-  "credits_remaining": 1025,
-  "last_updated": "2026-10-26T14:37:15.000000Z",
+  "initial_credits": 1050,
+  "credits_used": 250,
+  "credits_remaining": 800,
+  "last_updated": "2026-10-27T16:30:00.000000Z",
   "history": [
     {
       "clip_name": "Shot 1 - Cargo ship transits canal lock",
@@ -21,6 +21,12 @@
       "credits": 10,
       "timestamp": "2026-10-25T13:18:49.356994",
       "notes": "Scene 3: Lake Gatun drought and 52M gallon flush"
+    },
+    {
+      "clip_name": "Concorde & Maglev Veo 2 Generations (22 clips)",
+      "credits": 220,
+      "timestamp": "2026-10-27T15:00:00.000000",
+      "notes": "Veo 2 physical motion scene iterations & masters"
     }
   ]
 }

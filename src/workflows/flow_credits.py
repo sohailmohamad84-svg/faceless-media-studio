@@ -9,7 +9,7 @@ from datetime import datetime
 CREDITS_FILE = Path("data/flow_credits.json")
 
 class FlowCreditTracker:
-    DEFAULT_INITIAL_CREDITS = 500
+    DEFAULT_INITIAL_CREDITS = 1050
     DEFAULT_CREDIT_PER_CLIP = 10
 
     @classmethod
@@ -17,29 +17,10 @@ class FlowCreditTracker:
         if not CREDITS_FILE.exists():
             data = {
                 "initial_credits": cls.DEFAULT_INITIAL_CREDITS,
-                "credits_used": 30,  # 3 clips generated today (Shot 1, Shot 2, Shot 3)
-                "credits_remaining": cls.DEFAULT_INITIAL_CREDITS - 30,
+                "credits_used": 250,
+                "credits_remaining": 800,
                 "last_updated": datetime.utcnow().isoformat(),
-                "history": [
-                    {
-                        "clip_name": "Shot 1 - Cargo ship transits canal lock",
-                        "credits": 10,
-                        "timestamp": datetime.utcnow().isoformat(),
-                        "notes": "Scene 1: Hook and staircase of water"
-                    },
-                    {
-                        "clip_name": "Shot 2 - Container ship descending Panama lock",
-                        "credits": 10,
-                        "timestamp": datetime.utcnow().isoformat(),
-                        "notes": "Scene 2: Hydraulic lock gates and gravity drain"
-                    },
-                    {
-                        "clip_name": "Shot 3 - Container ships stranded on drought lake",
-                        "credits": 10,
-                        "timestamp": datetime.utcnow().isoformat(),
-                        "notes": "Scene 3: Lake Gatun drought and 52M gallon flush"
-                    }
-                ]
+                "history": []
             }
             cls._save_data(data)
             return data
@@ -50,8 +31,8 @@ class FlowCreditTracker:
         except Exception:
             return {
                 "initial_credits": cls.DEFAULT_INITIAL_CREDITS,
-                "credits_used": 30,
-                "credits_remaining": cls.DEFAULT_INITIAL_CREDITS - 30,
+                "credits_used": 250,
+                "credits_remaining": 800,
                 "last_updated": datetime.utcnow().isoformat(),
                 "history": []
             }
@@ -84,20 +65,22 @@ class FlowCreditTracker:
         return cls.get_status()
 
     @classmethod
-    def set_balance(cls, current_balance: int):
+    def set_balance(cls, current_balance: int, initial_total: int = 1050):
         """Calibrate credit balance directly from user's live flow.google.com account."""
         data = cls._load_data()
-        used = data.get("credits_used", 0)
+        data["initial_credits"] = initial_total
         data["credits_remaining"] = current_balance
-        data["initial_credits"] = current_balance + used
+        data["credits_used"] = max(0, initial_total - current_balance)
         data["last_updated"] = datetime.utcnow().isoformat()
         cls._save_data(data)
+        return data
 
     @classmethod
     def record_generation(cls, clip_name: str, credits_spent: int = 10, notes: str = ""):
         data = cls._load_data()
+        initial = data.get("initial_credits", cls.DEFAULT_INITIAL_CREDITS)
         data["credits_used"] = data.get("credits_used", 0) + credits_spent
-        data["credits_remaining"] = max(0, data.get("initial_credits", 500) - data["credits_used"])
+        data["credits_remaining"] = max(0, initial - data["credits_used"])
         data["last_updated"] = datetime.utcnow().isoformat()
         if "history" not in data:
             data["history"] = []
@@ -111,10 +94,5 @@ class FlowCreditTracker:
         return data["credits_remaining"]
 
     @classmethod
-    def set_actual_balance(cls, current_balance: int):
-        data = cls._load_data()
-        data["credits_remaining"] = current_balance
-        data["credits_used"] = max(0, data.get("initial_credits", 500) - current_balance)
-        data["last_updated"] = datetime.utcnow().isoformat()
-        cls._save_data(data)
-        return data
+    def set_actual_balance(cls, current_balance: int, initial_total: int = 1050):
+        return cls.set_balance(current_balance, initial_total)
