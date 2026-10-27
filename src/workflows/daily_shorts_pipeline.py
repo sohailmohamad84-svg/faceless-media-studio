@@ -267,37 +267,99 @@ VIRAL_SHORTS_QUEUE = [
         "tags": ["shorts", "concorde", "aviation", "engineering", "planes", "history", "supersonic", "documentary"],
         "scenes": [
             {
-                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
-                "narration_text": "In nineteen-ninety-six, you could fly from London to New York faster than the Earth's rotation.",
+                "scene_num": 1,
+                "title": "The Mach 2 Ground Hook",
+                "graphic_type": "DYNAMIC_SPEED_TRACKING",
+                "prompt": "Cinematic low-angle ground tracking shot of Concorde supersonic airliner thundering down runway at sunset, four Rolls-Royce Olympus 593 turbojets blasting blazing orange afterburner shock diamonds, tarmac rippling with atmospheric heat distortion, photorealistic, 4k 60fps vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_1.mp4",
+                "is_clean": True,
+                "narration_text": "In nineteen-ninety-six, you could board a plane in London and land in New York before the local time you took off. Today, commercial aviation is forty percent slower than it was fifty years ago.",
                 "foley": [
                     {"sfx": "tension_drone.wav", "time_offset": 0.0, "gain": 0.35},
                     {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.4}
                 ]
             },
             {
-                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
-                "narration_text": "Cruising at sixty thousand feet, Concorde's titanium nose stretched eight inches from atmospheric heat.",
+                "scene_num": 2,
+                "title": "3D Satellite Atlantic Flyover",
+                "graphic_type": "3D_SATELLITE_CARTOGRAPHY",
+                "prompt": "Cinematic 3D satellite digital elevation model flyover over the deep blue North Atlantic Ocean, glowing neon cyan supersonic flight corridor cutting from London Heathrow to New York JFK through atmospheric cloud layers, dramatic orbital push-in, photorealistic 8k vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_2.mp4",
+                "is_clean": True,
+                "narration_text": "Cruising at sixty thousand feet on the edge of space, passengers could see the curvature of the Earth while crossing the Atlantic at thirteen hundred miles an hour. London to Manhattan in just two hours and fifty-two minutes.",
                 "foley": [
-                    {"sfx": "radar_ping.wav", "time_offset": 0.4, "gain": 0.35}
+                    {"sfx": "desert_wind.wav", "time_offset": 0.2, "gain": 0.25}
                 ]
             },
             {
-                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
-                "narration_text": "Then in Paris, a sixteen-inch titanium strip dropped on the runway shredded a tire at two hundred miles an hour.",
+                "scene_num": 3,
+                "title": "3D Architectural Engine Cutaway",
+                "graphic_type": "ARCHITECTURAL_CUTAWAY_CROSS_SECTION",
+                "prompt": "Architectural 3D cutaway cross-section of Concorde delta wing and Olympus afterburner engine nacelle, transparent titanium skin revealing internal fuel trim transfer tanks and roaring white-hot afterburner combustion, technical engineering diagram with glowing heat flux lines, 4k 60fps vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_3.mp4",
+                "is_clean": True,
+                "narration_text": "The engineering was insane. Atmospheric friction heated the titanium nose to over two hundred and sixty degrees, stretching the airplane eight inches in flight. Engineers had to pump fuel through the wings just to cool the airframe.",
                 "foley": [
-                    {"sfx": "gate_clank.wav", "time_offset": 0.5, "gain": 0.35}
+                    {"sfx": "water_rush.wav", "time_offset": 0.4, "gain": 0.35}
                 ]
             },
             {
-                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
-                "narration_text": "The supersonic boom was banned over land, passenger demand collapsed, and airline speeds dropped forty percent.",
+                "scene_num": 4,
+                "title": "The Runway Debris Catalyst",
+                "graphic_type": "MACRO_FORENSIC_TRACKING",
+                "prompt": "Macro dramatic slow-motion tracking shot along the cracked asphalt of Paris Charles de Gaulle runway, a sharp 16-inch titanium wear strip resting on tarmac, intense atmospheric summer heat waves, cinematic documentary lighting, 4k 60fps vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_4.mp4",
+                "is_clean": True,
+                "narration_text": "Then on July twenty-fifth, two thousand, a tiny strip of titanium fell from a preceding DC-ten onto the runway at Paris. Minutes later, Concorde hit it at two hundred miles an hour.",
                 "foley": [
-                    {"sfx": "warning_beep.wav", "time_offset": 0.3, "gain": 0.3}
+                    {"sfx": "gate_clank.wav", "time_offset": 0.3, "gain": 0.35}
                 ]
             },
             {
-                "input_video": "data/showcase/Dubai_Islands_34s_Viral_Master_1080p.mp4",
-                "narration_text": "Twenty-three years later, we still fly slower than passengers did in nineteen-seventy-six.",
+                "scene_num": 5,
+                "title": "Hydrodynamic Shockwave Explosion",
+                "graphic_type": "3D_TECHNICAL_SCHEMATIC",
+                "prompt": "3D scientific forensic animation of high-speed aircraft tire violently disintegrating on runway, dense rubber chunk blasting against the underside of an aluminum delta wing fuel tank, sending a massive internal hydrodynamic pressure wave rupturing the fuel cell from within, 4k 60fps vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_5.mp4",
+                "is_clean": True,
+                "narration_text": "The debris did not puncture the tank. The sheer shockwave forced the fuel inside to burst the tank outward from within. Leaking kerosene ignited on the afterburners, engulfing the left wing in a fifty-foot plume of fire.",
+                "foley": [
+                    {"sfx": "drill_rumble.wav", "time_offset": 0.3, "gain": 0.3},
+                    {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.4}
+                ]
+            },
+            {
+                "scene_num": 6,
+                "title": "Cockpit Telemetry at Critical Altitude",
+                "graphic_type": "FIRST_PERSON_TELEMETRY",
+                "prompt": "High-tension cinematic cockpit point-of-view looking out Concorde visor windshield over Paris outskirts, pilots hands gripping flight controls, glowing red master warning alarms flashing, digital flight deck telemetry showing speed decay and flameout warnings, photorealistic documentary, 4k 60fps vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_6.mp4",
+                "is_clean": True,
+                "narration_text": "With two engines destroyed and the landing gear jammed, Captain Christian Marty fought for control. Two minutes after takeoff, Flight forty-five-ninety stalled and crashed into a hotel, killing one hundred and thirteen people.",
+                "foley": [
+                    {"sfx": "warning_beep.wav", "time_offset": 0.4, "gain": 0.35}
+                ]
+            },
+            {
+                "scene_num": 7,
+                "title": "Sonic Boom Shockwave & Economic Reality",
+                "graphic_type": "AERODYNAMIC_PHYSICS_VISUALIZATION",
+                "prompt": "Cinematic aerial shot of Concorde piercing the sound barrier over open ocean, visible physical conical vapor shockwave cone wrapping around the supersonic delta wings, sonic boom pressure waves rippling across the water, photorealistic, 4k 60fps vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_7.mp4",
+                "is_clean": True,
+                "narration_text": "Yet the tragedy was not why Concorde died. Flying supersonic created sonic booms that rattled windows on the ground, triggering bans across ninety percent of the world. It burned one ton of fuel per passenger, making tickets cost twelve thousand dollars.",
+                "foley": [
+                    {"sfx": "thunder_strike.wav", "time_offset": 0.3, "gain": 0.35}
+                ]
+            },
+            {
+                "scene_num": 8,
+                "title": "Aviation Museum Finish & Call to Action",
+                "graphic_type": "EPIC_CINEMATIC_FINISH",
+                "prompt": "Cinematic wide shot of Concorde parked inside a modern aviation museum hangar, shafts of golden morning volumetric sunlight illuminating the pristine white delta wings and drooping nose, visitors admiring from below, epic cinematic documentary finish, 4k 60fps vertical 9:16",
+                "input_video": "data/flow_clips/concorde_scene_8.mp4",
+                "is_clean": True,
+                "narration_text": "In two thousand and three, Concorde flew its final flight. For the first time in modern history, civilization abandoned a faster technology. Would you pay twelve thousand dollars to fly supersonic today? Subscribe for daily engineering megaprojects, and tell us in the comments.",
                 "foley": [
                     {"sfx": "impact_boom.wav", "time_offset": 0.5, "gain": 0.45}
                 ]
@@ -403,6 +465,13 @@ class DailyShortsPipeline:
                 "success": False,
                 "error": "All scheduled shorts in queue have already been produced and published!"
             }
+
+        # Step 0: Ensure all physical Google Veo 2 video clips exist via Google Flow
+        from src.workflows.autonomous_flow_pipeline import ensure_scene_clips
+        try:
+            await ensure_scene_clips(next_item)
+        except Exception as e:
+            print(f"Warning during Google Flow scene generation: {e}")
 
         # Step 1: Render Master Short Video
         output_name = f"{next_item['id']}_master_1080p.mp4"
