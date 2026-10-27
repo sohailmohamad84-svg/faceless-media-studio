@@ -211,9 +211,9 @@ async def run_autonomous_cycle(privacy_status: str = "private") -> dict:
     print(f"AI Score: {qa_result['score']}/100 | Verdict: {qa_result['verdict']}", flush=True)
     print(json.dumps(qa_result, indent=2))
     
-    if qa_result["score"] < 85:
-        print("⚠️ Video failed quality inspection threshold!", flush=True)
-        return {"success": False, "error": "Failed quality threshold", "qa": qa_result}
+    if qa_result["score"] < 85 or qa_result.get("verdict") == "REJECT":
+        print(f"⚠️ Video failed quality inspection gate! Flags: {qa_result.get('flags')}", flush=True)
+        return {"success": False, "error": f"Failed quality gate: {qa_result.get('flags')}", "qa": qa_result}
         
     # Step 4: Upload to YouTube Shorts
     clean_title = next_topic["title"]

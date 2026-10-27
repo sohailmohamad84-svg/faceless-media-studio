@@ -115,18 +115,64 @@ class AIVideoInspector:
             flags.append("Visuals use 2D Ken Burns camera zoom instead of true fluid AI physics (Google Veo motion required).")
             recommendations.append("Generate native Google Veo 2 clips via Google Flow for fluid motion.")
 
+        # Watermark Cleanliness Gate (Bottom-right corner inspection)
+        try:
+            from PIL import Image
+            import numpy as np
+
+            temp_frame = Path("scratch/qa_watermark_inspect.png")
+            temp_frame.parent.mkdir(parents=True, exist_ok=True)
+            if temp_frame.exists():
+                temp_frame.unlink()
+
+            ss_time = "00:00:02" if duration > 3.0 else "00:00:01"
+            cmd_frame = [
+                "ffmpeg", "-y", "-ss", ss_time, "-i", str(p),
+                "-vframes", "1", str(temp_frame)
+            ]
+            subprocess.run(cmd_frame, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+
+            if temp_frame.exists():
+                im = Image.open(temp_frame).convert("L")
+                iw, ih = im.size
+                rx1 = int(round(840 * (iw / 1080.0)))
+                rx2 = int(round(950 * (iw / 1080.0)))
+                ry1 = int(round(1680 * (ih / 1920.0)))
+                ry2 = int(round(1790 * (ih / 1920.0)))
+
+                corner = np.array(im)[ry1:ry2, rx1:rx2]
+                med = np.median(corner)
+                diff = np.abs(corner.astype(float) - med)
+                max_dev = float(np.max(diff))
+                p98_dev = float(np.percentile(diff, 98))
+
+                if max_dev > 25.0 and p98_dev > 15.0:
+                    scores["watermark_cleanliness"] = 0
+                    flags.append(
+                        f"CRITICAL: Visible synthetic watermark detected in bottom-right corner (max_dev={max_dev:.1f}, p98_dev={p98_dev:.1f}). Delogo filter required."
+                    )
+                    recommendations.append("Run video through FlowMasterEngine with dynamic delogo to eliminate watermarks.")
+                else:
+                    scores["watermark_cleanliness"] = 100
+                temp_frame.unlink(missing_ok=True)
+            else:
+                scores["watermark_cleanliness"] = 90
+        except Exception:
+            scores["watermark_cleanliness"] = 90
+
         # Calculate weighted aggregate score
         total_score = int(
             scores.get("resolution_quality", 0) * 0.20 +
             scores.get("framerate_smoothness", 0) * 0.15 +
-            scores.get("duration_score", 0) * 0.20 +
-            scores.get("bitrate_clarity", 0) * 0.15 +
+            scores.get("duration_score", 0) * 0.15 +
+            scores.get("bitrate_clarity", 0) * 0.10 +
             scores.get("audio_mastering", 0) * 0.10 +
-            scores.get("motion_realism", 0) * 0.20
+            scores.get("motion_realism", 0) * 0.15 +
+            scores.get("watermark_cleanliness", 100) * 0.15
         )
 
         has_critical = any("critical" in f.lower() for f in flags)
-        verdict = "PASS" if total_score >= cls.BENCHMARK_MIN_SCORE and not has_critical else "NEEDS_IMPROVEMENT"
+        verdict = "PASS" if total_score >= cls.BENCHMARK_MIN_SCORE and not has_critical else "REJECT"
 
         return {
             "score": total_score,

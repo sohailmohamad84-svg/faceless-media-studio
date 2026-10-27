@@ -492,7 +492,15 @@ class DailyShortsPipeline:
         if qa_result.get("flags"):
             print("AI Inspector Flags:", qa_result.get("flags"))
 
-        # Safety Gate: Default to private for creator preview if quality score is below threshold
+        # Hard Gate: Halt immediately if quality inspection fails
+        if qa_result.get("verdict") == "REJECT":
+            return {
+                "success": False,
+                "error": f"Quality Gate REJECTED video: {qa_result.get('flags')}",
+                "qa_result": qa_result
+            }
+
+        # Safety Gate: Default to private for creator preview if quality score is below 90
         upload_privacy = "private" if qa_result.get("score", 0) < 90 else privacy_status
 
         # Step 2: Upload to YouTube Shorts

@@ -4,6 +4,7 @@ cleans the watermarks, generates pacing-controlled voiceover, layers organic Fol
 burns in kinetic mobile gold subtitles, and produces a broadcast-ready viral master.
 """
 import asyncio
+import json
 import subprocess
 import wave
 from pathlib import Path
@@ -12,11 +13,42 @@ import numpy as np
 import edge_tts
 
 class FlowMasterEngine:
-    CROP_FILTER = "crop=928:1650:76:0,scale=1080:1920:flags=lanczos,fps=60"
     SAMPLE_RATE = 48000
     VOICE_ID = "en-US-ChristopherNeural"
     FPS = 60
     CRF = 17
+
+    @classmethod
+    def _get_video_filter(cls, in_vid: Path, clean_watermark: bool = True) -> str:
+        """Dynamically computes the delogo and scaling filter based on input video dimensions.
+        Google Veo / Flow clips (720x1280 or 1080x1920) place a translucent 4-pointed star
+        watermark at the bottom-right corner. Delogo erases it cleanly without cropping.
+        """
+        try:
+            cmd_probe = [
+                "ffprobe", "-v", "error",
+                "-select_streams", "v:0",
+                "-show_entries", "stream=width,height",
+                "-of", "json",
+                str(in_vid)
+            ]
+            res = subprocess.run(cmd_probe, capture_output=True, text=True, check=True)
+            meta = json.loads(res.stdout)["streams"][0]
+            w, h = int(meta["width"]), int(meta["height"])
+        except Exception:
+            w, h = 720, 1280
+
+        delogo_prefix = ""
+        if clean_watermark:
+            w_scale = w / 720.0
+            h_scale = h / 1280.0
+            dx = int(round(565 * w_scale))
+            dy = int(round(1125 * h_scale))
+            dw = int(round(70 * w_scale))
+            dh = int(round(70 * h_scale))
+            delogo_prefix = f"delogo=x={dx}:y={dy}:w={dw}:h={dh}:show=0,"
+
+        return f"{delogo_prefix}scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60"
 
     @classmethod
     def _load_audio_pcm(cls, file_path: Path, sample_rate: int = 48000) -> np.ndarray:
@@ -106,8 +138,8 @@ class FlowMasterEngine:
                     str(out_vid)
                 ]
             else:
-                # If already clean 1080x1920, don't crop watermark
-                vfilter = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60" if is_clean else cls.CROP_FILTER
+                # Always remove Google Veo / Flow synthetic watermarks via dynamic delogo
+                vfilter = cls._get_video_filter(in_vid, clean_watermark=True)
                 cmd_clean = [
                     "ffmpeg", "-y",
                     "-stream_loop", "-1",
