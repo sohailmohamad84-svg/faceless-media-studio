@@ -491,6 +491,13 @@ if unproduced_items:
                 else:
                     status_box.update(label="⚠️ Production status", state="error")
                     st.error(f"Error during autonomous production: {prod_res.get('error')}")
+                    if "credentials not configured" in str(prod_res.get('error', '')).lower():
+                        st.info(
+                            "💡 **Permanent 1-Minute Fix:**\n\n"
+                            "1. In your browser at the top-right of this page, click **`⋮` (Settings)** → **Secrets** (or click **`< Manage app`** at bottom-right).\n"
+                            "2. Paste the `YT_TOKEN_JSON` and `YT_CLIENT_SECRETS_JSON` blocks.\n"
+                            "3. Click **Save**. Streamlit Cloud will permanently remember your YouTube connection for all future runs!"
+                        )
 
     # 8-Act Script Breakdown in expander
     with st.expander("📖 View 8-Act Extended Narration & Sound Design Storyboard"):

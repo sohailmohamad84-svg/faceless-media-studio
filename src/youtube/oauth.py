@@ -31,17 +31,29 @@ class YouTubeAuthManager:
         # Check Streamlit secrets
         try:
             import streamlit as st
-            if "YT_TOKEN_JSON" in st.secrets and not token_file.exists():
-                token_file.write_text(st.secrets["YT_TOKEN_JSON"], encoding="utf-8")
-            if "YT_CLIENT_SECRETS_JSON" in st.secrets and not secrets_file.exists():
-                secrets_file.write_text(st.secrets["YT_CLIENT_SECRETS_JSON"], encoding="utf-8")
+            if hasattr(st, "secrets"):
+                if "YT_TOKEN_JSON" in st.secrets:
+                    val = st.secrets["YT_TOKEN_JSON"]
+                    if isinstance(val, dict) or not isinstance(val, str):
+                        import json
+                        val = json.dumps(dict(val))
+                    if not token_file.exists() or token_file.stat().st_size < 20:
+                        token_file.write_text(str(val), encoding="utf-8")
+
+                if "YT_CLIENT_SECRETS_JSON" in st.secrets:
+                    val_c = st.secrets["YT_CLIENT_SECRETS_JSON"]
+                    if isinstance(val_c, dict) or not isinstance(val_c, str):
+                        import json
+                        val_c = json.dumps(dict(val_c))
+                    if not secrets_file.exists() or secrets_file.stat().st_size < 20:
+                        secrets_file.write_text(str(val_c), encoding="utf-8")
         except Exception:
             pass
 
         # Check Environment variables
-        if os.getenv("YT_TOKEN_JSON") and not token_file.exists():
+        if os.getenv("YT_TOKEN_JSON") and (not token_file.exists() or token_file.stat().st_size < 20):
             token_file.write_text(os.getenv("YT_TOKEN_JSON"), encoding="utf-8")
-        if os.getenv("YT_CLIENT_SECRETS_JSON") and not secrets_file.exists():
+        if os.getenv("YT_CLIENT_SECRETS_JSON") and (not secrets_file.exists() or secrets_file.stat().st_size < 20):
             secrets_file.write_text(os.getenv("YT_CLIENT_SECRETS_JSON"), encoding="utf-8")
 
     @staticmethod
@@ -87,9 +99,18 @@ class YouTubeAuthManager:
         if not status["is_authenticated"]:
             return None
 
-        return Credentials.from_authorized_user_file(
-            str(YOUTUBE_TOKEN_FILE), YOUTUBE_SCOPES
-        )
+        token_file = Path(YOUTUBE_TOKEN_FILE)
+        try:
+            creds = Credentials.from_authorized_user_file(
+                str(token_file), YOUTUBE_SCOPES
+            )
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+                with open(token_file, "w") as f:
+                    f.write(creds.to_json())
+            return creds
+        except Exception:
+            return None
 
     @staticmethod
     def authenticate_channel() -> Dict[str, Any]:
