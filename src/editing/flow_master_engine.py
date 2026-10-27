@@ -19,10 +19,10 @@ class FlowMasterEngine:
     VOICE_ID = "en-US-ChristopherNeural"
     FPS = 60
     CRF = 17
-    TARGET_LUFS = -14.0
-    TARGET_TRUE_PEAK = -1.0
+    TARGET_LUFS = -14.5
+    TARGET_TRUE_PEAK = -1.5
     TARGET_LRA = 7.0
-    SCALE_FILTER = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60"
+    SCALE_FILTER = "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,fps=60"
 
     @classmethod
     def _load_audio_pcm(cls, file_path: Path, sample_rate: int = 48000) -> np.ndarray:
@@ -124,7 +124,7 @@ class FlowMasterEngine:
                     "-loop", "1",
                     "-i", str(in_vid),
                     "-t", f"{sc_dur:.2f}",
-                    "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1200:s=1080x1920:fps=60",
+                    "-vf", "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1200:s=1080x1920:fps=60",
                     "-r", str(cls.FPS),
                     "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
                     "-pix_fmt", "yuv420p",

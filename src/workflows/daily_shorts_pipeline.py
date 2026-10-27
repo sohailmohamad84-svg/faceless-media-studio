@@ -527,7 +527,7 @@ VIRAL_SHORTS_QUEUE = [
         "title": "The Secret Ocean War for Singapore's Sand #shorts",
         "category": "Geopolitics & Megaprojects",
         "hook": "How a tiny island nation grew twenty-five percent bigger using smuggled seabed sand.",
-        "description": "Singapore has expanded its land area by over 130 square kilometers using 500 million tons of sand. How did an illicit ocean dredging black market alter the map of Southeast Asia?\n\n\ud83c\udfdd\ufe0f Like & Subscribe for daily high-retention engineering & geopolitical documentaries!\n\n#shorts #singapore #megaprojects #geopolitics #engineering #landreclamation #facts #ocean",
+        "description": "Singapore has expanded its land area by over 25% since 1965, importing over 500 million tons of sand. How did environmental bans, disappearing sand cays in Indonesia, Dutch-style polders, and the engineering of Tuas Port reshape Southeast Asia?\n\n\ud83c\udfdd\ufe0f Like & Subscribe for daily high-retention engineering & geopolitical documentaries!\n\n#shorts #singapore #megaprojects #geopolitics #engineering #landreclamation #facts #ocean",
         "tags": [
             "shorts",
             "singapore",
@@ -564,7 +564,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "DYNAMIC_ACTION_TRACKING",
                 "prompt": "Massive cutter-suction dredging ship in choppy turquoise ocean waters pumping hundreds of tons of seabed sand through roaring steel pipes onto artificial shoreline, dramatic low angle, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_2.mp4",
-                "narration_text": "To construct modern skyscrapers and mega container ports, the city-state devoured over five hundred million tons of ocean sand.",
+                "narration_text": "To construct modern skyscrapers and ports, Singapore imported over five hundred million tons of ocean sand, becoming the world's largest sand importer per capita.",
                 "foley": [
                     {
                         "sfx": "water_rush.wav",
@@ -579,7 +579,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "3D_SATELLITE_DEM",
                 "prompt": "3D satellite radar map tracking illicit marine cargo vessels moving secretly between Indonesia, Malaysia, and Singapore at night, glowing AIS transponder paths, photorealistic military cartography, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_3.mp4",
-                "narration_text": "When neighboring countries banned sand exports, an illicit multi-billion-dollar black market dredged entire Indonesian islands out of existence.",
+                "narration_text": "When regional bans halted legal supplies, an illicit dredging black market devastated ecosystems, causing up to two dozen small Indonesian islets and sand cays to submerge below the tides.",
                 "foley": [
                     {
                         "sfx": "warning_beep.wav",
@@ -594,7 +594,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "3D_ARCHITECTURAL_CUTAWAY",
                 "prompt": "Forensic 3D cross-section cutaway animation of a concrete polder sea wall holding back deep ocean water, drainage pumps flushing sea water below sea level, blueprint lines, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_4.mp4",
-                "narration_text": "To survive the embargo, Singapore pioneered massive Dutch-style polders, sealing ocean basins with reinforced sea dikes to reclaim land without sand.",
+                "narration_text": "To diversify beyond imported sand, Singapore pioneered massive Dutch-style polders, sealing ocean basins with reinforced dikes to reclaim land below sea level.",
                 "foley": [
                     {
                         "sfx": "gate_clank.wav",
@@ -609,7 +609,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "FORENSIC_SIMULATION",
                 "prompt": "3D geological soil cutaway simulation showing underwater vertical prefab drains driving hundreds of feet into marine clay, compressing saturated seabed into solid rock foundations, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_5.mp4",
-                "narration_text": "Millions of prefabricated vertical drains compress waterlogged marine mud under immense pressure, turning treacherous ocean silt into rock-solid ground foundations.",
+                "narration_text": "Miles of prefabricated vertical drains accelerate water expulsion from deep marine clay under massive surcharge weight, consolidating unstable seabed silt into solid ground foundations.",
                 "foley": [
                     {
                         "sfx": "drill_rumble.wav",
@@ -624,7 +624,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "DYNAMIC_SPEED_TRACKING",
                 "prompt": "Dramatic sunset drone hyperlapse over Tuas Mega Port, automated automated cranes lifting thousands of containers onto newly reclaimed tarmac stretching into horizon, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_6.mp4",
-                "narration_text": "The result is Tuas Port: the largest fully automated container terminal on the planet, built entirely on land that did not exist forty years ago.",
+                "narration_text": "The result is Tuas Mega Port: planned to become the world's largest automated container terminal upon completion in the 2040s, with Phase One already operational on reclaimed land.",
                 "foley": [
                     {
                         "sfx": "ship_horn.wav",
@@ -639,7 +639,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "AERODYNAMIC_SHOCKWAVE",
                 "prompt": "Futuristic seawall fortress bracing against surging ocean storm waves with glowing telemetry meters indicating four-meter height buffers, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_7.mp4",
-                "narration_text": "With sea levels projected to rise, every single new square mile is built four meters above current tides as an existential fortress against the ocean.",
+                "narration_text": "With sea levels projected to rise, newly reclaimed land is mandated to sit at least four to five meters above Singapore Height Datum, creating an existential coastal fortress against the sea.",
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -654,7 +654,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "GOLDEN_FINISH_CTA",
                 "prompt": "Breathtaking twilight pan over Singapore Marina Bay skyline with glowing supertrees and financial towers reflecting on calm bay water, cinematic golden volumetric lighting, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_8.mp4",
-                "narration_text": "Could other coastal nations buy their own survival by manufacturing new land? Subscribe and leave your thoughts in the comments.",
+                "narration_text": "Could other vulnerable coastal nations engineer their way out of rising seas? Subscribe and leave your perspective in the comments.",
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",

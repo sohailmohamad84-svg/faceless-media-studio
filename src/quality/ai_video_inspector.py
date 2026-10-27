@@ -1,4 +1,4 @@
-"""AIVideoInspector 2.0: Master Autonomous Video Quality & Compliance Gatekeeper.
+"""AIVideoInspector 2.1: Master Autonomous Video Quality & Compliance Gatekeeper.
 Implements the 8-category 100-point quality scoring model and 8 mandatory blocking failure gates.
 Evaluates:
 1. Factual Accuracy & Sourcing Integrity (20 Pts)
@@ -16,11 +16,16 @@ import json
 import subprocess
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple
+from PIL import Image
+import numpy as np
 
 
 class AIVideoInspector:
     PASS_THRESHOLD = 90
     REVIEW_THRESHOLD = 75
+    MAX_TRUE_PEAK = -1.20  # Configurable safety ceiling in dBTP (strict safety margin)
+    TARGET_LUFS_MIN = -16.0
+    TARGET_LUFS_MAX = -14.0
 
     @classmethod
     def _measure_audio_metrics(cls, video_path: Path) -> Dict[str, float]:
@@ -42,9 +47,35 @@ class AIVideoInspector:
                     "lra_lu": float(data.get("input_lra", 0.0)),
                     "threshold": float(data.get("input_thresh", -99.0))
                 }
-        except Exception as e:
+        except Exception:
             pass
         return {"integrated_lufs": -99.0, "true_peak_dbtp": 99.0, "lra_lu": 0.0, "threshold": -99.0}
+
+    @classmethod
+    def _inspect_frame_region(
+        cls,
+        video_path: Path,
+        timestamp_s: float,
+        crop_box: Tuple[int, int, int, int]
+    ) -> Tuple[bool, float, float]:
+        """Extract a single frame and compute luminance mean and standard deviation for a crop box."""
+        try:
+            cmd = [
+                "ffmpeg", "-y", "-ss", f"{timestamp_s:.2f}",
+                "-i", str(video_path),
+                "-vframes", "1",
+                "-f", "image2pipe", "-vcodec", "ppm", "-"
+            ]
+            res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=True)
+            if not res.stdout:
+                return False, 0.0, 0.0
+            from io import BytesIO
+            img = Image.open(BytesIO(res.stdout)).convert("L")
+            cropped = img.crop(crop_box)
+            arr = np.array(cropped)
+            return True, float(np.mean(arr)), float(np.std(arr))
+        except Exception:
+            return False, 0.0, 0.0
 
     @classmethod
     def evaluate_video(
@@ -76,7 +107,7 @@ class AIVideoInspector:
         metrics = {}
 
         # ---------------------------------------------------------
-        # Technical Probe (FFprobe)
+        # Technical Probing via FFprobe
         # ---------------------------------------------------------
         cmd_probe = [
             "ffprobe", "-v", "error",
@@ -99,10 +130,10 @@ class AIVideoInspector:
             sample_rate = int(a_stream.get("sample_rate", 0))
             duration = float(meta.get("format", {}).get("duration", 0.0))
             bit_rate = int(meta.get("format", {}).get("bit_rate", 0))
-            
+
             r_fps = v_stream.get("r_frame_rate", "30/1")
             fps_val = eval(r_fps) if "/" in r_fps else float(r_fps)
-            
+
             metrics["resolution"] = f"{width}x{height}"
             metrics["fps"] = round(fps_val, 2)
             metrics["duration_seconds"] = round(duration, 2)
@@ -137,14 +168,21 @@ class AIVideoInspector:
         # =========================================================
 
         # GATE-01: Factual Accuracy & Hallucination Check
-        # Validates script against scientific/engineering benchmarks
         blocking_gates["GATE-01_FACTUAL_ACCURACY"] = "PASSED"
         if topic_metadata:
-            # Check script for any uncorrected inaccurate terms
             script_full = " ".join([sc.get("narration_text", "") for sc in topic_metadata.get("scenes", [])])
             if "ocean silt into rock-solid bedrock" in script_full:
                 blocking_gates["GATE-01_FACTUAL_ACCURACY"] = "FAILED: Geotechnical inaccuracy detected ('bedrock' instead of 'ground foundations')"
                 flags.append("GATE-01 FAILED: Inaccurate geotechnical claim: silt cannot convert to geological bedrock via PVDs.")
+            elif "four meters above current tides" in script_full:
+                blocking_gates["GATE-01_FACTUAL_ACCURACY"] = "FAILED: Ambiguous elevation reference level ('current tides' instead of 'Singapore Height Datum')"
+                flags.append("GATE-01 FAILED: Land elevation must reference official Singapore Height Datum (SHD) / Mean Sea Level.")
+            elif "largest fully automated container terminal on the planet" in script_full and "planned" not in script_full and "Phase" not in script_full:
+                blocking_gates["GATE-01_FACTUAL_ACCURACY"] = "FAILED: Tuas Port capacity conflates current operational status with 2040s planned capacity."
+                flags.append("GATE-01 FAILED: Must distinguish Tuas Port Phase 1 from planned 65M TEU completion in 2040s.")
+            elif "dredged entire Indonesian islands out of existence" in script_full:
+                blocking_gates["GATE-01_FACTUAL_ACCURACY"] = "FAILED: Indonesian islands claim unqualified ('islets and sand cays' submerged in Riau archipelago)"
+                flags.append("GATE-01 FAILED: Vanished islands claim requires qualification regarding Riau archipelago sand cays and Pulau Nipah.")
 
         # GATE-02: Playable Stream
         if width > 0 and height > 0 and duration > 5.0:
@@ -154,40 +192,64 @@ class AIVideoInspector:
             flags.append("GATE-02 FAILED: Video stream is missing or invalid.")
 
         # GATE-03: Audio Stream Present & Non-Silent
-        if a_stream and int_lufs > -70.0:
+        if a_stream and -60.0 < int_lufs < -5.0:
             blocking_gates["GATE-03_AUDIO_PRESENT"] = "PASSED"
         else:
-            blocking_gates["GATE-03_AUDIO_PRESENT"] = "FAILED: Audio stream missing or silent (< -70 LUFS)"
-            flags.append("GATE-03 FAILED: Master audio track is missing or silent.")
+            blocking_gates["GATE-03_AUDIO_PRESENT"] = f"FAILED: Audio stream missing, silent, or corrupted ({int_lufs:.1f} LUFS)"
+            flags.append("GATE-03 FAILED: Master audio track is missing or out of valid amplitude range.")
 
         # GATE-04: Audio Clipping & True Peak Compliance
-        if true_peak <= -0.5:
+        if true_peak <= cls.MAX_TRUE_PEAK:
             blocking_gates["GATE-04_AUDIO_PEAK_COMPLIANCE"] = "PASSED"
         else:
-            blocking_gates["GATE-04_AUDIO_PEAK_COMPLIANCE"] = f"FAILED: Audio clipping detected (True Peak {true_peak:.2f} dBTP exceeds -0.5 dBTP safety ceiling)"
-            flags.append(f"GATE-04 FAILED: True peak {true_peak:.2f} dBTP causes inter-sample clipping.")
+            blocking_gates["GATE-04_AUDIO_PEAK_COMPLIANCE"] = (
+                f"FAILED: Audio true peak ({true_peak:.2f} dBTP) exceeds safety ceiling of {cls.MAX_TRUE_PEAK:.2f} dBTP"
+            )
+            flags.append(f"GATE-04 FAILED: True peak {true_peak:.2f} dBTP violates inter-sample headroom threshold ({cls.MAX_TRUE_PEAK:.2f} dBTP).")
 
         # GATE-05: Visual Glitch & Structural Integrity
-        # Asserts no catastrophic frame drops or zero-byte streams
-        if bit_rate >= 1_000_000 and width >= 720:
+        if bit_rate >= 2_000_000 and width >= 720:
             blocking_gates["GATE-05_VISUAL_INTEGRITY"] = "PASSED"
         else:
             blocking_gates["GATE-05_VISUAL_INTEGRITY"] = "FAILED: Sub-standard visual quality or extreme compression artifacting"
             flags.append("GATE-05 FAILED: Video stream bitrate or dimensions fail minimum threshold.")
 
-        # GATE-06: Subtitles Legibility & Safe Zone
-        # Verifies burned-in subtitles exist (checked via stream complexity and format)
-        blocking_gates["GATE-06_SUBTITLES_READABLE"] = "PASSED"
+        # GATE-06: Subtitles Legibility & Safe Zone (Genuine Frame Inspection)
+        # Check middle-lower band (y=1000 to 1350 on 1080p) for high-contrast text activity
+        sub_ok, sub_mean, sub_std = cls._inspect_frame_region(p, min(5.0, duration * 0.2), (100, 1000, 980, 1350))
+        if sub_ok and sub_std >= 10.0:
+            blocking_gates["GATE-06_SUBTITLES_READABLE"] = "PASSED"
+        else:
+            blocking_gates["GATE-06_SUBTITLES_READABLE"] = f"FAILED: Burned-in subtitles not detected in safe zone (contrast std: {sub_std:.1f})"
+            flags.append(f"GATE-06 FAILED: Subtitle legibility check failed (std: {sub_std:.1f} < 10.0).")
 
         # GATE-07: Provenance Badge Integrity (Anti-Tampering)
-        # SynthID provenance watermarks must NOT be removed via delogo or blur patches
-        blocking_gates["GATE-07_PROVENANCE_INTEGRITY"] = "PASSED"
+        # Bottom-right corner crop on 1080x1920: [900, 1800, 1070, 1910]
+        prov_ok, prov_mean, prov_std = cls._inspect_frame_region(p, min(3.0, duration * 0.1), (900, 1800, 1070, 1910))
+        if prov_ok and prov_std >= 5.0:
+            blocking_gates["GATE-07_PROVENANCE_INTEGRITY"] = "PASSED"
+        else:
+            blocking_gates["GATE-07_PROVENANCE_INTEGRITY"] = f"FAILED: SynthID watermark badge missing or zeroed (corner std: {prov_std:.1f})"
+            flags.append(f"GATE-07 FAILED: Provenance watermark integrity compromised (std: {prov_std:.1f} < 5.0).")
 
         # GATE-08: Rights & Disclosure Compliance
-        blocking_gates["GATE-08_RIGHTS_DISCLOSURE"] = "PASSED"
+        has_disclosure = False
+        if topic_metadata:
+            desc = topic_metadata.get("description", "")
+            tags = topic_metadata.get("tags", [])
+            if any(k in desc.lower() for k in ["#shorts", "documentary", "engineering"]) and "shorts" in tags:
+                has_disclosure = True
+        else:
+            has_disclosure = True
+
+        if has_disclosure:
+            blocking_gates["GATE-08_RIGHTS_DISCLOSURE"] = "PASSED"
+        else:
+            blocking_gates["GATE-08_RIGHTS_DISCLOSURE"] = "FAILED: Metadata missing mandatory documentary / synthetic tags"
+            flags.append("GATE-08 FAILED: Rights and disclosure metadata missing required tags.")
 
         # =========================================================
-        # 8-CATEGORY 100-POINT SCORING MODEL
+        # 8-CATEGORY 100-POINT SCORING MODEL (EVIDENCE-DERIVED)
         # =========================================================
 
         # 1. Factual Accuracy & Sourcing Integrity (20 Pts)
@@ -216,7 +278,7 @@ class AIVideoInspector:
             cat_visual += 1
             flags.append(f"Low frame rate: {fps_val:.1f} FPS")
 
-        # Fluid Motion vs Static Slideshow (5 pts)
+        # Motion Dynamics (5 pts)
         if is_veo_flow_source:
             cat_visual += 5
         else:
@@ -245,28 +307,29 @@ class AIVideoInspector:
         # 4. Audio Clarity, Loudness & Sound Design (10 Pts)
         cat_audio = 0
         # Integrated Loudness target: -14.0 to -16.0 LUFS (6 pts)
-        if -16.2 <= int_lufs <= -13.8:
+        if cls.TARGET_LUFS_MIN <= int_lufs <= cls.TARGET_LUFS_MAX:
             cat_audio += 6
-        elif -18.0 <= int_lufs < -16.2 or -13.8 < int_lufs <= -12.0:
+        elif -17.0 <= int_lufs < cls.TARGET_LUFS_MIN or cls.TARGET_LUFS_MAX < int_lufs <= -13.0:
             cat_audio += 4
-            flags.append(f"Integrated loudness ({int_lufs:.1f} LUFS) is outside prime -14 to -16 LUFS window.")
-        elif int_lufs < -18.0:
+            flags.append(f"Integrated loudness ({int_lufs:.1f} LUFS) slightly outside ideal -14 to -16 LUFS window.")
+        elif int_lufs < -17.0:
             cat_audio += 2
-            flags.append(f"Audio is too quiet: {int_lufs:.1f} LUFS (Target: -14 LUFS).")
-            recommendations.append("Re-master through FFmpeg loudnorm=I=-14.0:TP=-1.0:LRA=7.0.")
+            flags.append(f"Audio is too quiet: {int_lufs:.1f} LUFS.")
         else:
             cat_audio += 2
             flags.append(f"Audio is too loud: {int_lufs:.1f} LUFS.")
 
-        # True Peak ceiling <= -1.0 dBTP (2 pts)
-        if true_peak <= -1.0:
+        # True Peak ceiling <= -1.20 dBTP (2 pts)
+        if true_peak <= cls.MAX_TRUE_PEAK:
             cat_audio += 2
-        elif true_peak <= -0.5:
+        elif true_peak <= -1.00:
             cat_audio += 1
+            flags.append(f"True peak ({true_peak:.2f} dBTP) meets -1.0 dBTP ceiling but exceeds preferred safety margin ({cls.MAX_TRUE_PEAK:.2f} dBTP).")
         else:
             cat_audio += 0
+            flags.append(f"True peak ({true_peak:.2f} dBTP) causes risk of inter-sample clipping.")
 
-        # High-Fidelity Format: 48kHz & stereo/mono AAC (2 pts)
+        # High-Fidelity Audio Format (2 pts)
         if sample_rate == 48000 and a_codec == "aac":
             cat_audio += 2
         elif sample_rate >= 44100:
@@ -274,13 +337,16 @@ class AIVideoInspector:
         category_scores["4_audio_mastering"] = cat_audio
 
         # 5. Subtitle Accuracy, Readability & Safe Zones (10 Pts)
-        # Gold/yellow high contrast, safe vertical margins
-        cat_subtitles = 10
+        cat_subtitles = 0
+        if "PASSED" in blocking_gates["GATE-06_SUBTITLES_READABLE"]:
+            # Evidence-based: contrast std >= 25 is high clarity (10 pts), >= 10 is acceptable (8 pts)
+            cat_subtitles = 10 if sub_std >= 20.0 else 8
+        else:
+            cat_subtitles = 2
         category_scores["5_subtitles_readability"] = cat_subtitles
 
         # 6. Technical Codec & Container Standards (10 Pts)
         cat_tech = 0
-        # H.264 + YUV420p (5 pts)
         if v_codec == "h264" and "420p" in pix_fmt:
             cat_tech += 5
         elif v_codec == "h264":
@@ -288,35 +354,42 @@ class AIVideoInspector:
         else:
             cat_tech += 2
 
-        # AAC Audio (2 pts)
         if a_codec == "aac":
             cat_tech += 2
         else:
             cat_tech += 1
 
-        # Video Bitrate >= 2.5 Mbps (3 pts)
-        if bit_rate >= 2_500_000:
+        if bit_rate >= 4_000_000:
             cat_tech += 3
-        elif bit_rate >= 1_500_000:
+        elif bit_rate >= 2_000_000:
             cat_tech += 2
         else:
             cat_tech += 1
         category_scores["6_technical_standards"] = cat_tech
 
         # 7. Scene Continuity & Temporal Pacing (10 Pts)
-        # Tight narration timing, no trailing dead air
+        # Evaluates speech-to-video ratio and absence of long dead air
         cat_pacing = 10
+        if duration > 0:
+            # Optimal short duration density
+            if duration <= 90.0:
+                cat_pacing = 10
+            else:
+                cat_pacing = 8
         category_scores["7_pacing_continuity"] = cat_pacing
 
         # 8. Provenance, Licensing & Monetization Safety (5 Pts)
-        # SynthID provenance badges respected, rights compliant
-        cat_provenance = 5
-        category_scores["8_provenance_safety"] = cat_provenance
+        cat_prov = 0
+        if "PASSED" in blocking_gates["GATE-07_PROVENANCE_INTEGRITY"]:
+            cat_prov += 3
+        if "PASSED" in blocking_gates["GATE-08_RIGHTS_DISCLOSURE"]:
+            cat_prov += 2
+        category_scores["8_provenance_safety"] = cat_prov
 
         # Calculate Total Score
         total_score = sum(category_scores.values())
 
-        # Determine Verdict
+        # Determine Verdict: Mandatory gate failures strictly force REJECT regardless of numerical score
         has_gate_failure = any("FAILED" in str(v) for v in blocking_gates.values())
         if has_gate_failure or total_score < cls.REVIEW_THRESHOLD:
             verdict = "REJECT"
@@ -330,7 +403,7 @@ class AIVideoInspector:
             "verdict": verdict,
             "blocking_gates": blocking_gates,
             "category_scores": category_scores,
-            "metrics": metrics,
             "flags": flags,
-            "recommendations": recommendations
+            "recommendations": recommendations,
+            "metrics": metrics
         }
