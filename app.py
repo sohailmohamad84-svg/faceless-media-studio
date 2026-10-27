@@ -507,12 +507,47 @@ if unproduced_items:
             if foley_items:
                 st.caption(f"🔊 Sound Design: {', '.join(foley_items)}")
 
-    # Future Queue Roadmap
+    # Comprehensive Multi-Day Production Pipeline Table & Storyboards
     if len(unproduced_items) > 1:
-        st.markdown("<div style='font-size: 0.95rem; font-weight: 600; color: #94a3b8; margin: 12px 0 6px 0;'>Upcoming Topics in Backlog:</div>", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown(
+            f"<div style='font-size: 1.15rem; font-weight: 700; color: #f8fafc; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;'>"
+            f"<span>📅 Upcoming Multi-Day Production Pipeline ({len(unproduced_items)} Topics Queued)</span>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+        st.caption("Daily high-retention vertical documentaries queued for automated production and publishing at 5:00 PM IST.")
+
         for q_idx, item in enumerate(unproduced_items[1:], start=2):
-            target_date = (now_ist.date() + timedelta(days=q_idx)).strftime("%d %b %Y")
-            st.markdown(f"- **Day {q_idx} ({target_date} at 5:00 PM IST):** {item['title']} — *\"{item['hook']}\"*")
+            target_date = (now_ist.date() + timedelta(days=q_idx - 1)).strftime("%A, %d %b %Y")
+            cat_badge = item.get("category", "Extreme Engineering")
+            
+            with st.container():
+                st.markdown(f"""
+                <div style="background: rgba(30, 41, 59, 0.45); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px 18px; margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <div>
+                            <span style="background: #3b82f6; color: white; padding: 2px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">DAY {q_idx}</span> &nbsp;
+                            <span style="color: #94a3b8; font-size: 0.85rem; font-weight: 600;">{target_date} at 5:00 PM IST</span>
+                        </div>
+                        <span style="background: rgba(148, 163, 184, 0.12); color: #38bdf8; padding: 2px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; border: 1px solid rgba(56, 189, 248, 0.2);">{cat_badge}</span>
+                    </div>
+                    <div style="font-size: 1.08rem; font-weight: 700; color: #ffffff; margin-bottom: 4px;">{item['title']}</div>
+                    <div style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 6px;"><b>Hook:</b> <i>"{item['hook']}"</i></div>
+                    <div style="display: flex; gap: 12px; font-size: 0.78rem; color: #94a3b8;">
+                        <span>🎬 <b>Acts:</b> 8 Pure Physical Motion Scenes</span>
+                        <span>⚡ <b>Engine:</b> Google Veo 2 / VideoFX</span>
+                        <span>🎙️ <b>Voice:</b> en-US-ChristopherNeural</span>
+                        <span>🎯 <b>Format:</b> 1080x1920 @ 60 FPS</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                with st.expander(f"🔍 Inspect 8-Act Storyboard: {item['title']}"):
+                    for sc_idx, sc in enumerate(item.get("scenes", []), 1):
+                        st.markdown(f"**Act {sc_idx}: {sc.get('title', f'Scene {sc_idx}')}** `[{sc.get('graphic_type', 'Veo 2')}]`")
+                        st.write(f"*{sc.get('narration_text', '')}*")
+                        st.caption(f"🎨 Veo Prompt: {sc.get('prompt', '')}")
 
 else:
     st.success("🎉 All researched topics in the current queue have been successfully produced and published!")
