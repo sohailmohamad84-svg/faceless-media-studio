@@ -1,6 +1,8 @@
 """Autonomous Flow Master Engine.
 Takes raw Google Flow / Veo video clips and corresponding scene scripts,
-cleans the watermarks, generates pacing-controlled voiceover, layers organic Foley,
+scales them cleanly without watermarking tampering (SynthID provenance badges preserved),
+generates pacing-controlled voiceover, layers organic Foley with dynamic ducking,
+masters audio to EBU R128 (-14 LUFS) broadcast loudness,
 burns in kinetic mobile gold subtitles, and produces a broadcast-ready viral master.
 """
 import asyncio
@@ -8,7 +10,7 @@ import json
 import subprocess
 import wave
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 import numpy as np
 import edge_tts
 
@@ -17,38 +19,10 @@ class FlowMasterEngine:
     VOICE_ID = "en-US-ChristopherNeural"
     FPS = 60
     CRF = 17
-
-    @classmethod
-    def _get_video_filter(cls, in_vid: Path, clean_watermark: bool = True) -> str:
-        """Dynamically computes the delogo and scaling filter based on input video dimensions.
-        Google Veo / Flow clips (720x1280 or 1080x1920) place a translucent 4-pointed star
-        watermark at the bottom-right corner. Delogo erases it cleanly without cropping.
-        """
-        try:
-            cmd_probe = [
-                "ffprobe", "-v", "error",
-                "-select_streams", "v:0",
-                "-show_entries", "stream=width,height",
-                "-of", "json",
-                str(in_vid)
-            ]
-            res = subprocess.run(cmd_probe, capture_output=True, text=True, check=True)
-            meta = json.loads(res.stdout)["streams"][0]
-            w, h = int(meta["width"]), int(meta["height"])
-        except Exception:
-            w, h = 720, 1280
-
-        delogo_prefix = ""
-        if clean_watermark:
-            w_scale = w / 720.0
-            h_scale = h / 1280.0
-            dx = int(round(565 * w_scale))
-            dy = int(round(1125 * h_scale))
-            dw = int(round(70 * w_scale))
-            dh = int(round(70 * h_scale))
-            delogo_prefix = f"delogo=x={dx}:y={dy}:w={dw}:h={dh}:show=0,"
-
-        return f"{delogo_prefix}scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60"
+    TARGET_LUFS = -14.0
+    TARGET_TRUE_PEAK = -1.0
+    TARGET_LRA = 7.0
+    SCALE_FILTER = "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=60"
 
     @classmethod
     def _load_audio_pcm(cls, file_path: Path, sample_rate: int = 48000) -> np.ndarray:
@@ -62,25 +36,45 @@ class FlowMasterEngine:
         return np.frombuffer(res.stdout, dtype=np.int16).astype(np.float32) / 32768.0
 
     @classmethod
+    def _compute_chunk_timings(
+        cls,
+        words: List[str],
+        v_start_sec: float,
+        vo_dur: float,
+        chunk_sz: int = 3
+    ) -> List[Tuple[str, float, float]]:
+        """Compute character-weighted subtitle chunk timings for natural reading cadence."""
+        if not words or vo_dur <= 0:
+            return []
+            
+        chunks = []
+        for ci in range(0, len(words), chunk_sz):
+            chunks.append(words[ci:ci + chunk_sz])
+            
+        chunk_lens = [sum(len(w) for w in c) + len(c) - 1 for c in chunks]
+        total_len = max(1, sum(chunk_lens))
+        
+        timed_chunks = []
+        accum_time = v_start_sec
+        for idx, c in enumerate(chunks):
+            dur_fraction = (chunk_lens[idx] / total_len) * vo_dur
+            c_start = accum_time
+            c_end = accum_time + dur_fraction
+            accum_time = c_end
+            timed_chunks.append((" ".join(c).upper(), c_start, c_end))
+            
+        return timed_chunks
+
+    @classmethod
     async def build_master_video(
         cls,
         scenes: List[Dict[str, Any]],
         output_filename: str,
-        ambient_sfx: str = "desert_wind.wav"
+        ambient_sfx: str = "tension_drone.wav"
     ) -> Path:
         """
-        scenes is a list of dicts:
-        [
-            {
-                "input_video": Path("data/flow_clips/shot1.mp4"),
-                "narration_text": "...",
-                "foley": [
-                    {"sfx": "ship_horn.wav", "time_offset": 0.5, "gain": 0.35},
-                    {"sfx": "water_rush.wav", "time_offset": 3.0, "gain": 0.28}
-                ]
-            },
-            ...
-        ]
+        Builds a broadcast-master short from scenes:
+        scenes: List[dict] containing input_video, narration_text, and foley specifications.
         """
         work_dir = Path("scratch/flow_master_work")
         work_dir.mkdir(parents=True, exist_ok=True)
@@ -105,20 +99,20 @@ class FlowMasterEngine:
             vo_durations.append(dur)
             
             # Dynamic viral scene duration: voice duration + tight padding (zero dead air)
-            # 0.15s leading, 0.25s trailing (0.6s trailing on the final scene for outro SFX)
+            # 0.15s leading, 0.25s trailing (0.60s trailing on the final scene for outro SFX)
             is_last = (idx == len(scenes) - 1)
-            pad = 0.65 if is_last else 0.40
+            pad = 0.60 if is_last else 0.40
             sc_dur = dur + pad
             scene_durations.append(sc_dur)
 
         total_duration = sum(scene_durations)
 
         # Step 2: Clean, scale, and time-trim all video/image assets to exact scene durations
+        # Note: synthID / AI provenance badges are strictly preserved; no destructive delogo
         clean_clips = []
         for idx, sc in enumerate(scenes):
             in_vid = Path(sc["input_video"])
             out_vid = work_dir / f"clean_scene_{idx}.mp4"
-            is_clean = sc.get("is_clean", False)
             sc_dur = scene_durations[idx]
             
             # Check if input is an image (convert to 60fps dynamic motion clip)
@@ -131,22 +125,20 @@ class FlowMasterEngine:
                     "-i", str(in_vid),
                     "-t", f"{sc_dur:.2f}",
                     "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,zoompan=z='min(zoom+0.0008,1.15)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1200:s=1080x1920:fps=60",
-                    "-r", "60",
+                    "-r", str(cls.FPS),
                     "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
                     "-pix_fmt", "yuv420p",
                     "-an",
                     str(out_vid)
                 ]
             else:
-                # Always remove Google Veo / Flow synthetic watermarks via dynamic delogo
-                vfilter = cls._get_video_filter(in_vid, clean_watermark=True)
                 cmd_clean = [
                     "ffmpeg", "-y",
                     "-stream_loop", "-1",
                     "-i", str(in_vid),
                     "-t", f"{sc_dur:.2f}",
-                    "-vf", vfilter,
-                    "-r", "60",
+                    "-vf", cls.SCALE_FILTER,
+                    "-r", str(cls.FPS),
                     "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
                     "-pix_fmt", "yuv420p",
                     "-an",
@@ -171,21 +163,26 @@ class FlowMasterEngine:
         ]
         subprocess.run(cmd_cat, check=True)
             
-        # Step 3: Mix Multi-Track Audio
+        # Step 3: Mix Multi-Track Audio with Dynamic Speech Ducking
         total_samples = int(total_duration * cls.SAMPLE_RATE)
-        master_pcm = np.zeros(total_samples, dtype=np.float32)
+        voice_track = np.zeros(total_samples, dtype=np.float32)
+        foley_track = np.zeros(total_samples, dtype=np.float32)
+        amb_track = np.zeros(total_samples, dtype=np.float32)
+        speech_mask = np.zeros(total_samples, dtype=bool)
         
-        # Room tone bed
-        amb_path = sfx_dir / ambient_sfx
-        if amb_path.exists():
-            amb_pcm = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * 0.07
-            for s in range(0, total_samples, len(amb_pcm)):
-                e = min(total_samples, s + len(amb_pcm))
-                master_pcm[s:e] += amb_pcm[:e - s]
-                
         current_time_sec = 0.0
         ass_events = []
         
+        def fmt_ass(sec):
+            h = int(sec // 3600)
+            m = int((sec % 3600) // 60)
+            s = int(sec % 60)
+            cs = int(round((sec - int(sec)) * 100))
+            if cs >= 100:
+                s += 1
+                cs = 0
+            return f"{h}:{m:02d}:{s:02d}.{cs:02d}"
+
         for idx, sc in enumerate(scenes):
             sc_dur = scene_durations[idx]
             vo_dur = vo_durations[idx]
@@ -193,30 +190,20 @@ class FlowMasterEngine:
             
             # Place narration tightly: starts 0.15s after scene transition
             if text and vo_files[idx].exists():
-                vo_pcm = cls._load_audio_pcm(vo_files[idx], cls.SAMPLE_RATE) * 1.05
+                vo_pcm = cls._load_audio_pcm(vo_files[idx], cls.SAMPLE_RATE)
                 v_start_sec = current_time_sec + 0.15
                 vs = int(v_start_sec * cls.SAMPLE_RATE)
                 ve = min(total_samples, vs + len(vo_pcm))
-                master_pcm[vs:ve] += vo_pcm[:ve - vs]
+                voice_track[vs:ve] += vo_pcm[:ve - vs]
+                speech_mask[vs:ve] = True
                 
-                # Subtitles for this scene (3 words per burst)
+                # Subtitles with character-weighted timing
                 words = text.split()
-                chunk_sz = 3
-                w_per_s = len(words) / vo_dur if vo_dur > 0 else 1.0
-                for ci in range(0, len(words), chunk_sz):
-                    c_words = words[ci:ci + chunk_sz]
-                    c_text = " ".join(c_words).upper()
-                    w_start = v_start_sec + (ci / w_per_s)
-                    w_end = min(current_time_sec + sc_dur - 0.05, v_start_sec + ((ci + chunk_sz) / w_per_s))
-                    
-                    def fmt(sec):
-                        h = int(sec // 3600)
-                        m = int((sec % 3600) // 60)
-                        s = int(sec % 60)
-                        ms = int((sec - int(sec)) * 100)
-                        return f"{h}:{m:02d}:{s:02d}.{ms:02d}"
-                        
-                    ass_events.append(f"Dialogue: 0,{fmt(w_start)},{fmt(w_end)},FlowSub,,0,0,0,,{c_text}")
+                timed_chunks = cls._compute_chunk_timings(words, v_start_sec, vo_dur, chunk_sz=3)
+                for c_text, w_start, w_end in timed_chunks:
+                    c_end_clamped = min(current_time_sec + sc_dur - 0.04, w_end)
+                    if c_end_clamped > w_start:
+                        ass_events.append(f"Dialogue: 0,{fmt_ass(w_start)},{fmt_ass(c_end_clamped)},FlowSub,,0,0,0,,{c_text}")
                     
             # Scene Foley
             for foley in sc.get("foley", []):
@@ -229,33 +216,70 @@ class FlowMasterEngine:
                     fs = int((current_time_sec + offset) * cls.SAMPLE_RATE)
                     fe = min(total_samples, fs + len(pcm))
                     if fs < total_samples:
-                        master_pcm[fs:fe] += pcm[:fe - fs]
+                        foley_track[fs:fe] += pcm[:fe - fs]
                         
             current_time_sec += sc_dur
 
-        # End fade
-        fade_len = int(0.6 * cls.SAMPLE_RATE)
-        master_pcm[-fade_len:] *= np.linspace(1.0, 0.0, fade_len, dtype=np.float32)
+        # Build smooth ducking envelope (-6 dB during speech with 40ms attack/decay)
+        smooth_win = int(0.04 * cls.SAMPLE_RATE)
+        kernel = np.ones(smooth_win, dtype=np.float32) / smooth_win
+        smoothed_speech = np.convolve(speech_mask.astype(np.float32), kernel, mode="same")
+        # Attenuation factor: 1.0 when quiet, 0.45 (-7 dB) when speaking
+        ducking_mult = 1.0 - (smoothed_speech * 0.55)
+
+        # Ambient bed with ducking
+        amb_path = sfx_dir / ambient_sfx
+        if amb_path.exists():
+            raw_amb = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * 0.08
+            for s in range(0, total_samples, len(raw_amb)):
+                e = min(total_samples, s + len(raw_amb))
+                amb_track[s:e] += raw_amb[:e - s]
+        amb_track *= ducking_mult
         
-        # Normalize
-        max_v = np.max(np.abs(master_pcm))
-        if max_v > 0.95:
-            master_pcm = (master_pcm / max_v) * 0.95
+        # Foley ducking during active speech (attenuate by 30% when overlapping speech)
+        foley_duck_mult = 1.0 - (smoothed_speech * 0.30)
+        foley_track *= foley_duck_mult
+
+        # Sum tracks
+        raw_mixed_pcm = voice_track + amb_track + foley_track
+
+        # End fade (0.4s)
+        fade_len = int(0.4 * cls.SAMPLE_RATE)
+        if fade_len < total_samples:
+            raw_mixed_pcm[-fade_len:] *= np.linspace(1.0, 0.0, fade_len, dtype=np.float32)
             
-        master_wav = work_dir / "master_audio.wav"
-        with wave.open(str(master_wav), "w") as wf:
+        raw_wav = work_dir / "raw_master_audio.wav"
+        with wave.open(str(raw_wav), "w") as wf:
             wf.setnchannels(1)
             wf.setsampwidth(2)
             wf.setframerate(cls.SAMPLE_RATE)
-            wf.writeframes((master_pcm * 32767).astype(np.int16).tobytes())
+            wf.writeframes((np.clip(raw_mixed_pcm, -1.0, 1.0) * 32767).astype(np.int16).tobytes())
+
+        # Step 4: Broadcast Loudness Mastering via EBU R128 (Integrated -14 LUFS, True Peak <= -1.0 dBTP)
+        mastered_wav = work_dir / "master_audio_mastered.wav"
+        cmd_loudnorm = [
+            "ffmpeg", "-y",
+            "-i", str(raw_wav),
+            "-af", f"loudnorm=I={cls.TARGET_LUFS}:TP={cls.TARGET_TRUE_PEAK}:LRA={cls.TARGET_LRA}",
+            "-ar", str(cls.SAMPLE_RATE),
+            "-c:a", "pcm_s16le",
+            str(mastered_wav)
+        ]
+        subprocess.run(cmd_loudnorm, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
             
-        # Write ASS subtitles
+        # Step 5: Write Professional ASS Subtitles (Punchy gold, safe margin, high readability)
         ass_path = work_dir / "master_subtitles.ass"
         ass_content = [
-            "[Script Info]", "ScriptType: v4.00+", "PlayResX: 1080", "PlayResY: 1920", "ScaledBorderAndShadow: yes", "",
+            "[Script Info]",
+            "ScriptType: v4.00+",
+            "PlayResX: 1080",
+            "PlayResY: 1920",
+            "ScaledBorderAndShadow: yes",
+            "",
             "[V4+ Styles]",
             "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-            "Style: FlowSub,Arial,64,&H0020FFFF,&H00000000,&H00000000,&HA0000000,-1,0,0,0,100,100,2,0,1,5.5,3.0,2,60,60,820,1", "",
+            "Style: FlowSub,Arial Black,58,&H0020FFFF,&H00000000,&H00000000,&H80000000,-1,0,0,0,100,100,1.5,0,1,5.0,2.5,2,80,80,820,1",
+            "",
             "[Events]",
             "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"
         ] + ass_events
@@ -263,18 +287,18 @@ class FlowMasterEngine:
         with open(ass_path, "w", encoding="utf-8") as f:
             f.write("\n".join(ass_content))
             
-        # Final Mux
+        # Step 6: Final Broadcast Mux
         out_final = Path(f"exports/{output_filename}")
         out_final.parent.mkdir(parents=True, exist_ok=True)
         
-        # Relative path without colon to prevent FFmpeg filter parsing error on Windows/Linux
+        # Escape path for FFmpeg subtitles filter
         clean_ass_sub = ass_path.as_posix().replace(":", r"\:")
         cmd_mux = [
             "ffmpeg", "-y",
             "-i", str(merged_video),
-            "-i", str(master_wav),
+            "-i", str(mastered_wav),
             "-vf", f"subtitles={clean_ass_sub}",
-            "-r", "60",
+            "-r", str(cls.FPS),
             "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
             "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "192k", "-ar", "48000",

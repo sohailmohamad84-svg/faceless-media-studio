@@ -207,7 +207,7 @@ async def run_autonomous_cycle(privacy_status: str = "private") -> dict:
     
     # Step 3: Run AI Video Quality Inspector
     print("\nEvaluating video with AI Video Quality Inspector...", flush=True)
-    qa_result = AIVideoInspector.evaluate_video(str(master_path), is_veo_flow_source=True)
+    qa_result = AIVideoInspector.evaluate_video(str(master_path), is_veo_flow_source=True, topic_metadata=next_topic)
     print(f"AI Score: {qa_result['score']}/100 | Verdict: {qa_result['verdict']}", flush=True)
     print(json.dumps(qa_result, indent=2))
     

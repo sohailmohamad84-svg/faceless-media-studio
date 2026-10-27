@@ -609,7 +609,7 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "FORENSIC_SIMULATION",
                 "prompt": "3D geological soil cutaway simulation showing underwater vertical prefab drains driving hundreds of feet into marine clay, compressing saturated seabed into solid rock foundations, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_5.mp4",
-                "narration_text": "Millions of prefabricated vertical drains compress waterlogged marine mud under immense pressure, turning treacherous ocean silt into rock-solid bedrock.",
+                "narration_text": "Millions of prefabricated vertical drains compress waterlogged marine mud under immense pressure, turning treacherous ocean silt into rock-solid ground foundations.",
                 "foley": [
                     {
                         "sfx": "drill_rumble.wav",
@@ -2036,7 +2036,7 @@ class DailyShortsPipeline:
 
         # Step 1.5: Automated AI Video Quality Inspection Gate
         from src.quality.ai_video_inspector import AIVideoInspector
-        qa_result = AIVideoInspector.evaluate_video(str(master_video_path))
+        qa_result = AIVideoInspector.evaluate_video(str(master_video_path), is_veo_flow_source=True, topic_metadata=next_item)
         print(f"AI Quality Score: {qa_result.get('score')}/100 | Verdict: {qa_result.get('verdict')}")
         if qa_result.get("flags"):
             print("AI Inspector Flags:", qa_result.get("flags"))
