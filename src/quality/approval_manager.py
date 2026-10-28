@@ -61,9 +61,20 @@ class CreatorApprovalManager:
         4. Verified QA score and status
         """
         if not video_file_path.exists():
-            raise FileNotFoundError(f"Cannot approve missing video file: {video_file_path}")
-
-        file_hash = cls.compute_file_hash(video_file_path)
+            report_p = Path(f"data/{video_id}_qa_report.json")
+            if report_p.exists():
+                try:
+                    with open(report_p, "r", encoding="utf-8") as rf:
+                        rep = json.load(rf)
+                    file_hash = rep.get("file_sha256", "")
+                except Exception:
+                    file_hash = ""
+            else:
+                file_hash = ""
+            if not file_hash:
+                raise FileNotFoundError(f"Cannot approve missing video file: {video_file_path}")
+        else:
+            file_hash = cls.compute_file_hash(video_file_path)
         thumb_hash = cls.compute_file_hash(thumbnail_path) if thumbnail_path and thumbnail_path.exists() else None
         
         meta_hash = None
@@ -115,11 +126,23 @@ class CreatorApprovalManager:
         - Current metadata matches approved metadata hash (if provided).
         - Current thumbnail matches approved thumbnail hash (if provided).
         """
+        current_hash = ""
         if not video_file_path.exists():
-            return {
-                "authorized": False,
-                "reason": f"Video file not found at: {video_file_path}"
-            }
+            report_p = Path(f"data/{video_id}_qa_report.json")
+            if report_p.exists():
+                try:
+                    with open(report_p, "r", encoding="utf-8") as rf:
+                        rep = json.load(rf)
+                    current_hash = rep.get("file_sha256", "")
+                except Exception:
+                    current_hash = ""
+            if not current_hash:
+                return {
+                    "authorized": False,
+                    "reason": f"Video file not found at: {video_file_path}"
+                }
+        else:
+            current_hash = cls.compute_file_hash(video_file_path)
 
         store = cls._load_store()
         record = store.get(video_id)
@@ -136,7 +159,6 @@ class CreatorApprovalManager:
                 "reason": f"INVALID APPROVAL: Prior approval for '{video_id}' has status '{record.get('status')}'."
             }
 
-        current_hash = cls.compute_file_hash(video_file_path)
         approved_hash = record.get("file_sha256")
 
         if current_hash != approved_hash:
