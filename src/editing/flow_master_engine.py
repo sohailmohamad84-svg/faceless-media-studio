@@ -7,6 +7,7 @@ burns in kinetic mobile gold subtitles, and produces a broadcast-ready viral mas
 """
 import asyncio
 import json
+import re
 import subprocess
 import wave
 from pathlib import Path
@@ -19,7 +20,7 @@ class FlowMasterEngine:
     VOICE_ID = "en-US-ChristopherNeural"
     FPS = 60
     CRF = 17
-    TARGET_LUFS = -14.5
+    TARGET_LUFS = -14.0
     TARGET_TRUE_PEAK = -1.5
     TARGET_LRA = 7.0
     SCALE_FILTER = "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,fps=60"
@@ -36,34 +37,33 @@ class FlowMasterEngine:
         return np.frombuffer(res.stdout, dtype=np.int16).astype(np.float32) / 32768.0
 
     @classmethod
-    def _compute_chunk_timings(
+    def _compute_phrase_timings(
         cls,
-        words: List[str],
+        phrases: List[str],
         v_start_sec: float,
-        vo_dur: float,
-        chunk_sz: int = 3
+        vo_dur: float
     ) -> List[Tuple[str, float, float]]:
-        """Compute character-weighted subtitle chunk timings for natural reading cadence."""
-        if not words or vo_dur <= 0:
+        """Compute character-weighted subtitle timings for natural semantic phrases."""
+        if not phrases or vo_dur <= 0:
             return []
-            
-        chunks = []
-        for ci in range(0, len(words), chunk_sz):
-            chunks.append(words[ci:ci + chunk_sz])
-            
-        chunk_lens = [sum(len(w) for w in c) + len(c) - 1 for c in chunks]
-        total_len = max(1, sum(chunk_lens))
-        
-        timed_chunks = []
+
+        clean_lens = []
+        for p in phrases:
+            clean_text = re.sub(r"\{\\[^}]*\}", "", p).strip()
+            clean_lens.append(max(1, len(clean_text)))
+
+        total_len = max(1, sum(clean_lens))
+        timed_phrases = []
         accum_time = v_start_sec
-        for idx, c in enumerate(chunks):
-            dur_fraction = (chunk_lens[idx] / total_len) * vo_dur
+
+        for idx, p in enumerate(phrases):
+            dur_fraction = (clean_lens[idx] / total_len) * vo_dur
             c_start = accum_time
             c_end = accum_time + dur_fraction
             accum_time = c_end
-            timed_chunks.append((" ".join(c).upper(), c_start, c_end))
-            
-        return timed_chunks
+            timed_phrases.append((p.strip(), c_start, c_end))
+
+        return timed_phrases
 
     @classmethod
     async def build_master_video(
@@ -197,9 +197,16 @@ class FlowMasterEngine:
                 voice_track[vs:ve] += vo_pcm[:ve - vs]
                 speech_mask[vs:ve] = True
                 
-                # Subtitles with character-weighted timing
-                words = text.split()
-                timed_chunks = cls._compute_chunk_timings(words, v_start_sec, vo_dur, chunk_sz=3)
+                # Subtitles with natural grammatical phrase boundaries & selective gold emphasis
+                phrases = sc.get("subtitle_phrases")
+                if not phrases:
+                    words = text.split()
+                    chunks = []
+                    for ci in range(0, len(words), 4):
+                        chunks.append(" ".join(words[ci:ci + 4]))
+                    phrases = chunks
+
+                timed_chunks = cls._compute_phrase_timings(phrases, v_start_sec, vo_dur)
                 for c_text, w_start, w_end in timed_chunks:
                     c_end_clamped = min(current_time_sec + sc_dur - 0.04, w_end)
                     if c_end_clamped > w_start:
@@ -278,7 +285,7 @@ class FlowMasterEngine:
             "",
             "[V4+ Styles]",
             "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-            "Style: FlowSub,Arial Black,58,&H0020FFFF,&H00000000,&H00000000,&H80000000,-1,0,0,0,100,100,1.5,0,1,5.0,2.5,2,80,80,820,1",
+            "Style: FlowSub,Arial Black,54,&H00FFFFFF,&H00000000,&H00000000,&H80000000,-1,0,0,0,100,100,1.2,0,1,5.0,2.5,2,80,80,820,1",
             "",
             "[Events]",
             "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"

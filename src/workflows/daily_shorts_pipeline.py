@@ -545,6 +545,10 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Cinematic high-altitude 3D satellite timelapse zooming into Singapore island, shoreline visibly glowing and pushing outward into the ocean in pulsing neon blue, hyperrealistic cartography, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_1.mp4",
                 "narration_text": "Singapore is twenty-five percent larger today than when it gained independence in nineteen-sixty-five.",
+                "subtitle_phrases": [
+                    "Singapore is {\c&H0020FFFF&}25% larger{\c&H00FFFFFF&} today",
+                    "than when it gained independence in {\c&H0020FFFF&}1965{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
@@ -565,6 +569,11 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Massive cutter-suction dredging ship in choppy turquoise ocean waters pumping hundreds of tons of seabed sand through roaring steel pipes onto artificial shoreline, dramatic low angle, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_2.mp4",
                 "narration_text": "To construct modern skyscrapers and ports, Singapore imported over five hundred million tons of ocean sand, becoming the world's largest sand importer per capita.",
+                "subtitle_phrases": [
+                    "To construct modern skyscrapers and ports,",
+                    "Singapore imported over {\c&H0020FFFF&}500 million tons{\c&H00FFFFFF&} of sand,",
+                    "becoming the world's {\c&H0020FFFF&}largest sand importer{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "water_rush.wav",
@@ -580,6 +589,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D satellite radar map tracking illicit marine cargo vessels moving secretly between Indonesia, Malaysia, and Singapore at night, glowing AIS transponder paths, photorealistic military cartography, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_3.mp4",
                 "narration_text": "When regional bans halted legal supplies, an illicit dredging black market devastated ecosystems, causing up to two dozen small Indonesian islets and sand cays to submerge below the tides.",
+                "subtitle_phrases": [
+                    "When regional bans halted legal supplies,",
+                    "an illicit dredging {\c&H0020FFFF&}black market{\c&H00FFFFFF&} devastated ecosystems,",
+                    "causing up to {\c&H0020FFFF&}two dozen Indonesian islets{\c&H00FFFFFF&}",
+                    "to submerge below the tides."
+                ],
                 "foley": [
                     {
                         "sfx": "warning_beep.wav",
@@ -595,6 +610,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Forensic 3D cross-section cutaway animation of a concrete polder sea wall holding back deep ocean water, drainage pumps flushing sea water below sea level, blueprint lines, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_4.mp4",
                 "narration_text": "To diversify beyond imported sand, Singapore pioneered massive Dutch-style polders, sealing ocean basins with reinforced dikes to reclaim land below sea level.",
+                "subtitle_phrases": [
+                    "To diversify beyond imported sand,",
+                    "Singapore pioneered massive {\c&H0020FFFF&}Dutch-style polders{\c&H00FFFFFF&},",
+                    "sealing ocean basins with {\c&H0020FFFF&}reinforced dikes{\c&H00FFFFFF&}",
+                    "to reclaim land below sea level."
+                ],
                 "foley": [
                     {
                         "sfx": "gate_clank.wav",
@@ -610,6 +631,13 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D geological soil cutaway simulation showing underwater vertical prefab drains driving hundreds of feet into marine clay, compressing saturated seabed into solid rock foundations, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_5.mp4",
                 "narration_text": "Miles of prefabricated vertical drains accelerate water expulsion from deep marine clay under massive surcharge weight, consolidating unstable seabed silt into solid ground foundations.",
+                "subtitle_phrases": [
+                    "Miles of {\c&H0020FFFF&}prefabricated vertical drains{\c&H00FFFFFF&}",
+                    "accelerate water expulsion from deep marine clay",
+                    "under massive {\c&H0020FFFF&}surcharge weight{\c&H00FFFFFF&},",
+                    "consolidating unstable seabed silt",
+                    "into {\c&H0020FFFF&}solid ground foundations{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "drill_rumble.wav",
@@ -625,6 +653,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Dramatic sunset drone hyperlapse over Tuas Mega Port, automated automated cranes lifting thousands of containers onto newly reclaimed tarmac stretching into horizon, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_6.mp4",
                 "narration_text": "The result is Tuas Mega Port: planned to become the world's largest automated container terminal upon completion in the 2040s, with Phase One already operational on reclaimed land.",
+                "subtitle_phrases": [
+                    "The result is {\c&H0020FFFF&}Tuas Mega Port{\c&H00FFFFFF&}:",
+                    "planned to become the world's {\c&H0020FFFF&}largest automated terminal{\c&H00FFFFFF&}",
+                    "upon completion in the {\c&H0020FFFF&}2040s{\c&H00FFFFFF&},",
+                    "with Phase One already operational."
+                ],
                 "foley": [
                     {
                         "sfx": "ship_horn.wav",
@@ -640,6 +674,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Futuristic seawall fortress bracing against surging ocean storm waves with glowing telemetry meters indicating four-meter height buffers, photorealistic, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_7.mp4",
                 "narration_text": "With sea levels projected to rise, newly reclaimed land is mandated to sit at least four to five meters above Singapore Height Datum, creating an existential coastal fortress against the sea.",
+                "subtitle_phrases": [
+                    "With sea levels projected to rise,",
+                    "newly reclaimed land is mandated",
+                    "to sit at least {\c&H0020FFFF&}4 to 5 meters above SHD{\c&H00FFFFFF&},",
+                    "creating an {\c&H0020FFFF&}existential coastal fortress{\c&H00FFFFFF&} against the sea."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -655,6 +695,11 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Breathtaking twilight pan over Singapore Marina Bay skyline with glowing supertrees and financial towers reflecting on calm bay water, cinematic golden volumetric lighting, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/singapore_scene_8.mp4",
                 "narration_text": "Could other vulnerable coastal nations engineer their way out of rising seas? Subscribe and leave your perspective in the comments.",
+                "subtitle_phrases": [
+                    "Could other vulnerable coastal nations",
+                    "{\c&H0020FFFF&}engineer their way out{\c&H00FFFFFF&} of rising seas?",
+                    "Subscribe and leave your perspective in the comments."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
