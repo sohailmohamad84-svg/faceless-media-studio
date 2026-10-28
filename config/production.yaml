@@ -1,0 +1,151 @@
+# Faceless Media Studio - Central Production Configuration
+# Validated against Master Engineering Specification v2.1
+
+channel:
+  name: "Apex op legend"
+  brand_title: "Faceless Media Studio"
+  niche_categories:
+    - "Extreme Engineering"
+    - "Megastructures & Megaprojects"
+    - "Underground Tunnels & Deep Foundations"
+    - "Offshore & Deep-Sea Exploration"
+    - "Aviation History & Experimental Aircraft"
+    - "Geological Forces & Natural Mechanics"
+    - "Space & Planetary Engineering"
+    - "Cold War & Classified Technology"
+  preferred_language: "en-US"
+  target_audience: "United States & Global English-Speaking Documentary Audience"
+  narration_voice: "en-US-ChristopherNeural"
+  brand_colors:
+    primary_gold: "#FFE020"
+    secondary_blue: "#38BDF8"
+    background_dark: "#0B0F19"
+    card_bg: "#131B2E"
+    text_white: "#F8FAFC"
+  subtitle_style:
+    font_name: "Arial Black"
+    font_size: 54
+    primary_color_ass: "&H00FFFFFF"
+    accent_color_ass: "&H0020FFFF"
+    outline_color_ass: "&H00000000"
+    outline_width: 5.0
+    shadow_depth: 2.5
+    margin_v: 820
+    case_mode: "sentence_case_with_gold_emphasis"
+  standard_cta: "Subscribe to Faceless Media Studio for daily forensic engineering documentaries."
+  default_duration_seconds: 65
+  duration_range_seconds:
+    min: 45
+    max: 90
+  daily_production_target: 1
+  publication_schedule:
+    target_time_local: "17:00"
+    timezone: "Asia/Kolkata"
+
+video:
+  output_resolution:
+    width: 1080
+    height: 1920
+  aspect_ratio: "9:16"
+  frame_rate: 60.0
+  video_codec: "libx264"
+  pixel_format: "yuv420p"
+  crf: 17
+  preset: "medium"
+  video_bitrate_target_kbps: 10000
+  video_bitrate_min_kbps: 9000
+  audio_codec: "aac"
+  audio_bitrate_kbps: 192
+  audio_sample_rate_hz: 48000
+  audio_channels: 2
+  audio_loudness_target_lufs: -14.0
+  audio_loudness_range_min_lufs: -16.5
+  audio_loudness_range_max_lufs: -13.5
+  audio_true_peak_target_dbtp: -2.0
+  audio_true_peak_ceiling_dbtp: -1.20
+  audio_ducking_ambient_db: -7.0
+  audio_ducking_foley_reduction: 0.30
+  subtitle_safe_zones:
+    top_clear_pct: 15
+    bottom_clear_pct: 20
+    left_margin_px: 60
+    right_margin_px: 60
+  thumbnail_dimensions:
+    vertical_shorts:
+      width: 1080
+      height: 1920
+    promotional_landscape:
+      width: 1280
+      height: 720
+  max_render_retries: 3
+  mandatory_quality_gates:
+    - "GATE-01_FILE_INTEGRITY"
+    - "GATE-02_TECHNICAL_COMPLIANCE"
+    - "GATE-03_FULL_VIDEO_VISUAL_INSPECTION"
+    - "GATE-04_NARRATIVE_VISUAL_ALIGNMENT"
+    - "GATE-05_FACTUAL_ACCURACY_CLAIM_LEDGER"
+    - "GATE-06_AUDIO_COMPLIANCE"
+    - "GATE-07_SUBTITLE_READABILITY_SAFE_ZONE"
+    - "GATE-08_COPYRIGHT_AND_ASSET_RIGHTS"
+    - "GATE-09_SYNTHETIC_MEDIA_PROVENANCE"
+    - "GATE-10_THUMBNAIL_AND_METADATA"
+    - "GATE-11_RERENDER_BOUNDED_REPAIR"
+    - "GATE-12_CREATOR_APPROVAL_GATE"
+
+workflow:
+  default_upload_permission: "DENIED"
+  default_scheduling_permission: "DENIED"
+  default_automatic_publication: false
+  creator_approval_required: true
+  file_hash_binding_required: true
+  supported_statuses:
+    - "IDEA"
+    - "RESEARCHING"
+    - "FACT_CHECKED"
+    - "SCRIPT_READY"
+    - "ASSETS_VERIFIED"
+    - "RENDERING"
+    - "RENDERED"
+    - "SELF_ASSESSMENT"
+    - "QC_FAILED"
+    - "QC_PASSED"
+    - "READY_FOR_CREATOR_REVIEW"
+    - "CREATOR_APPROVED"
+    - "UPLOAD_ALLOWED"
+    - "UPLOADED_PRIVATE"
+    - "SCHEDULED_OR_PUBLISHED"
+
+integrations:
+  ai_video:
+    primary_engine: "google_flow_veo2"
+    aspect_ratio: "9:16"
+    native_resolution: "720p"
+    upscale_filter: "lanczos"
+    preserve_synthid_badges: true
+    destructive_delogo_forbidden: true
+  stock_footage:
+    real_footage_priority: true
+    approved_sources:
+      - "pexels"
+      - "pixabay"
+      - "wikimedia_commons"
+      - "internet_archive_public_domain"
+      - "government_libraries"
+      - "official_engineering_archives"
+  tts:
+    provider: "edge_tts"
+    default_voice: "en-US-ChristopherNeural"
+    rate_adaptation: true
+  ffmpeg:
+    path_resolution: "dynamic"
+  youtube:
+    api_version: "v3"
+    category_id: "27" # Education
+    made_for_kids: false
+    default_privacy: "public"
+  storage:
+    data_dir: "data"
+    exports_dir: "exports"
+    thumbnails_dir: "data/thumbnails"
+    logs_dir: "logs"
+    assets_manifest_dir: "data/assets_manifest"

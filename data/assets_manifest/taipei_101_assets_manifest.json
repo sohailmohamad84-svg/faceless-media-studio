@@ -1,0 +1,73 @@
+{
+  "total_assets": 3,
+  "passed": true,
+  "blocking_failures": [],
+  "required_attributions": [
+    "Damper photography by Armand du Plessis under CC BY 3.0"
+  ],
+  "manifest": [
+    {
+      "asset_id": "AST-TPE-01",
+      "original_title": "Taipei 101 Tuned Mass Damper View from 89F Observation Deck",
+      "original_url": "https://commons.wikimedia.org/wiki/File:Taipei_101_Tuned_Mass_Damper.jpg",
+      "creator_or_rights_holder": "Armand du Plessis (Wikimedia Commons)",
+      "source_platform": "Wikimedia Commons",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Taipei_101_Tuned_Mass_Damper.jpg/1280px-Taipei_101_Tuned_Mass_Damper.jpg",
+      "license_name": "Creative Commons Attribution 3.0 Unported (CC BY 3.0)",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "commercial_use_permitted": true,
+      "attribution_required": true,
+      "modification_permitted": true,
+      "restrictions_or_exclusions": "Must credit creator and license in description",
+      "download_date": "2026-10-28",
+      "local_file_path": "data/assets/taipei_101_damper_commons.jpg",
+      "intended_scene": "Scene 3 & Scene 4",
+      "verification_status": "ATTRIBUTION_REQUIRED",
+      "attribution_credit_text": "Damper photography by Armand du Plessis under CC BY 3.0",
+      "is_ai_reconstruction": false,
+      "ai_provenance_signals_intact": true
+    },
+    {
+      "asset_id": "AST-TPE-02",
+      "original_title": "Taipei 101 Exterior Twilight Timelapse",
+      "original_url": "https://www.pexels.com/video/drone-footage-of-taipei-101-at-sunset-3195394/",
+      "creator_or_rights_holder": "Pexels Public Media Library",
+      "source_platform": "Pexels",
+      "download_url": "https://www.pexels.com/video/taipei-101/",
+      "license_name": "Pexels Free Commercial License",
+      "license_url": "https://www.pexels.com/license/",
+      "commercial_use_permitted": true,
+      "attribution_required": false,
+      "modification_permitted": true,
+      "restrictions_or_exclusions": "No reselling as raw stock",
+      "download_date": "2026-10-28",
+      "local_file_path": "data/assets/taipei_101_exterior_sunset.mp4",
+      "intended_scene": "Scene 1 & Scene 8",
+      "verification_status": "RIGHTS_VERIFIED",
+      "attribution_credit_text": "",
+      "is_ai_reconstruction": false,
+      "ai_provenance_signals_intact": true
+    },
+    {
+      "asset_id": "AST-TPE-03",
+      "original_title": "Google Veo 2 Forensic 3D Simulation: Skyscraper Damper Harmonic Motion",
+      "original_url": "https://flow.google.com/project/taipei-101",
+      "creator_or_rights_holder": "Google Flow / Veo 2 / Faceless Media Studio",
+      "source_platform": "Google Flow",
+      "download_url": "data/flow_clips/taipei_scene_4.mp4",
+      "license_name": "Google Terms of Service (Synthetic Media Commercial Terms)",
+      "license_url": "https://policies.google.com/terms",
+      "commercial_use_permitted": true,
+      "attribution_required": false,
+      "modification_permitted": true,
+      "restrictions_or_exclusions": "Preserve SynthID digital watermarks",
+      "download_date": "2026-10-28",
+      "local_file_path": "data/flow_clips/taipei_scene_4.mp4",
+      "intended_scene": "Scene 4 & Scene 5",
+      "verification_status": "RIGHTS_VERIFIED",
+      "attribution_credit_text": "",
+      "is_ai_reconstruction": true,
+      "ai_provenance_signals_intact": true
+    }
+  ]
+}

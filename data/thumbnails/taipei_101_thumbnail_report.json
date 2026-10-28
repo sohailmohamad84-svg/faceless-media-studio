@@ -1,0 +1,44 @@
+{
+  "package": {
+    "topic_id": "taipei_101_damper",
+    "main_thumbnail": "data\\thumbnails\\taipei_101_damper_thumb_main.jpg",
+    "alt_a_thumbnail": "data\\thumbnails\\taipei_101_damper_thumb_alt_a.jpg",
+    "alt_b_thumbnail": "data\\thumbnails\\taipei_101_damper_thumb_alt_b.jpg",
+    "promo_16x9": "data\\thumbnails\\taipei_101_damper_thumb_promo_16x9.jpg",
+    "generated_count": 4
+  },
+  "validation": {
+    "all_valid": true,
+    "errors": [],
+    "variant_results": {
+      "main_thumbnail": {
+        "valid": true,
+        "file_path": "data\\thumbnails\\taipei_101_damper_thumb_main.jpg",
+        "dimensions": "1080x1920",
+        "format": "JPEG",
+        "size_bytes": 209993
+      },
+      "alt_a_thumbnail": {
+        "valid": true,
+        "file_path": "data\\thumbnails\\taipei_101_damper_thumb_alt_a.jpg",
+        "dimensions": "1080x1920",
+        "format": "JPEG",
+        "size_bytes": 221203
+      },
+      "alt_b_thumbnail": {
+        "valid": true,
+        "file_path": "data\\thumbnails\\taipei_101_damper_thumb_alt_b.jpg",
+        "dimensions": "1080x1920",
+        "format": "JPEG",
+        "size_bytes": 199635
+      },
+      "promo_16x9": {
+        "valid": true,
+        "file_path": "data\\thumbnails\\taipei_101_damper_thumb_promo_16x9.jpg",
+        "dimensions": "1280x720",
+        "format": "JPEG",
+        "size_bytes": 118682
+      }
+    }
+  }
+}
