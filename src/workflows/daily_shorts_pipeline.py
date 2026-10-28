@@ -734,6 +734,11 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Low-angle cinematic drone shot facing the colossal concrete wall of Three Gorges Dam with massive floodgates blasting violent roaring white water into the gorge, heavy mist and rainbow distortion, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_1.mp4",
                 "narration_text": "Sitting across the Yangtze River is a concrete monster so heavy that it physically changed the rotation of planet Earth.",
+                "subtitle_phrases": [
+                    "Sitting across the {\c&H0020FFFF&}Yangtze River{\c&H00FFFFFF&}",
+                    "is a {\c&H0020FFFF&}concrete monster{\c&H00FFFFFF&} so heavy",
+                    "that it physically changed the {\c&H0020FFFF&}rotation of planet Earth{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
@@ -754,6 +759,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D holographic view of planet Earth spinning in deep space, glowing vector lines showing Earth's rotational axis shifting slightly as a glowing red mass concentrates in central China, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_2.mp4",
                 "narration_text": "NASA geophysicists calculated that raising thirty-nine trillion kilograms of water one hundred and seventy-five meters increased Earth's moment of inertia.",
+                "subtitle_phrases": [
+                    "NASA geophysicists calculated that raising",
+                    "{\c&H0020FFFF&}39 trillion kilograms{\c&H00FFFFFF&} of water",
+                    "{\c&H0020FFFF&}175 meters{\c&H00FFFFFF&} above sea level",
+                    "increased Earth's {\c&H0020FFFF&}moment of inertia{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -769,6 +780,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Visual split simulation comparing a spinning figure skater extending arms to a spinning globe elevating billions of tons of water away from its core, motion vectors, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_3.mp4",
                 "narration_text": "Just like a spinning ice skater slowing down when they stretch out their arms, raising water against gravity slowed Earth's daily spin by zero point zero six microseconds.",
+                "subtitle_phrases": [
+                    "Just like a spinning ice skater slowing down",
+                    "when they {\c&H0020FFFF&}stretch out their arms{\c&H00FFFFFF&},",
+                    "raising water against gravity",
+                    "slowed Earth's daily spin by {\c&H0020FFFF&}0.06 microseconds{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "warning_beep.wav",
@@ -784,6 +801,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D architectural cross-section cutaway deep inside the dam wall revealing thirty-two colossal Francis hydro-turbines spinning in roaring high-pressure water, glowing copper magnetic coils, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_4.mp4",
                 "narration_text": "Beneath the reservoir, thirty-two colossal hydro-turbines produce twenty-two thousand five hundred megawatts: enough electricity to power entire nations.",
+                "subtitle_phrases": [
+                    "Beneath the reservoir,",
+                    "{\c&H0020FFFF&}32 colossal hydro-turbines{\c&H00FFFFFF&}",
+                    "produce {\c&H0020FFFF&}22,500 megawatts{\c&H00FFFFFF&}:",
+                    "enough electricity to {\c&H0020FFFF&}power entire nations{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "drill_rumble.wav",
@@ -799,6 +822,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Macro tracking shot of the world's largest vertical ship lift, raising a 3,000-ton container barge 370 feet straight up inside a steel elevator shaft on massive counterweight cables, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_5.mp4",
                 "narration_text": "To bypass the four-hundred-foot wall, engineers built a three-thousand-ton vertical ship elevator that hoists entire cargo freighters in forty minutes.",
+                "subtitle_phrases": [
+                    "To bypass the 400-foot wall,",
+                    "engineers built a {\c&H0020FFFF&}3,000-ton ship elevator{\c&H00FFFFFF&}",
+                    "that hoists entire cargo freighters",
+                    "in just {\c&H0020FFFF&}40 minutes{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "gate_clank.wav",
@@ -814,6 +843,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D geological fault line simulation showing immense tectonic pressure underneath the reservoir bed with micro-fractures glowing red in continental crust rock, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_6.mp4",
                 "narration_text": "The weight is so immense that geologists monitor tectonic fault lines beneath the reservoir, where reservoir-induced seismicity triggers thousands of micro-tremors.",
+                "subtitle_phrases": [
+                    "The weight is so immense that geologists monitor",
+                    "{\c&H0020FFFF&}tectonic fault lines{\c&H00FFFFFF&} beneath the reservoir,",
+                    "where {\c&H0020FFFF&}reservoir-induced seismicity{\c&H00FFFFFF&}",
+                    "triggers thousands of {\c&H0020FFFF&}micro-tremors{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -829,6 +864,12 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "High-speed tracking shot of rushing monsoon flood currents crashing into reinforced concrete dissipation baffles, water exploding into towering spray, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_7.mp4",
                 "narration_text": "Built to tame floods that previously killed three hundred thousand people, it absorbs the full force of five-hundred-year Pacific superstorms.",
+                "subtitle_phrases": [
+                    "Built to tame floods that historically",
+                    "killed over {\c&H0020FFFF&}300,000 people{\c&H00FFFFFF&},",
+                    "it absorbs the full force",
+                    "of {\c&H0020FFFF&}500-year Pacific superstorms{\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "water_rush.wav",
@@ -844,6 +885,11 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Stunning golden hour panoramic drone shot rising over the crest of the dam, calm mountain reservoir stretching hundreds of miles into misty limestone peaks, warm sunlight, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/threegorges_scene_8.mp4",
                 "narration_text": "Is altering planetary mechanics worth clean energy? Hit subscribe and let us know your verdict below.",
+                "subtitle_phrases": [
+                    "Is {\c&H0020FFFF&}altering planetary mechanics{\c&H00FFFFFF&}",
+                    "worth clean energy?",
+                    "Hit {\c&H0020FFFF&}Subscribe{\c&H00FFFFFF&} and share your verdict below."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",

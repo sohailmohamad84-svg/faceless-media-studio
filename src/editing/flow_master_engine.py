@@ -21,7 +21,7 @@ class FlowMasterEngine:
     FPS = 60
     CRF = 17
     TARGET_LUFS = -14.0
-    TARGET_TRUE_PEAK = -1.5
+    TARGET_TRUE_PEAK = -2.0
     TARGET_LRA = 7.0
     SCALE_FILTER = "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920,fps=60"
 
