@@ -20,9 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
+import asyncio
 from src.workflows.flow_credits import FlowCreditTracker
 from src.workflows.daily_shorts_pipeline import VIRAL_SHORTS_QUEUE, DailyShortsPipeline
 from src.youtube.oauth import YouTubeAuthManager
+from src.youtube.uploader import YouTubePublisher
+from src.editing.flow_master_engine import FlowMasterEngine
+from src.quality.publication_gate import PublicationGate
 from src.config.production_config import ProductionConfig
 from src.quality.approval_manager import CreatorApprovalManager
 from src.research.topic_discovery import TopicDiscoveryEngine
@@ -412,12 +416,33 @@ with tab1:
             st.caption("⚡ Enforces 12 Quality Gates before requesting explicit Creator Approval prior to upload.")
 
         if trigger_now:
-            with st.status(f"🎬 Producing: {next_topic['title']}...", expanded=True) as status_box:
-                st.write("1. Verifying Claim Ledger and Primary Engineering Sources...")
-                st.write("2. Checking Real Footage & Creative Commons licensing...")
-                st.write("3. Synthesizing ChristopherNeural narration and rendering 60 FPS master...")
-                st.info("Video generation initiated. Check Tab 2 for QC Inspection & Creator Approval sign-off.")
-                status_box.update(label="✅ Ready for Review", state="complete")
+            with st.status(f"🎬 Producing Master Short: {next_topic['title']}...", expanded=True) as status_box:
+                st.write("1. 📚 Verifying Claim Ledger and Primary Engineering Sources...")
+                st.write("2. 🎙️ Synthesizing ChristopherNeural narration, dynamic ducking & Foley...")
+                out_filename = f"{next_topic['id']}_master_1080p.mp4"
+                try:
+                    # Execute master video assembly via FlowMasterEngine
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    master_video_path = loop.run_until_complete(
+                        FlowMasterEngine.build_master_video(
+                            scenes=next_topic["scenes"],
+                            output_filename=out_filename,
+                            ambient_sfx="tension_drone.wav"
+                        )
+                    )
+                    st.write(f"3. 🎞️ Master file rendered: `{master_video_path.name}` ({master_video_path.stat().st_size:,} bytes)")
+                    st.write("4. 🛡️ Running 12-Gate Comprehensive Quality Audit...")
+                    eval_result = PublicationGate.evaluate_all_12_gates(
+                        video_path=master_video_path,
+                        topic_metadata=next_topic
+                    )
+                    st.write(f"   Gate Result: **{eval_result['verdict']}** (Score: {eval_result['quality_score']}/100)")
+                    status_box.update(label=f"✅ Ready for Review: {next_topic['title']}", state="complete")
+                    st.success("🎉 Video generation complete! Switch to Tab 2 to preview the video and grant Creator Approval.")
+                except Exception as ex:
+                    status_box.update(label=f"⚠️ Generation error: {ex}", state="error")
+                    st.error(f"Error during video assembly: {ex}")
 
     # Multi-Day Backlog Queue with Filters
     st.markdown('<div class="section-title">📅 Upcoming Multi-Day Production Pipeline</div>', unsafe_allow_html=True)
@@ -500,12 +525,15 @@ with tab2:
     st.markdown('<div class="section-title">🛡️ Video Detail & 12-Gate Creator Approval Gate</div>', unsafe_allow_html=True)
     st.caption("Part 11 & Part 12: Every master video must pass 12 mandatory gates and receive explicit creator sign-off before upload.")
 
-    # Select episode to inspect
-    all_episodes = [
-        {"id": "three_gorges_rotation", "title": "The Monster Dam That Slowed Earth's Rotation", "file": "exports/three_gorges_rotation_master_1080p.mp4", "report": "three_gorges_rotation_qa_report.json"},
-        {"id": "singapore_sand_empire", "title": "The Secret Ocean War for Singapore's Sand", "file": "exports/singapore_sand_empire_master_1080p.mp4", "report": "singapore_sand_empire_qa_report.json"},
-        {"id": "taipei_101_damper", "title": "The 660-Ton Steel Sphere That Saves Taipei 101", "file": "exports/taipei_101_damper_master_1080p.mp4", "report": "taipei_101_qa_report.json"}
-    ]
+    # Dynamic list of all episodes from VIRAL_SHORTS_QUEUE
+    all_episodes = []
+    for item in VIRAL_SHORTS_QUEUE:
+        all_episodes.append({
+            "id": item["id"],
+            "title": item["title"],
+            "file": f"exports/{item['id']}_master_1080p.mp4",
+            "report": f"{item['id']}_qa_report.json"
+        })
     
     sel_ep_id = st.selectbox("Select Video for Full Inspection & Sign-off", [e["id"] for e in all_episodes], format_func=lambda x: next((e["title"] for e in all_episodes if e["id"] == x), x))
     ep = next((e for e in all_episodes if e["id"] == sel_ep_id), all_episodes[0])
@@ -536,9 +564,32 @@ with tab2:
         if auth_status.get("authorized"):
             st.success(f"🟢 **CREATOR APPROVED** (File Hash: `{file_hash[:16]}...`)")
             st.caption(f"Approved on: {auth_status.get('approved_at')} by {auth_status.get('reviewer')}")
-            if st.button("❌ Revoke Approval", key=f"revoke_{ep['id']}"):
-                CreatorApprovalManager.revoke_approval(ep["id"], reason="Revoked via dashboard")
-                st.rerun()
+            
+            col_pub, col_rev = st.columns([2, 1])
+            with col_pub:
+                if st.button("🚀 Publish to YouTube Shorts Now", type="primary", key=f"pub_{ep['id']}"):
+                    with st.spinner("Publishing to YouTube Shorts..."):
+                        topic_data = next((t for t in VIRAL_SHORTS_QUEUE if t["id"] == ep["id"]), None)
+                        desc = topic_data["description"] if topic_data else f"{ep['title']}\n\n#shorts #engineering #documentary"
+                        tags = topic_data["tags"] if topic_data else ["shorts", "engineering", "documentary"]
+                        pub_res = YouTubePublisher.upload_short_file(
+                            file_path=str(vid_file),
+                            title=ep["title"],
+                            description=desc,
+                            tags=tags,
+                            privacy_status="public"
+                        )
+                        if pub_res.get("success"):
+                            DailyShortsPipeline.record_published_id(ep["id"], pub_res["url"])
+                            st.success(f"🎉 Successfully published to YouTube Shorts! URL: [{pub_res['url']}]({pub_res['url']})")
+                            st.balloons()
+                            st.rerun()
+                        else:
+                            st.error(f"YouTube upload failed: {pub_res.get('error')}")
+            with col_rev:
+                if st.button("❌ Revoke Approval", key=f"revoke_{ep['id']}"):
+                    CreatorApprovalManager.revoke_approval(ep["id"], reason="Revoked via dashboard")
+                    st.rerun()
         else:
             st.warning(f"⚠️ **APPROVAL REQUIRED**: {auth_status.get('reason')}")
             col_app, col_rej = st.columns(2)
