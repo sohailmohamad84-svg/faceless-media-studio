@@ -48,19 +48,37 @@ class CreatorApprovalManager:
         video_id: str,
         video_file_path: Path,
         reviewer_name: str = "Creator",
-        notes: str = "Explicit sign-off granted"
+        notes: str = "Explicit sign-off granted",
+        metadata_dict: Optional[Dict[str, Any]] = None,
+        thumbnail_path: Optional[Path] = None,
+        qa_report: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
-        Explicitly records human approval bound cryptographically to the exact file SHA-256 hash.
+        Explicitly records human approval bound cryptographically to:
+        1. Exact MP4 file SHA-256 bitstream hash
+        2. Final metadata hash (title, description, tags)
+        3. Thumbnail SHA-256 hash
+        4. Verified QA score and status
         """
         if not video_file_path.exists():
             raise FileNotFoundError(f"Cannot approve missing video file: {video_file_path}")
 
         file_hash = cls.compute_file_hash(video_file_path)
+        thumb_hash = cls.compute_file_hash(thumbnail_path) if thumbnail_path and thumbnail_path.exists() else None
+        
+        meta_hash = None
+        if metadata_dict:
+            meta_str = json.dumps(metadata_dict, sort_keys=True)
+            meta_hash = hashlib.sha256(meta_str.encode("utf-8")).hexdigest()
+
         record = {
             "video_id": video_id,
             "file_path": str(video_file_path),
             "file_sha256": file_hash,
+            "metadata_hash": meta_hash,
+            "thumbnail_sha256": thumb_hash,
+            "qa_score": qa_report.get("score") if qa_report else None,
+            "qa_status": qa_report.get("status") if qa_report else None,
             "approved_at": datetime.utcnow().isoformat() + "Z",
             "reviewer_name": reviewer_name,
             "notes": notes,
@@ -83,10 +101,19 @@ class CreatorApprovalManager:
             cls._save_store(store)
 
     @classmethod
-    def verify_upload_authorization(cls, video_id: str, video_file_path: Path) -> Dict[str, Any]:
+    def verify_upload_authorization(
+        cls,
+        video_id: str,
+        video_file_path: Path,
+        metadata_dict: Optional[Dict[str, Any]] = None,
+        thumbnail_path: Optional[Path] = None,
+    ) -> Dict[str, Any]:
         """
         Mandatory gatekeeper executed before ANY upload or API transmission:
-        Returns authorized=True ONLY IF explicit approval exists AND current file hash matches approved hash.
+        Returns authorized=True ONLY IF explicit approval exists AND:
+        - Current video bitstream hash matches approved hash.
+        - Current metadata matches approved metadata hash (if provided).
+        - Current thumbnail matches approved thumbnail hash (if provided).
         """
         if not video_file_path.exists():
             return {
@@ -119,6 +146,25 @@ class CreatorApprovalManager:
                 "authorized": False,
                 "reason": f"HASH MISMATCH: Video file was re-rendered or modified after approval. Prior approval invalidated. (Current: {current_hash[:12]} vs Approved: {approved_hash[:12]})"
             }
+
+        if thumbnail_path and thumbnail_path.exists() and record.get("thumbnail_sha256"):
+            current_thumb_hash = cls.compute_file_hash(thumbnail_path)
+            if current_thumb_hash != record.get("thumbnail_sha256"):
+                cls.revoke_approval(video_id, reason="Thumbnail modified after approval (hash mismatch)")
+                return {
+                    "authorized": False,
+                    "reason": "THUMBNAIL HASH MISMATCH: Thumbnail was changed after approval. Prior approval invalidated."
+                }
+
+        if metadata_dict and record.get("metadata_hash"):
+            meta_str = json.dumps(metadata_dict, sort_keys=True)
+            current_meta_hash = hashlib.sha256(meta_str.encode("utf-8")).hexdigest()
+            if current_meta_hash != record.get("metadata_hash"):
+                cls.revoke_approval(video_id, reason="Metadata modified after approval (hash mismatch)")
+                return {
+                    "authorized": False,
+                    "reason": "METADATA HASH MISMATCH: Title, description, or tags were modified after approval. Prior approval invalidated."
+                }
 
         return {
             "authorized": True,

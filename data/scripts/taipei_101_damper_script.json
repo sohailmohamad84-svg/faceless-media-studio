@@ -1,17 +1,17 @@
 {
   "topic_id": "taipei_101_damper",
-  "title": "The 660-Ton Steel Sphere That Saves Taipei 101 #shorts",
-  "hook": "Hanging 1,000 feet inside this skyscraper is a 660-ton steel pendulum engineered to keep the entire building from collapsing.",
+  "title": "The 660-Ton Steel Sphere That Stabilizes Taipei 101 #shorts",
+  "hook": "Hanging 1,000 feet inside this skyscraper is a 660-ton steel pendulum engineered to slash typhoon sway by 40% and absorb violent seismic resonance.",
   "scenes": [
     {
       "scene_num": 1,
       "title": "The 1000-Foot Suspended Monster",
       "narrative_function": "HOOK",
-      "narration_text": "Hanging one thousand feet inside this skyscraper is a six-hundred-and-sixty-ton steel pendulum engineered to keep the entire building from collapsing.",
+      "narration_text": "Hanging one thousand feet inside this skyscraper is a six-hundred-and-sixty-ton steel pendulum, engineered to slash typhoon sway by forty percent and absorb violent harmonic resonance.",
       "subtitle_phrases": [
         "Hanging {\\c&H0020FFFF&}1,000 feet{\\c&H00FFFFFF&} inside this skyscraper",
-        "is a {\\c&H0020FFFF&}660-ton steel pendulum{\\c&H00FFFFFF&}",
-        "engineered to keep the tower from {\\c&H0020FFFF&}collapsing{\\c&H00FFFFFF&}."
+        "is a {\\c&H0020FFFF&}660-ton steel pendulum{\\c&H00FFFFFF&},",
+        "engineered to slash sway by {\\c&H0020FFFF&}40%{\\c&H00FFFFFF&}."
       ],
       "estimated_duration_sec": 7.05,
       "visual_type": "AUTHENTIC_FOOTAGE",
@@ -127,11 +127,11 @@
       "scene_num": 7,
       "title": "Earthquake Resilience in Action",
       "narrative_function": "CONSEQUENCE",
-      "narration_text": "While severe earthquakes crack streets below, visitors inside the tower stand calmly on the observation deck, protected by pure Newtonian physics.",
+      "narration_text": "While 380 bedrock-anchored columns prevent collapse during massive quakes, this swinging sphere absorbs violent sway so visitors stand safely.",
       "subtitle_phrases": [
-        "While severe earthquakes shake streets below,",
-        "visitors inside the tower {\\c&H0020FFFF&}stand safely{\\c&H00FFFFFF&},",
-        "protected by {\\c&H0020FFFF&}pure Newtonian physics{\\c&H00FFFFFF&}."
+        "While {\\c&H0020FFFF&}380 bedrock columns{\\c&H00FFFFFF&} prevent collapse,",
+        "this sphere absorbs {\\c&H0020FFFF&}violent sway{\\c&H00FFFFFF&}",
+        "so visitors stand in {\\c&H0020FFFF&}total safety{\\c&H00FFFFFF&}."
       ],
       "estimated_duration_sec": 7.74,
       "visual_type": "AUTHENTIC_FOOTAGE",

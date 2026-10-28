@@ -1047,10 +1047,10 @@ VIRAL_SHORTS_QUEUE = [
     },
     {
         "id": "taipei_101_damper",
-        "title": "The 660-Ton Steel Sphere That Saves Taipei 101 #shorts",
+        "title": "The 660-Ton Steel Sphere That Stabilizes Taipei 101 #shorts",
         "category": "Extreme Engineering",
-        "hook": "Suspended on the 92nd floor, this giant golden pendulum keeps a 1,667-foot tower from snapping.",
-        "description": "During Category 5 typhoons and 7.4 magnitude earthquakes, Taipei 101 sways up to five feet. How does a 660-tonne suspended steel ball counter the laws of kinetic energy?\n\n\ud83c\udfd9\ufe0f Like & Subscribe for daily high-retention engineering & architecture documentaries!\n\n#shorts #taipei101 #engineering #architecture #physics #skyscrapers #earthquake #taiwan",
+        "hook": "Suspended on the 92nd floor, this giant golden pendulum slashes skyscraper sway by 40% and absorbs violent harmonic resonance.",
+        "description": "During Category 5 typhoons and magnitude 7.4 earthquakes, Taipei 101 sways violently. How does a 660-tonne suspended steel sphere slash building sway by 40% while 380 bedrock megacolumns prevent structural collapse? Discover the genius physics of tuned mass dampers.\n\n🏙️ Like & Subscribe for daily high-retention engineering & architecture documentaries!\n\n#shorts #taipei101 #engineering #architecture #physics #skyscrapers #earthquake #taiwan",
         "tags": [
             "shorts",
             "taipei101",
@@ -1068,7 +1068,12 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "DYNAMIC_SPEED_TRACKING",
                 "prompt": "Low-angle dramatic shot of Taipei 101 skyscraper standing in a raging night typhoon with blinding rain sheets and swaying slightly against howling 150 MPH wind gusts, neon skyscraper lighting, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_1.mp4",
-                "narration_text": "Standing sixteen hundred feet over an active earthquake subduction zone, this skyscraper should have collapsed years ago.",
+                "narration_text": "Standing sixteen hundred feet over an active subduction zone, this skyscraper faces violent typhoon winds and catastrophic earthquakes.",
+                "subtitle_phrases": [
+                    "Standing 1,600 feet over an active fault line,",
+                    "this skyscraper faces {\\c&H0020FFFF&}violent typhoon winds{\\c&H00FFFFFF&}",
+                    "and {\\c&H0020FFFF&}catastrophic earthquakes{\\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
@@ -1089,6 +1094,11 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Camera sweeping around a colossal 18-foot golden steel sphere suspended by eight massive woven steel cables inside the 92nd floor atrium of Taipei 101, dramatic museum lighting, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_2.mp4",
                 "narration_text": "Suspended between the eighty-seventh and ninety-second floors is a six-hundred-and-sixty-ton golden steel tuned mass damper.",
+                "subtitle_phrases": [
+                    "Suspended between the {\\c&H0020FFFF&}87th and 92nd floors{\\c&H00FFFFFF&}",
+                    "is a {\\c&H0020FFFF&}660-ton golden steel{\\c&H00FFFFFF&}",
+                    "tuned mass damper."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -1103,7 +1113,12 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "FORENSIC_SIMULATION",
                 "prompt": "Forensic architectural 3D simulation showing Taipei 101 swaying to the left while the golden pendulum sways forcefully to the right, glowing force vector arrows canceling harmonic resonance, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_3.mp4",
-                "narration_text": "When fierce typhoon winds push the top of the tower left, inertia keeps the sphere moving right: canceling out over forty percent of the building's sway.",
+                "narration_text": "When fierce typhoon winds push the top of the tower left, inertia keeps the sphere moving right: canceling out forty percent of the building's sway.",
+                "subtitle_phrases": [
+                    "When typhoon winds push the tower left,",
+                    "inertia forces the sphere {\\c&H0020FFFF&}to swing right{\\c&H00FFFFFF&}:",
+                    "canceling out {\\c&H0020FFFF&}40% of sway{\\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "warning_beep.wav",
@@ -1118,7 +1133,12 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "3D_ARCHITECTURAL_CUTAWAY",
                 "prompt": "3D cutaway of eight massive high-pressure hydraulic shock cylinders connected to the bottom of the steel sphere compressing glowing red fluid, dampening kinetic energy, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_4.mp4",
-                "narration_text": "Underneath the sphere, eight high-pressure hydraulic dampers absorb millions of foot-pounds of kinetic energy, converting violent motion into harmless heat.",
+                "narration_text": "Underneath the sphere, eight high-pressure hydraulic dampers absorb millions of foot-pounds of kinetic energy, converting violent motion into heat.",
+                "subtitle_phrases": [
+                    "Beneath the sphere, {\\c&H0020FFFF&}8 hydraulic dampers{\\c&H00FFFFFF&}",
+                    "absorb millions of foot-pounds of energy,",
+                    "converting violent motion {\\c&H0020FFFF&}into heat{\\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "gate_clank.wav",
@@ -1134,6 +1154,11 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D cross-section traveling 260 feet beneath city streets showing 380 reinforced concrete foundation piles anchored directly into solid bedrock, steel rebar framework glowing, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_5.mp4",
                 "narration_text": "Deep beneath the street, three hundred and eighty steel-reinforced concrete columns sink two hundred and sixty feet into solid bedrock, anchoring the spine.",
+                "subtitle_phrases": [
+                    "Deep beneath the city street,",
+                    "{\\c&H0020FFFF&}380 concrete columns{\\c&H00FFFFFF&} sink 260 feet into bedrock,",
+                    "anchoring the {\\c&H0020FFFF&}structural spine{\\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "drill_rumble.wav",
@@ -1148,7 +1173,12 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "COCKPIT_TELEMETRY",
                 "prompt": "Real-time engineering telemetry overlay showing seismic P-waves shaking building columns during an earthquake while the pendulum swings in a controlled 100cm arc, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_6.mp4",
-                "narration_text": "During Taiwan's magnitude seven point four earthquake, the damper swung nearly three feet, absorbing destructive harmonic waves that would have cracked concrete shear walls.",
+                "narration_text": "During Taiwan's magnitude seven point four earthquake, the damper swung nearly three feet, absorbing destructive harmonic waves and controlling sway.",
+                "subtitle_phrases": [
+                    "During Taiwan's {\\c&H0020FFFF&}magnitude 7.4 earthquake{\\c&H00FFFFFF&},",
+                    "the damper swung {\\c&H0020FFFF&}nearly 3 feet{\\c&H00FFFFFF&},",
+                    "absorbing destructive harmonic waves."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -1164,6 +1194,11 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Wind tunnel aerodynamic airflow visualization around Taipei 101's stepped pagoda bamboo modules, vortex shedding spiraling harmlessly off corner notches, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_7.mp4",
                 "narration_text": "Inspired by native bamboo stalks, the building's eight tiered modules break up vortex shedding, slicing through typhoon winds instead of blocking them.",
+                "subtitle_phrases": [
+                    "Inspired by native {\\c&H0020FFFF&}bamboo stalks{\\c&H00FFFFFF&},",
+                    "eight tiered modules break vortex shedding,",
+                    "slicing through {\\c&H0020FFFF&}typhoon winds{\\c&H00FFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
@@ -1178,7 +1213,12 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "GOLDEN_FINISH_CTA",
                 "prompt": "Golden hour drone shot flying past the spire of Taipei 101 illuminated against a purple and orange sunset over Taipei basin, warm sunlight, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/taipei_scene_8.mp4",
-                "narration_text": "Would you feel safe on the top floor during a super-typhoon? Subscribe and tell us your thoughts below.",
+                "narration_text": "Would you feel safe inside a skyscraper stabilized by a swinging sphere? Subscribe and share your thoughts below.",
+                "subtitle_phrases": [
+                    "Would you feel safe inside a skyscraper",
+                    "stabilized by a {\\c&H0020FFFF&}swinging sphere{\\c&H00FFFFFF&}?",
+                    "Hit {\\c&H0020FFFF&}Subscribe{\\c&H00FFFFFF&} and tell us below."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",

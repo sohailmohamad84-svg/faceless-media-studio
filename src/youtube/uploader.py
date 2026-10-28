@@ -206,11 +206,30 @@ class YouTubePublisher:
         description: str,
         tags: Optional[list] = None,
         privacy_status: str = "public",
+        video_id: Optional[str] = None,
+        thumbnail_path: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """Upload any vertical MP4 directly to YouTube Shorts using YouTube Data API v3."""
+        """Upload any vertical MP4 directly to YouTube Shorts using YouTube Data API v3.
+        MANDATORY ENFORCEMENT: Verifies cryptographic creator approval before connecting to YouTube.
+        Raises PublishingError if video is unapproved or bitstream/metadata hash has been modified.
+        """
         vid_p = Path(file_path)
         if not vid_p.exists():
             return {"success": False, "error": f"File not found: {file_path}"}
+
+        target_id = video_id or vid_p.stem.replace("_master_1080p", "")
+        meta_dict = {"title": title, "description": description, "tags": tags or []}
+        thumb_p = Path(thumbnail_path) if thumbnail_path else None
+
+        from src.quality.approval_manager import CreatorApprovalManager
+        auth_status = CreatorApprovalManager.verify_upload_authorization(
+            video_id=target_id,
+            video_file_path=vid_p,
+            metadata_dict=meta_dict,
+            thumbnail_path=thumb_p
+        )
+        if not auth_status.get("authorized"):
+            raise PublishingError(f"PUBLICATION BLOCKED: {auth_status.get('reason')}")
 
         creds = YouTubeAuthManager.get_credentials()
         if not creds:

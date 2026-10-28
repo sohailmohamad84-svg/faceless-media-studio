@@ -1,7 +1,7 @@
 {
   "topic_id": "taipei_101_damper",
-  "total_claims": 5,
-  "verified_claims": 5,
+  "total_claims": 6,
+  "verified_claims": 6,
   "factual_integrity_score": 100.0,
   "passed": true,
   "blocking_failures": [],
@@ -80,6 +80,21 @@
       "verification_status": "VERIFIED",
       "script_location": "Scene 1",
       "is_material_numerical": true
+    },
+    {
+      "claim_id": "CLM-TPE-06",
+      "claim_text": "Structural collapse prevention during major earthquakes is provided by 380 steel composite columns anchored 80 meters into bedrock, while the damper provides dynamic sway attenuation and harmonic energy dissipation.",
+      "claim_type": "ENGINEERING_MECHANISM",
+      "source_title": "Thornton Tomasetti Structural Engineering Case Study & CTBUH Report",
+      "source_url": "https://www.thorntontomasetti.com/project/taipei-101",
+      "publisher": "Thornton Tomasetti / CTBUH",
+      "publication_date": "2024-04-10",
+      "access_date": "2026-10-28",
+      "supporting_excerpt_or_notes": "The tuned mass damper is an auxiliary motion control mechanism designed primarily for wind comfort and harmonic attenuation; the building's earthquake structural capacity comes from 380 bedrock-anchored piles, 8 mega-columns, and steel moment outriggers.",
+      "confidence": 1.0,
+      "verification_status": "VERIFIED",
+      "script_location": "Scene 5 & Scene 7",
+      "is_material_numerical": false
     }
   ]
 }

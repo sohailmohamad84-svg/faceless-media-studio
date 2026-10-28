@@ -294,3 +294,143 @@ def test_quality_repair_engine_diagnosis():
     assert len(repairs) == 2
     assert repairs[0]["action"] == "ADJUST_TRUE_PEAK_TARGET"
     assert repairs[1]["action"] == "INCREASE_ENCODING_BITRATE"
+
+
+# --- 9. SERVER-SIDE PUBLICATION LOCK & FAIL-CLOSED TESTS ---
+
+def test_youtube_publisher_blocks_unapproved_upload(tmp_path, monkeypatch):
+    """Verify that YouTubePublisher.upload_short_file strictly raises PublishingError
+    when attempting to publish an unapproved video or modified bitstream.
+    """
+    from src.youtube.uploader import YouTubePublisher, PublishingError
+    monkeypatch.setattr("src.quality.approval_manager.APPROVAL_STORE_PATH", tmp_path / "creator_approvals.json")
+
+    test_vid = tmp_path / "taipei_101_damper_master_1080p.mp4"
+    test_vid.write_bytes(b"VIDEO_BITSTREAM_MOCK_CONTENT_FOR_SAFETY_TEST")
+
+    # 1. Unapproved video must raise PublishingError
+    with pytest.raises(PublishingError, match="PUBLICATION BLOCKED"):
+        YouTubePublisher.upload_short_file(
+            file_path=str(test_vid),
+            title="Taipei 101 #shorts",
+            description="Test Description",
+            video_id="taipei_101_damper"
+        )
+
+
+def test_creator_approval_metadata_and_thumbnail_binding(tmp_path, monkeypatch):
+    """Verify that approval is cryptographically bound to metadata and thumbnail,
+    and invalidates immediately if metadata or thumbnail is altered.
+    """
+    monkeypatch.setattr("src.quality.approval_manager.APPROVAL_STORE_PATH", tmp_path / "creator_approvals.json")
+    test_vid = tmp_path / "test_vid.mp4"
+    test_vid.write_bytes(b"VIDEO_BITSTREAM_CONTENT_123")
+
+    test_thumb = tmp_path / "test_thumb.jpg"
+    test_thumb.write_bytes(b"THUMBNAIL_IMAGE_BYTES_456")
+
+    meta_original = {"title": "Title 1", "description": "Desc 1", "tags": ["tag1"]}
+
+    # Grant approval
+    CreatorApprovalManager.grant_approval(
+        video_id="bound_vid",
+        video_file_path=test_vid,
+        metadata_dict=meta_original,
+        thumbnail_path=test_thumb,
+        reviewer_name="Lead Producer"
+    )
+
+    # Initial verification passes
+    auth = CreatorApprovalManager.verify_upload_authorization(
+        video_id="bound_vid",
+        video_file_path=test_vid,
+        metadata_dict=meta_original,
+        thumbnail_path=test_thumb
+    )
+    assert auth["authorized"] is True
+
+    # 1. Modify metadata -> must fail
+    meta_tampered = {"title": "Changed Title", "description": "Desc 1", "tags": ["tag1"]}
+    auth_meta_tampered = CreatorApprovalManager.verify_upload_authorization(
+        video_id="bound_vid",
+        video_file_path=test_vid,
+        metadata_dict=meta_tampered,
+        thumbnail_path=test_thumb
+    )
+    assert auth_meta_tampered["authorized"] is False
+    assert "METADATA HASH MISMATCH" in auth_meta_tampered["reason"]
+
+    # Re-grant
+    CreatorApprovalManager.grant_approval(
+        video_id="bound_vid",
+        video_file_path=test_vid,
+        metadata_dict=meta_original,
+        thumbnail_path=test_thumb
+    )
+
+    # 2. Modify thumbnail -> must fail
+    test_thumb.write_bytes(b"NEW_THUMBNAIL_BYTES_789")
+    auth_thumb_tampered = CreatorApprovalManager.verify_upload_authorization(
+        video_id="bound_vid",
+        video_file_path=test_vid,
+        metadata_dict=meta_original,
+        thumbnail_path=test_thumb
+    )
+    assert auth_thumb_tampered["authorized"] is False
+    assert "THUMBNAIL HASH MISMATCH" in auth_thumb_tampered["reason"]
+
+
+def test_publication_gate_fails_closed_missing_claim_ledger(tmp_path, monkeypatch):
+    """Verify that PublicationGate fails closed if no claim ledger is provided or found."""
+    from src.quality.publication_gate import PublicationGate
+    test_vid = tmp_path / "test_gate_vid.mp4"
+    test_vid.write_bytes(b"x" * (6 * 1024 * 1024))  # 6MB mock
+
+    # Mock ffprobe and audio measurements
+    monkeypatch.setattr(PublicationGate, "run_ffprobe_json", classmethod(lambda cls, p: {
+        "format": {"duration": "60.0", "bit_rate": "9500000"},
+        "streams": [
+            {"codec_type": "video", "width": 1080, "height": 1920, "codec_name": "h264", "pix_fmt": "yuv420p"},
+            {"codec_type": "audio", "codec_name": "aac", "channels": 2, "sample_rate": "48000"}
+        ]
+    }))
+    monkeypatch.setattr(PublicationGate, "measure_audio_loudness", classmethod(lambda cls, p: {
+        "integrated_lufs": -14.5, "true_peak_dbtp": -1.5, "loudness_range_lu": 6.0
+    }))
+
+    res = PublicationGate.evaluate_all_12_gates(
+        video_path=test_vid,
+        claim_ledger=None,
+        topic_metadata={"id": "nonexistent_topic_no_ledger", "title": "Test", "scenes": [1, 2, 3, 4]}
+    )
+
+    # Must fail closed on Gate 05
+    assert res["gates"]["GATE-05_FACTUAL_ACCURACY_CLAIM_LEDGER"]["passed"] is False
+    assert any("GATE-05" in fail for fail in res["blocking_failures"])
+    assert res["overall_pass"] is False
+
+
+def test_publication_gate_fails_closed_mono_audio(tmp_path, monkeypatch):
+    """Verify that PublicationGate fails Gate 06 if audio channels are mono (1) instead of stereo (2)."""
+    from src.quality.publication_gate import PublicationGate
+    test_vid = tmp_path / "test_gate_vid_mono.mp4"
+    test_vid.write_bytes(b"x" * (6 * 1024 * 1024))
+
+    monkeypatch.setattr(PublicationGate, "run_ffprobe_json", classmethod(lambda cls, p: {
+        "format": {"duration": "60.0", "bit_rate": "9500000"},
+        "streams": [
+            {"codec_type": "video", "width": 1080, "height": 1920, "codec_name": "h264", "pix_fmt": "yuv420p"},
+            {"codec_type": "audio", "codec_name": "aac", "channels": 1, "sample_rate": "48000"}  # MONO!
+        ]
+    }))
+    monkeypatch.setattr(PublicationGate, "measure_audio_loudness", classmethod(lambda cls, p: {
+        "integrated_lufs": -14.5, "true_peak_dbtp": -1.5, "loudness_range_lu": 6.0
+    }))
+
+    res = PublicationGate.evaluate_all_12_gates(
+        video_path=test_vid,
+        topic_metadata={"id": "mock_id", "title": "Mock", "scenes": [1, 2, 3, 4]}
+    )
+
+    assert res["gates"]["GATE-06_AUDIO_COMPLIANCE"]["passed"] is False
+    assert any("GATE-06" in fail for fail in res["blocking_failures"])

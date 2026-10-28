@@ -256,19 +256,25 @@ class FlowMasterEngine:
             raw_mixed_pcm[-fade_len:] *= np.linspace(1.0, 0.0, fade_len, dtype=np.float32)
             
         raw_wav = work_dir / "raw_master_audio.wav"
+        stereo_pcm = np.empty((total_samples * 2,), dtype=np.int16)
+        clipped_s16 = (np.clip(raw_mixed_pcm, -1.0, 1.0) * 32767).astype(np.int16)
+        stereo_pcm[0::2] = clipped_s16  # Left
+        stereo_pcm[1::2] = clipped_s16  # Right
+
         with wave.open(str(raw_wav), "w") as wf:
-            wf.setnchannels(1)
+            wf.setnchannels(2)
             wf.setsampwidth(2)
             wf.setframerate(cls.SAMPLE_RATE)
-            wf.writeframes((np.clip(raw_mixed_pcm, -1.0, 1.0) * 32767).astype(np.int16).tobytes())
+            wf.writeframes(stereo_pcm.tobytes())
 
-        # Step 4: Broadcast Loudness Mastering via EBU R128 (Integrated -14 LUFS, True Peak <= -1.0 dBTP)
+        # Step 4: Broadcast Loudness Mastering via EBU R128 (Integrated -14 LUFS, True Peak <= -1.5 dBTP)
         mastered_wav = work_dir / "master_audio_mastered.wav"
         cmd_loudnorm = [
             "ffmpeg", "-y",
             "-i", str(raw_wav),
             "-af", f"loudnorm=I={cls.TARGET_LUFS}:TP={cls.TARGET_TRUE_PEAK}:LRA={cls.TARGET_LRA}",
             "-ar", str(cls.SAMPLE_RATE),
+            "-ac", "2",
             "-c:a", "pcm_s16le",
             str(mastered_wav)
         ]
@@ -308,7 +314,7 @@ class FlowMasterEngine:
             "-r", str(cls.FPS),
             "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
             "-pix_fmt", "yuv420p",
-            "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
+            "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
             "-t", f"{total_duration:.2f}",
             str(out_final)
         ]

@@ -437,7 +437,7 @@ with tab1:
                         video_path=master_video_path,
                         topic_metadata=next_topic
                     )
-                    st.write(f"   Gate Result: **{eval_result['verdict']}** (Score: {eval_result['quality_score']}/100)")
+                    st.write(f"   Gate Result: **{eval_result.get('status', 'READY_FOR_CREATOR_REVIEW')}** (Score: {eval_result.get('score', 0)}/100)")
                     status_box.update(label=f"✅ Ready for Review: {next_topic['title']}", state="complete")
                     st.success("🎉 Video generation complete! Switch to Tab 2 to preview the video and grant Creator Approval.")
                 except Exception as ex:
@@ -572,20 +572,26 @@ with tab2:
                         topic_data = next((t for t in VIRAL_SHORTS_QUEUE if t["id"] == ep["id"]), None)
                         desc = topic_data["description"] if topic_data else f"{ep['title']}\n\n#shorts #engineering #documentary"
                         tags = topic_data["tags"] if topic_data else ["shorts", "engineering", "documentary"]
-                        pub_res = YouTubePublisher.upload_short_file(
-                            file_path=str(vid_file),
-                            title=ep["title"],
-                            description=desc,
-                            tags=tags,
-                            privacy_status="public"
-                        )
-                        if pub_res.get("success"):
-                            DailyShortsPipeline.record_published_id(ep["id"], pub_res["url"])
-                            st.success(f"🎉 Successfully published to YouTube Shorts! URL: [{pub_res['url']}]({pub_res['url']})")
-                            st.balloons()
-                            st.rerun()
-                        else:
-                            st.error(f"YouTube upload failed: {pub_res.get('error')}")
+                        thumb_file = Path(f"data/thumbnails/{ep['id']}_thumb_main.jpg")
+                        try:
+                            pub_res = YouTubePublisher.upload_short_file(
+                                file_path=str(vid_file),
+                                title=ep["title"],
+                                description=desc,
+                                tags=tags,
+                                privacy_status="public",
+                                video_id=ep["id"],
+                                thumbnail_path=str(thumb_file) if thumb_file.exists() else None
+                            )
+                            if pub_res.get("success"):
+                                DailyShortsPipeline.record_published_id(ep["id"], pub_res["url"])
+                                st.success(f"🎉 Successfully published to YouTube Shorts! URL: [{pub_res['url']}]({pub_res['url']})")
+                                st.balloons()
+                                st.rerun()
+                            else:
+                                st.error(f"YouTube upload failed: {pub_res.get('error')}")
+                        except Exception as ex:
+                            st.error(f"Upload blocked: {ex}")
             with col_rev:
                 if st.button("❌ Revoke Approval", key=f"revoke_{ep['id']}"):
                     CreatorApprovalManager.revoke_approval(ep["id"], reason="Revoked via dashboard")
@@ -596,7 +602,20 @@ with tab2:
             with col_app:
                 app_notes = st.text_input("Approval Notes", value="Verified factual accuracy, audio compliance, and visual continuity.", key=f"notes_{ep['id']}")
                 if st.button("✅ Approve for YouTube Upload", type="primary", key=f"btn_app_{ep['id']}", disabled=not vid_file.exists()):
-                    CreatorApprovalManager.grant_approval(ep["id"], vid_file, reviewer_name="Creator", notes=app_notes)
+                    topic_data = next((t for t in VIRAL_SHORTS_QUEUE if t["id"] == ep["id"]), None)
+                    desc = topic_data["description"] if topic_data else f"{ep['title']}\n\n#shorts #engineering #documentary"
+                    tags = topic_data["tags"] if topic_data else ["shorts", "engineering", "documentary"]
+                    meta_dict = {"title": ep["title"], "description": desc, "tags": tags}
+                    thumb_file = Path(f"data/thumbnails/{ep['id']}_thumb_main.jpg")
+
+                    CreatorApprovalManager.grant_approval(
+                        video_id=ep["id"],
+                        video_file_path=vid_file,
+                        reviewer_name="Creator",
+                        notes=app_notes,
+                        metadata_dict=meta_dict,
+                        thumbnail_path=thumb_file if thumb_file.exists() else None
+                    )
                     st.success("Explicit approval granted! Video is now authorized for publication.")
                     st.rerun()
             with col_rej:
