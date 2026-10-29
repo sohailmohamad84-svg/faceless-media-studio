@@ -920,11 +920,20 @@ VIRAL_SHORTS_QUEUE = [
         "scenes": [
             {
                 "scene_num": 1,
-                "title": "The Edge of Space Hook",
+                "title": "The Stratospheric Cruise Hook",
                 "graphic_type": "DYNAMIC_SPEED_TRACKING",
-                "prompt": "Cinematic low tracking shot of SR-71 Blackbird cruising at 85,000 feet against black space and curved blue horizon, two Pratt and Whitney J58 engines roaring with blue-orange afterburner shock diamonds, 4k 60fps vertical 9:16",
+                "prompt": "Cinematic low tracking shot of SR-71 Blackbird cruising at 85,000 feet in upper stratosphere against black sky and curved blue Earth horizon, twin canted vertical fins, Pratt and Whitney J58 engines roaring with blue-orange afterburner shock diamonds, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_1.mp4",
-                "narration_text": "Cruising eighty-five thousand feet above the Earth at three times the speed of sound, a single breath of turbulence could tear the aircraft in half.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "Cruising at eighty-five thousand feet at Mach three point two, the airframe faces extreme stress. Here, a shockwave shifting one millimeter can choke the engines in milliseconds.",
+                "subtitle_phrases": [
+                    "Cruising at {\\c&H00D7FF&}85,000 feet{\\c&HFFFFFF&}",
+                    "at {\\c&H00D7FF&}Mach 3.2{\\c&HFFFFFF&}, the airframe",
+                    "faces {\\c&H00D7FF&}extreme stress{\\c&HFFFFFF&}.",
+                    "A shockwave shifting {\\c&H00D7FF&}1 millimeter{\\c&HFFFFFF&}",
+                    "chokes the engines {\\c&H00D7FF&}in milliseconds{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
@@ -942,9 +951,18 @@ VIRAL_SHORTS_QUEUE = [
                 "scene_num": 2,
                 "title": "3D Moveable Spike Cutaway",
                 "graphic_type": "3D_ARCHITECTURAL_CUTAWAY",
-                "prompt": "3D cross-section animation of the SR-71 inlet cone spike moving back twenty-six inches inside nacelle, trapping conical shockwaves at supersonic speeds, glowing air velocity gradients, 4k 60fps vertical 9:16",
+                "prompt": "3D cross-section animation of the SR-71 inlet cone spike moving back twenty-six inches inside nacelle, trapping conical shockwaves at supersonic speeds, slowing airflow to subsonic Mach 0.5, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_2.mp4",
-                "narration_text": "At Mach three, jet fuel cannot burn in supersonic air. The engine's moveable intake spike had to swallow and slow twenty-two hundred mile-per-hour air down to subsonic speeds.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "At Mach three, fuel cannot burn in supersonic air. The intake spike retracts twenty-six inches inside the cowl, slowing twenty-two hundred mile-per-hour air to subsonic speeds.",
+                "subtitle_phrases": [
+                    "At {\\c&H00D7FF&}Mach 3{\\c&HFFFFFF&}, fuel cannot",
+                    "burn in {\\c&H00D7FF&}supersonic air{\\c&HFFFFFF&}.",
+                    "The intake spike {\\c&H00D7FF&}retracts 26 inches{\\c&HFFFFFF&},",
+                    "slowing {\\c&H00D7FF&}2,200 mph air{\\c&HFFFFFF&}",
+                    "down to {\\c&H00D7FF&}subsonic speeds{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "warning_beep.wav",
@@ -957,9 +975,18 @@ VIRAL_SHORTS_QUEUE = [
                 "scene_num": 3,
                 "title": "Forensic Shockwave Expulsion",
                 "graphic_type": "FORENSIC_SIMULATION",
-                "prompt": "Forensic aerodynamic simulation of a conical supersonic shockwave blowing violently out the front of the intake cone in a blinding explosion of vapor and fire, 4k 60fps vertical 9:16",
+                "prompt": "Forensic aerodynamic simulation of a terminal normal shockwave expelled forward out of the intake cowl in violent condensation collar and shock vortices, zero fireball explosion, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_3.mp4",
-                "narration_text": "If the internal shockwave shifted by one millimeter, the engine choked. In fifty milliseconds, the shockwave was violently vomited out the front in an inlet unstart.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "If internal shockwave balance fails, the engine chokes. In fifty milliseconds, the terminal normal shock is violently expelled forward out the cowl in an aerodynamic unstart.",
+                "subtitle_phrases": [
+                    "If shockwave balance fails,",
+                    "the engine {\\c&H00D7FF&}instantly chokes{\\c&HFFFFFF&}.",
+                    "In {\\c&H00D7FF&}50 milliseconds{\\c&HFFFFFF&}, the terminal shock",
+                    "is {\\c&H00D7FF&}expelled forward{\\c&HFFFFFF&} out the cowl",
+                    "in an {\\c&H00D7FF&}aerodynamic unstart{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -972,9 +999,18 @@ VIRAL_SHORTS_QUEUE = [
                 "scene_num": 4,
                 "title": "Cockpit Violent Yaw Telemetry",
                 "graphic_type": "COCKPIT_TELEMETRY",
-                "prompt": "Visor POV inside SR-71 cockpit during severe violent yaw jerk, pilot helmet slamming against canopy glass, analog instrument panel needles violently vibrating with red master warning lights, 4k 60fps vertical 9:16",
+                "prompt": "Visor POV inside SR-71 cockpit during severe violent yaw jerk, pilot in white David Clark pressure suit and gold visor slamming toward canopy, analog dials vibrating with red warning lights, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_4.mp4",
-                "narration_text": "Instantly losing all thrust on one side, the aircraft violently whipped sideways at Mach three, slamming pilots against the canopy with enough force to shatter flight helmets.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "Losing all thrust on one side, the aircraft whips violently sideways, slamming the pilot against the canopy with enough yaw force to crack flight helmets.",
+                "subtitle_phrases": [
+                    "Losing all thrust {\\c&H00D7FF&}on one side{\\c&HFFFFFF&},",
+                    "the aircraft {\\c&H00D7FF&}whips violently sideways{\\c&HFFFFFF&},",
+                    "slamming the pilot {\\c&H00D7FF&}against the canopy{\\c&HFFFFFF&}",
+                    "with enough {\\c&H00D7FF&}yaw acceleration{\\c&HFFFFFF&}",
+                    "to {\\c&H00D7FF&}crack flight helmets{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "gate_clank.wav",
@@ -989,7 +1025,16 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "3D_ARCHITECTURAL_CUTAWAY",
                 "prompt": "3D mechanical cutaway of the Pratt and Whitney J58 engine showing bypass bleed pipes redirecting compressor air straight into the afterburner like a pure ramjet, glowing orange heat, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_5.mp4",
-                "narration_text": "The J-fifty-eight was not just a turbojet; it was a hybrid ramjet that actually produced more than eighty percent of its total thrust from the inlet alone.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "The J-fifty-eight was a hybrid turbo-ramjet. At Mach three, bypass bleed pipes converted it to a ramjet, with the inlet diffuser producing eighty percent of total thrust.",
+                "subtitle_phrases": [
+                    "The {\\c&H00D7FF&}J58{\\c&HFFFFFF&} was a hybrid turbo-ramjet.",
+                    "At {\\c&H00D7FF&}Mach 3{\\c&HFFFFFF&}, bypass bleed pipes",
+                    "converted it {\\c&H00D7FF&}into a ramjet{\\c&HFFFFFF&},",
+                    "with the intake diffuser {\\c&H00D7FF&}producing 80%{\\c&HFFFFFF&}",
+                    "of its {\\c&H00D7FF&}total forward thrust{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "drill_rumble.wav",
@@ -1002,9 +1047,18 @@ VIRAL_SHORTS_QUEUE = [
                 "scene_num": 6,
                 "title": "Titanium Skin Heat Expansion",
                 "graphic_type": "AERODYNAMIC_SHOCKWAVE",
-                "prompt": "Macro tracking shot of the Blackbird's titanium fuselage skin glowing red at 600 degrees Fahrenheit, corrugated panels expanding to seal loose fuel leaks in flight, 4k 60fps vertical 9:16",
+                "prompt": "Macro tracking shot of the Blackbird's titanium fuselage skin at 600 degrees Fahrenheit, corrugated panels expanding to seal loose fuel joints, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_6.mp4",
-                "narration_text": "Friction heated the Russian titanium fuselage to over six hundred degrees Fahrenheit, expanding the airframe by several inches to seal leaking fuel tanks in mid-air.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "Atmospheric friction heated the titanium skin past six hundred degrees. The airframe expanded several inches in flight, sealing fuel joints that leaked on the ground.",
+                "subtitle_phrases": [
+                    "Atmospheric friction heated",
+                    "the titanium skin {\\c&H00D7FF&}past 600°F{\\c&HFFFFFF&}.",
+                    "The airframe {\\c&H00D7FF&}expanded several inches{\\c&HFFFFFF&},",
+                    "sealing fuel joints",
+                    "that {\\c&H00D7FF&}leaked on the ground{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
@@ -1019,7 +1073,16 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "DYNAMIC_SPEED_TRACKING",
                 "prompt": "SR-71 pitching up into an aggressive supersonic climb leaving twin Mach diamonds across the upper stratosphere as surface-to-air missiles detonate miles below in harmless clouds, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_7.mp4",
-                "narration_text": "Across four thousand missile launches against it, not a single SR-71 was ever shot down: their standard defense was simply pushing the throttles forward and outrunning the missile.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "Over four thousand anti-aircraft missiles were fired at the Blackbird. Not a single SR-seventy-one was ever hit: its standard defense was simply accelerating away.",
+                "subtitle_phrases": [
+                    "Over {\\c&H00D7FF&}4,000 missiles{\\c&HFFFFFF&} were fired",
+                    "at the Blackbird {\\c&H00D7FF&}during its service{\\c&HFFFFFF&}.",
+                    "Not a single {\\c&H00D7FF&}SR-71 was ever hit{\\c&HFFFFFF&}:",
+                    "its standard defense",
+                    "was {\\c&H00D7FF&}simply accelerating away{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
@@ -1034,7 +1097,15 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "GOLDEN_FINISH_CTA",
                 "prompt": "Pristine aviation museum display with SR-71 Blackbird under dramatic golden spotlighting, sleek black stealth curves reflecting volumetric sunbeams, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/sr71_scene_8.mp4",
-                "narration_text": "Could modern hypersonic drones ever match the raw physical genius of the Blackbird? Subscribe and leave your thoughts below.",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "narration_text": "Could modern hypersonic drones ever match the physical genius of the SR-seventy-one Blackbird? Subscribe and leave your thoughts below.",
+                "subtitle_phrases": [
+                    "Could modern {\\c&H00D7FF&}hypersonic drones{\\c&HFFFFFF&}",
+                    "ever match the {\\c&H00D7FF&}physical genius{\\c&HFFFFFF&}",
+                    "of the {\\c&H00D7FF&}SR-71 Blackbird{\\c&HFFFFFF&}?",
+                    "Subscribe and {\\c&H00D7FF&}leave your thoughts below{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",

@@ -1,0 +1,128 @@
+{
+  "topic_id": "sr71_blackbird_unstart",
+  "generated_at": "2026-10-30T00:15:00Z",
+  "total_assets": 11,
+  "manifest": [
+    {
+      "asset_id": "AST-SR71-01",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_1.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "Stratospheric cruise at 85,000 ft, canted vertical fins, J58 shock diamonds."
+    },
+    {
+      "asset_id": "AST-SR71-02",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_2.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "3D moveable intake spike cutaway showing 26-inch translation."
+    },
+    {
+      "asset_id": "AST-SR71-03",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_3.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "Forensic normal shockwave expulsion out cowl, vapor collar, zero fireball explosion."
+    },
+    {
+      "asset_id": "AST-SR71-04",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_4.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "Cockpit yaw jerk, pilot in David Clark full-pressure suit with gold visor."
+    },
+    {
+      "asset_id": "AST-SR71-05",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_5.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "J58 turbo-ramjet transition cutaway with bypass bleed pipes."
+    },
+    {
+      "asset_id": "AST-SR71-06",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_6.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "Corrugated titanium skin heat expansion at 600°F."
+    },
+    {
+      "asset_id": "AST-SR71-07",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_7.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "High-altitude Mach 3.2 missile evasion climb."
+    },
+    {
+      "asset_id": "AST-SR71-08",
+      "asset_type": "IMAGE_VISUAL",
+      "file_path": "data/assets/sr71/sr71_scene_8.jpg",
+      "source": "Google DeepMind Imagen 3 / Veo AI",
+      "license_type": "PROPRIETARY_AI_SYNTHESIS",
+      "provenance_signature": "SynthID Digital Watermark Intact",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "Aviation museum exhibition with golden spotlighting."
+    },
+    {
+      "asset_id": "AST-SR71-09",
+      "asset_type": "AUDIO_VOICEOVER",
+      "file_path": "scratch/flow_master_work/master_audio_mastered.wav",
+      "source": "Microsoft Azure EdgeTTS (en-US-ChristopherNeural)",
+      "license_type": "COMMERCIAL_USE_PERMITTED",
+      "provenance_signature": "Neural Audio Synthesis",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "EBU R128 mastered narration (-14 LUFS, -1.9 dBTP)."
+    },
+    {
+      "asset_id": "AST-SR71-10",
+      "asset_type": "AUDIO_AMBIENT",
+      "file_path": "data/sfx/tension_drone.wav",
+      "source": "Faceless Media Studio In-House Sound Library",
+      "license_type": "ROYALTY_FREE_IN_HOUSE",
+      "provenance_signature": "Studio Master",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "Cinematic low-frequency suspense drone."
+    },
+    {
+      "asset_id": "AST-SR71-11",
+      "asset_type": "AUDIO_FOLEY",
+      "file_path": "data/sfx/impact_boom.wav",
+      "source": "Faceless Media Studio In-House Sound Library",
+      "license_type": "ROYALTY_FREE_IN_HOUSE",
+      "provenance_signature": "Studio Master",
+      "attribution_required": false,
+      "commercial_use_cleared": true,
+      "notes": "Sub-bass aerodynamic impact transient."
+    }
+  ]
+}

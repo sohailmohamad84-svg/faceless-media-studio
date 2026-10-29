@@ -11,7 +11,7 @@ import re
 import subprocess
 import wave
 from pathlib import Path
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 import numpy as np
 import edge_tts
 
@@ -70,7 +70,8 @@ class FlowMasterEngine:
         cls,
         scenes: List[Dict[str, Any]],
         output_filename: str,
-        ambient_sfx: str = "tension_drone.wav"
+        ambient_sfx: str = "tension_drone.wav",
+        target_scene_duration: Optional[float] = None
     ) -> Path:
         """
         Builds a broadcast-master short from scenes:
@@ -88,8 +89,9 @@ class FlowMasterEngine:
         for idx, sc in enumerate(scenes):
             text = sc.get("narration_text", "")
             vo_path = work_dir / f"vo_{idx}.mp3"
+            rate = sc.get("voice_rate", "+16%")
             if text:
-                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate="+14%")
+                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate=rate)
                 await comm.save(str(vo_path))
                 cmd_p = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(vo_path)]
                 dur = float(subprocess.run(cmd_p, capture_output=True, text=True, check=True).stdout.strip())
@@ -98,10 +100,16 @@ class FlowMasterEngine:
             vo_files.append(vo_path)
             vo_durations.append(dur)
             
-            # Dynamic viral scene duration (90-120s full documentary pacing, target ~13.5s per scene)
-            is_last = (idx == len(scenes) - 1)
-            target_scene_dur = 13.5
-            sc_dur = max(dur + (1.0 if is_last else 0.8), target_scene_dur)
+            # Scene duration: explicit, parameter, 8-act standard (11.50s), or dynamic fallback
+            if "duration" in sc:
+                sc_dur = float(sc["duration"])
+            elif target_scene_duration is not None:
+                sc_dur = float(target_scene_duration)
+            elif len(scenes) == 8:
+                sc_dur = 11.50
+            else:
+                is_last = (idx == len(scenes) - 1)
+                sc_dur = max(dur + (1.0 if is_last else 0.8), 13.5)
             scene_durations.append(sc_dur)
 
         total_duration = sum(scene_durations)
@@ -312,8 +320,12 @@ class FlowMasterEngine:
             "-vf", f"subtitles={clean_ass_sub},format=yuv420p",
             "-r", str(cls.FPS),
             "-c:v", "libx264", "-preset", "fast",
-            "-b:v", "8200k", "-minrate", "8000k", "-maxrate", "8500k", "-bufsize", "8500k", "-nal-hrd", "cbr",
+            "-b:v", "8500k", "-minrate", "8200k", "-maxrate", "9000k", "-bufsize", "9000k", "-nal-hrd", "cbr",
             "-pix_fmt", "yuv420p",
+            "-color_range", "1",
+            "-colorspace", "bt709",
+            "-color_primaries", "bt709",
+            "-color_trc", "bt709",
             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
             "-t", f"{total_duration:.2f}",
             str(out_final)
