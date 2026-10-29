@@ -32,6 +32,7 @@ async def run_assembly():
         scenes=topic['scenes'],
         output_filename=out_filename,
         ambient_sfx="tension_drone.wav",
+        engine_bed_sfx="jet_engine_rumble.wav",
         target_scene_duration=11.50
     )
     

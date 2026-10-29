@@ -926,6 +926,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_1.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "ALT: 85,000 FT // SPD: MACH 3.20 // REGIME: STRATOSPHERE // AIR TEMP: -60°C",
                 "narration_text": "Cruising at eighty-five thousand feet at Mach three point two, the airframe faces extreme stress. Here, a shockwave shifting one millimeter can choke the engines in milliseconds.",
                 "subtitle_phrases": [
                     "Cruising at {\\c&H00D7FF&}85,000 feet{\\c&HFFFFFF&}",
@@ -935,6 +936,11 @@ VIRAL_SHORTS_QUEUE = [
                     "chokes the engines {\\c&H00D7FF&}in milliseconds{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
                     {
                         "sfx": "tension_drone.wav",
                         "time_offset": 0.0,
@@ -955,6 +961,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_2.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "INLET GEOMETRY // SPIKE TRANSLATION: -26 INCHES // SUBSONIC DIFFUSION",
                 "narration_text": "At Mach three, fuel cannot burn in supersonic air. The intake spike retracts twenty-six inches inside the cowl, slowing twenty-two hundred mile-per-hour air to subsonic speeds.",
                 "subtitle_phrases": [
                     "At {\\c&H00D7FF&}Mach 3{\\c&HFFFFFF&}, fuel cannot",
@@ -964,6 +971,11 @@ VIRAL_SHORTS_QUEUE = [
                     "down to {\\c&H00D7FF&}subsonic speeds{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
                     {
                         "sfx": "warning_beep.wav",
                         "time_offset": 0.3,
@@ -979,6 +991,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_3.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "WARNING: NORMAL SHOCK EXPULSION // INLET UNSTART // DELTA-T: 50MS",
                 "narration_text": "If internal shockwave balance fails, the engine chokes. In fifty milliseconds, the terminal normal shock is violently expelled forward out the cowl in an aerodynamic unstart.",
                 "subtitle_phrases": [
                     "If shockwave balance fails,",
@@ -988,6 +1001,16 @@ VIRAL_SHORTS_QUEUE = [
                     "in an {\\c&H00D7FF&}aerodynamic unstart{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
+                    {
+                        "sfx": "shockwave_unstart_blast.wav",
+                        "time_offset": 2.5,
+                        "gain": 0.55
+                    },
                     {
                         "sfx": "impact_boom.wav",
                         "time_offset": 0.3,
@@ -1003,6 +1026,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_4.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "ASYMMETRIC THRUST // YAW ACCELERATION: +3.8G // HELMET CANOPY IMPACT",
                 "narration_text": "Losing all thrust on one side, the aircraft whips violently sideways, slamming the pilot against the canopy with enough yaw force to crack flight helmets.",
                 "subtitle_phrases": [
                     "Losing all thrust {\\c&H00D7FF&}on one side{\\c&HFFFFFF&},",
@@ -1012,6 +1036,16 @@ VIRAL_SHORTS_QUEUE = [
                     "to {\\c&H00D7FF&}crack flight helmets{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
+                    {
+                        "sfx": "metal_stress_creak.wav",
+                        "time_offset": 1.0,
+                        "gain": 0.45
+                    },
                     {
                         "sfx": "gate_clank.wav",
                         "time_offset": 0.2,
@@ -1027,6 +1061,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_5.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "J58 TURBO-RAMJET // BYPASS BLEED: ACTIVE // INLET DIFFUSER: 80% THRUST",
                 "narration_text": "The J-fifty-eight was a hybrid turbo-ramjet. At Mach three, bypass bleed pipes converted it to a ramjet, with the inlet diffuser producing eighty percent of total thrust.",
                 "subtitle_phrases": [
                     "The {\\c&H00D7FF&}J58{\\c&HFFFFFF&} was a hybrid turbo-ramjet.",
@@ -1036,6 +1071,11 @@ VIRAL_SHORTS_QUEUE = [
                     "of its {\\c&H00D7FF&}total forward thrust{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
                     {
                         "sfx": "drill_rumble.wav",
                         "time_offset": 0.4,
@@ -1051,6 +1091,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_6.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "AERODYNAMIC HEATING // TITANIUM EXPANSION // SKIN TEMP: 620°F",
                 "narration_text": "Atmospheric friction heated the titanium skin past six hundred degrees. The airframe expanded several inches in flight, sealing fuel joints that leaked on the ground.",
                 "subtitle_phrases": [
                     "Atmospheric friction heated",
@@ -1060,6 +1101,11 @@ VIRAL_SHORTS_QUEUE = [
                     "that {\\c&H00D7FF&}leaked on the ground{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
                     {
                         "sfx": "tension_drone.wav",
                         "time_offset": 0.2,
@@ -1075,6 +1121,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_7.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "SAM RADAR LOCK DETECTED // DEFENSE: ACCELERATING // LOSSES: ZERO",
                 "narration_text": "Over four thousand anti-aircraft missiles were fired at the Blackbird. Not a single SR-seventy-one was ever hit: its standard defense was simply accelerating away.",
                 "subtitle_phrases": [
                     "Over {\\c&H00D7FF&}4,000 missiles{\\c&HFFFFFF&} were fired",
@@ -1084,6 +1131,11 @@ VIRAL_SHORTS_QUEUE = [
                     "was {\\c&H00D7FF&}simply accelerating away{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
                     {
                         "sfx": "impact_boom.wav",
                         "time_offset": 0.4,
@@ -1099,6 +1151,7 @@ VIRAL_SHORTS_QUEUE = [
                 "input_video": "data/flow_clips/sr71_scene_8.mp4",
                 "duration": 11.50,
                 "voice_rate": "+16%",
+                "hud_telemetry": "SKUNK WORKS ARCHIVE // LOCKHEED SR-71 // HYPERSONIC LEGACY",
                 "narration_text": "Could modern hypersonic drones ever match the physical genius of the SR-seventy-one Blackbird? Subscribe and leave your thoughts below.",
                 "subtitle_phrases": [
                     "Could modern {\\c&H00D7FF&}hypersonic drones{\\c&HFFFFFF&}",
@@ -1107,6 +1160,11 @@ VIRAL_SHORTS_QUEUE = [
                     "Subscribe and {\\c&H00D7FF&}leave your thoughts below{\\c&HFFFFFF&}."
                 ],
                 "foley": [
+                    {
+                        "sfx": "cinematic_whoosh.wav",
+                        "time_offset": 0.0,
+                        "gain": 0.35
+                    },
                     {
                         "sfx": "tension_drone.wav",
                         "time_offset": 0.0,

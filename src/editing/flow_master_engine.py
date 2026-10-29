@@ -71,6 +71,7 @@ class FlowMasterEngine:
         scenes: List[Dict[str, Any]],
         output_filename: str,
         ambient_sfx: str = "tension_drone.wav",
+        engine_bed_sfx: Optional[str] = None,
         target_scene_duration: Optional[float] = None
     ) -> Path:
         """
@@ -175,6 +176,7 @@ class FlowMasterEngine:
         voice_track = np.zeros(total_samples, dtype=np.float32)
         foley_track = np.zeros(total_samples, dtype=np.float32)
         amb_track = np.zeros(total_samples, dtype=np.float32)
+        engine_track = np.zeros(total_samples, dtype=np.float32)
         speech_mask = np.zeros(total_samples, dtype=bool)
         
         current_time_sec = 0.0
@@ -218,6 +220,14 @@ class FlowMasterEngine:
                     c_end_clamped = min(current_time_sec + sc_dur - 0.04, w_end)
                     if c_end_clamped > w_start:
                         ass_events.append(f"Dialogue: 0,{fmt_ass(w_start)},{fmt_ass(c_end_clamped)},FlowSub,,0,0,0,,{c_text}")
+
+            # Top-Center Classified HUD Telemetry Overlay
+            hud_text = sc.get("hud_telemetry", "")
+            if hud_text:
+                c_end_hud = min(current_time_sec + sc_dur - 0.04, current_time_sec + sc_dur)
+                ass_events.append(
+                    f"Dialogue: 1,{fmt_ass(current_time_sec)},{fmt_ass(c_end_hud)},HudTop,,0,0,0,,{hud_text}"
+                )
                     
             # Scene Foley
             for foley in sc.get("foley", []):
@@ -249,13 +259,23 @@ class FlowMasterEngine:
                 e = min(total_samples, s + len(raw_amb))
                 amb_track[s:e] += raw_amb[:e - s]
         amb_track *= ducking_mult
+
+        # Continuous engine roar bed with ducking
+        if engine_bed_sfx:
+            eng_path = sfx_dir / engine_bed_sfx
+            if eng_path.exists():
+                raw_eng = cls._load_audio_pcm(eng_path, cls.SAMPLE_RATE) * 0.12
+                for s in range(0, total_samples, len(raw_eng)):
+                    e = min(total_samples, s + len(raw_eng))
+                    engine_track[s:e] += raw_eng[:e - s]
+                engine_track *= ducking_mult
         
         # Foley ducking during active speech (attenuate by 30% when overlapping speech)
         foley_duck_mult = 1.0 - (smoothed_speech * 0.30)
         foley_track *= foley_duck_mult
 
         # Sum tracks
-        raw_mixed_pcm = voice_track + amb_track + foley_track
+        raw_mixed_pcm = voice_track + amb_track + foley_track + engine_track
 
         # End fade (0.4s)
         fade_len = int(0.4 * cls.SAMPLE_RATE)
@@ -299,6 +319,7 @@ class FlowMasterEngine:
             "[V4+ Styles]",
             "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
             "Style: FlowSub,Arial Black,54,&H00FFFFFF,&H00000000,&H00000000,&H80000000,-1,0,0,0,100,100,1.2,0,1,5.0,2.5,2,80,80,820,1",
+            "Style: HudTop,Consolas,32,&H00D7FF&,&H00000000,&H00000000,&HA0000000,1,0,0,0,100,100,1.5,0,1,4.0,2.0,8,60,60,240,1",
             "",
             "[Events]",
             "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text"
