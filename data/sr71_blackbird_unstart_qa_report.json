@@ -1,6 +1,6 @@
 {
   "file_path": "exports\\sr71_blackbird_unstart_master_1080p.mp4",
-  "file_sha256": "092bfb088cf1ecb20be106b3ad5af5af42c6c512f61e363bd33b430a95cd48c2",
+  "file_sha256": "a73704fd3e0ee051aa121660f18209762f89ca447ce4d702272beed9fe4bcf51",
   "score": 100,
   "status": "READY_FOR_CREATOR_REVIEW",
   "overall_pass": false,
@@ -9,7 +9,7 @@
   "gates": {
     "GATE-01_FILE_INTEGRITY": {
       "passed": true,
-      "details": "File exists (137,652,574 bytes, hash: 092bfb088cf1ecb2...)"
+      "details": "File exists (96,564,656 bytes, hash: a73704fd3e0ee051...)"
     },
     "GATE-02_TECHNICAL_COMPLIANCE": {
       "passed": true,
@@ -17,8 +17,8 @@
         "resolution": "1080x1920",
         "codec": "h264",
         "pixel_format": "yuvj420p",
-        "bitrate_kbps": 10196,
-        "duration_seconds": 108.0
+        "bitrate_kbps": 8396,
+        "duration_seconds": 92.0
       }
     },
     "GATE-03_FULL_VIDEO_VISUAL_INSPECTION": {
@@ -36,9 +36,9 @@
     "GATE-06_AUDIO_COMPLIANCE": {
       "passed": true,
       "metrics": {
-        "integrated_lufs": -14.7,
+        "integrated_lufs": -14.6,
         "true_peak_dbtp": -1.9,
-        "loudness_range_lu": 8.4,
+        "loudness_range_lu": 10.9,
         "channels": 2,
         "channel_layout": "stereo",
         "sample_rate_hz": 48000,

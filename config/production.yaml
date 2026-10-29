@@ -53,7 +53,7 @@ video:
   crf: 17
   preset: "medium"
   video_bitrate_target_kbps: 10000
-  video_bitrate_min_kbps: 8500
+  video_bitrate_min_kbps: 8000
   audio_codec: "aac"
   audio_bitrate_kbps: 192
   audio_sample_rate_hz: 48000

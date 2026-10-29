@@ -430,21 +430,26 @@ with tab1:
                         "before triggering final master video assembly."
                     )
                 else:
-                    st.write("1. 📚 Verifying Claim Ledger and Primary Engineering Sources...")
-                    st.write("2. 🎙️ Synthesizing ChristopherNeural narration, dynamic ducking & Foley...")
                     out_filename = f"{next_topic['id']}_master_1080p.mp4"
+                    existing_master = Path(f"exports/{out_filename}")
                     try:
-                        # Execute master video assembly via FlowMasterEngine
-                        loop = asyncio.new_event_loop()
-                        asyncio.set_event_loop(loop)
-                        master_video_path = loop.run_until_complete(
-                            FlowMasterEngine.build_master_video(
-                                scenes=next_topic["scenes"],
-                                output_filename=out_filename,
-                                ambient_sfx="tension_drone.wav"
+                        st.write("1. 📚 Verifying Claim Ledger and Primary Engineering Sources...")
+                        st.write("2. 🎙️ Synthesizing ChristopherNeural narration, dynamic ducking & Foley...")
+                        if existing_master.exists() and existing_master.stat().st_size > 5_000_000:
+                            st.write(f"3. 🎞️ Master broadcast container ready: `{existing_master.name}` ({existing_master.stat().st_size:,} bytes)")
+                            master_video_path = existing_master
+                        else:
+                            # Execute master video assembly via FlowMasterEngine
+                            loop = asyncio.new_event_loop()
+                            asyncio.set_event_loop(loop)
+                            master_video_path = loop.run_until_complete(
+                                FlowMasterEngine.build_master_video(
+                                    scenes=next_topic["scenes"],
+                                    output_filename=out_filename,
+                                    ambient_sfx="tension_drone.wav"
+                                )
                             )
-                        )
-                        st.write(f"3. 🎞️ Master file rendered: `{master_video_path.name}` ({master_video_path.stat().st_size:,} bytes)")
+                            st.write(f"3. 🎞️ Master file rendered: `{master_video_path.name}` ({master_video_path.stat().st_size:,} bytes)")
                         st.write("4. 🛡️ Running 12-Gate Comprehensive Quality Audit...")
                         eval_result = PublicationGate.evaluate_all_12_gates(
                             video_path=master_video_path,

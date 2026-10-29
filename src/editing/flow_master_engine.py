@@ -119,7 +119,7 @@ class FlowMasterEngine:
             
             if is_image and in_vid.exists():
                 cmd_clean = [
-                    "ffmpeg", "-y",
+                    "ffmpeg", "-y", "-threads", "2",
                     "-loop", "1",
                     "-i", str(in_vid),
                     "-t", f"{sc_dur:.2f}",
@@ -132,7 +132,7 @@ class FlowMasterEngine:
                 ]
             else:
                 cmd_clean = [
-                    "ffmpeg", "-y",
+                    "ffmpeg", "-y", "-threads", "2",
                     "-stream_loop", "-1",
                     "-i", str(in_vid),
                     "-t", f"{sc_dur:.2f}",
@@ -306,13 +306,13 @@ class FlowMasterEngine:
         # Escape path for FFmpeg subtitles filter
         clean_ass_sub = ass_path.as_posix().replace(":", r"\:")
         cmd_mux = [
-            "ffmpeg", "-y",
+            "ffmpeg", "-y", "-threads", "2",
             "-i", str(merged_video),
             "-i", str(mastered_wav),
             "-vf", f"subtitles={clean_ass_sub},format=yuv420p",
             "-r", str(cls.FPS),
             "-c:v", "libx264", "-preset", "fast",
-            "-b:v", "10000k", "-minrate", "10000k", "-maxrate", "10000k", "-bufsize", "10000k", "-nal-hrd", "cbr",
+            "-b:v", "8200k", "-minrate", "8000k", "-maxrate", "8500k", "-bufsize", "8500k", "-nal-hrd", "cbr",
             "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
             "-t", f"{total_duration:.2f}",
