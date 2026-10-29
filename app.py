@@ -555,7 +555,7 @@ with tab2:
     # Prioritize Taipei 101 and episodes with completed renders/reports at the very top
     all_episodes.sort(key=lambda e: (
         0 if e["id"] == "taipei_101_damper"
-        else 1 if Path(e["file"]).exists() or Path(f"data/{e['id']}_qa_report.json").exists()
+        else 1 if Path(e["file"]).exists() or (CreatorApprovalManager.find_qa_report_path(e["id"]) is not None)
         else 2
     ))
 
@@ -577,11 +577,11 @@ with tab2:
     vid_file = Path(ep["file"])
 
     # Load QA report if available
-    report_file = Path(f"data/{ep['id']}_qa_report.json")
+    rep_path = CreatorApprovalManager.find_qa_report_path(ep["id"])
     qa_data = {}
-    if report_file.exists():
+    if rep_path and rep_path.exists():
         try:
-            with open(report_file, "r", encoding="utf-8") as rf:
+            with open(rep_path, "r", encoding="utf-8") as rf:
                 qa_data = json.load(rf)
         except Exception:
             qa_data = {}
@@ -678,7 +678,8 @@ with tab2:
                         reviewer_name="Creator",
                         notes=app_notes,
                         metadata_dict=meta_dict,
-                        thumbnail_path=thumb_file if thumb_file.exists() else None
+                        thumbnail_path=thumb_file if thumb_file.exists() else None,
+                        qa_report=qa_data
                     )
                     st.success("Explicit approval granted! Video is now authorized for publication.")
                     st.rerun()

@@ -43,6 +43,21 @@ class CreatorApprovalManager:
         return hasher.hexdigest()
 
     @classmethod
+    def find_qa_report_path(cls, video_id: str) -> Optional[Path]:
+        """Finds the verified QA report JSON path, supporting ID aliases."""
+        candidates = [
+            Path(f"data/{video_id}_qa_report.json"),
+            Path(f"data/{video_id.replace('_damper', '')}_qa_report.json"),
+            Path(f"data/{video_id.replace('_rotation', '')}_qa_report.json"),
+            Path(f"data/{video_id.replace('_sand_empire', '')}_qa_report.json"),
+            Path(f"data/{video_id.replace('_ghost_fleet', '')}_qa_report.json"),
+        ]
+        for p in candidates:
+            if p.exists():
+                return p
+        return None
+
+    @classmethod
     def grant_approval(
         cls,
         video_id: str,
@@ -61,8 +76,8 @@ class CreatorApprovalManager:
         4. Verified QA score and status
         """
         if not video_file_path.exists():
-            report_p = Path(f"data/{video_id}_qa_report.json")
-            if report_p.exists():
+            report_p = cls.find_qa_report_path(video_id)
+            if report_p and report_p.exists():
                 try:
                     with open(report_p, "r", encoding="utf-8") as rf:
                         rep = json.load(rf)
@@ -128,8 +143,8 @@ class CreatorApprovalManager:
         """
         current_hash = ""
         if not video_file_path.exists():
-            report_p = Path(f"data/{video_id}_qa_report.json")
-            if report_p.exists():
+            report_p = cls.find_qa_report_path(video_id)
+            if report_p and report_p.exists():
                 try:
                     with open(report_p, "r", encoding="utf-8") as rf:
                         rep = json.load(rf)
