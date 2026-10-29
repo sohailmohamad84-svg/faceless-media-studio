@@ -89,7 +89,7 @@ class FlowMasterEngine:
             text = sc.get("narration_text", "")
             vo_path = work_dir / f"vo_{idx}.mp3"
             if text:
-                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate="+14%")
+                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate="+26%")
                 await comm.save(str(vo_path))
                 cmd_p = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(vo_path)]
                 dur = float(subprocess.run(cmd_p, capture_output=True, text=True, check=True).stdout.strip())
@@ -98,10 +98,9 @@ class FlowMasterEngine:
             vo_files.append(vo_path)
             vo_durations.append(dur)
             
-            # Dynamic viral scene duration: voice duration + tight padding (zero dead air)
-            # 0.15s leading, 0.25s trailing (0.60s trailing on the final scene for outro SFX)
+            # Dynamic viral scene duration: voice duration + tight padding (strictly <= 59s total for YouTube Shorts)
             is_last = (idx == len(scenes) - 1)
-            pad = 0.60 if is_last else 0.40
+            pad = 0.50 if is_last else 0.25
             sc_dur = dur + pad
             scene_durations.append(sc_dur)
 

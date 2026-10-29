@@ -1,6 +1,6 @@
 {
   "file_path": "exports\\taipei_101_damper_master_1080p.mp4",
-  "file_sha256": "7b6e85773f8d9f13e92ed8d09cfe1240cde47b5a64d888e9a673fc20d2aa5e72",
+  "file_sha256": "7e344c350493b93514dfe4a25395abf7aa722988f3096a2f760885c5f6f04212",
   "score": 100,
   "status": "READY_FOR_CREATOR_REVIEW",
   "overall_pass": false,
@@ -9,7 +9,7 @@
   "gates": {
     "GATE-01_FILE_INTEGRITY": {
       "passed": true,
-      "details": "File exists (73,543,468 bytes, hash: 7b6e85773f8d9f13...)"
+      "details": "File exists (65,802,975 bytes, hash: 7e344c350493b935...)"
     },
     "GATE-02_TECHNICAL_COMPLIANCE": {
       "passed": true,
@@ -17,8 +17,8 @@
         "resolution": "1080x1920",
         "codec": "h264",
         "pixel_format": "yuv420p",
-        "bitrate_kbps": 8996,
-        "duration_seconds": 65.4
+        "bitrate_kbps": 9019,
+        "duration_seconds": 58.366667
       }
     },
     "GATE-03_FULL_VIDEO_VISUAL_INSPECTION": {
@@ -37,8 +37,8 @@
       "passed": true,
       "metrics": {
         "integrated_lufs": -14.4,
-        "true_peak_dbtp": -1.8,
-        "loudness_range_lu": 3.0,
+        "true_peak_dbtp": -2.0,
+        "loudness_range_lu": 2.4,
         "channels": 2,
         "channel_layout": "stereo",
         "sample_rate_hz": 48000,
