@@ -42,12 +42,15 @@ projects/
 exports/
 !exports/taipei_101_damper_master_1080p.mp4
 data/cache/
-data/flow_clips/
+data/flow_clips/*
+!data/flow_clips/sr71_scene_*.mp4
 data/flow_chrome_profile/
 scratch/
 *.wav
 *.mp3
 *.mp4
+!exports/taipei_101_damper_master_1080p.mp4
+!data/flow_clips/sr71_scene_*.mp4
 *.mkv
 *.webm
 !data/showcase/*.mp4

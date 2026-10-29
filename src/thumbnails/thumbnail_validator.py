@@ -78,7 +78,7 @@ class ThumbnailValidator:
             if not path_str or key in ["topic_id", "generated_count"]:
                 continue
             p = Path(path_str)
-            expected = "16:9" if "16x9" in key.lower() or "promo" in key.lower() else "9:16"
+            expected = "16:9" if any(k in key.lower() for k in ["16x9", "16_9", "wide", "promo", "landscape"]) else "9:16"
             res = cls.validate_file(p, expected_aspect=expected)
             results[key] = res
             if not res["valid"]:

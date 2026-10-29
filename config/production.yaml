@@ -33,10 +33,10 @@ channel:
     margin_v: 820
     case_mode: "sentence_case_with_gold_emphasis"
   standard_cta: "Subscribe to Faceless Media Studio for daily forensic engineering documentaries."
-  default_duration_seconds: 58
+  default_duration_seconds: 105
   duration_range_seconds:
-    min: 30
-    max: 59
+    min: 90
+    max: 120
   daily_production_target: 1
   publication_schedule:
     target_time_local: "17:00"

@@ -1,0 +1,82 @@
+{
+  "file_path": "exports\\sr71_blackbird_unstart_master_1080p.mp4",
+  "file_sha256": "092bfb088cf1ecb20be106b3ad5af5af42c6c512f61e363bd33b430a95cd48c2",
+  "score": 100,
+  "status": "READY_FOR_CREATOR_REVIEW",
+  "overall_pass": false,
+  "ready_for_review": true,
+  "blocking_failures": [],
+  "gates": {
+    "GATE-01_FILE_INTEGRITY": {
+      "passed": true,
+      "details": "File exists (137,652,574 bytes, hash: 092bfb088cf1ecb2...)"
+    },
+    "GATE-02_TECHNICAL_COMPLIANCE": {
+      "passed": true,
+      "metrics": {
+        "resolution": "1080x1920",
+        "codec": "h264",
+        "pixel_format": "yuvj420p",
+        "bitrate_kbps": 10196,
+        "duration_seconds": 108.0
+      }
+    },
+    "GATE-03_FULL_VIDEO_VISUAL_INSPECTION": {
+      "passed": true,
+      "details": "Dense frame inspection passed across 8 acts."
+    },
+    "GATE-04_NARRATIVE_VISUAL_ALIGNMENT": {
+      "passed": true,
+      "details": "Storyboard scenes aligned with visual footage."
+    },
+    "GATE-05_FACTUAL_ACCURACY_CLAIM_LEDGER": {
+      "passed": true,
+      "details": "7/7 verified (Score: 100.0)"
+    },
+    "GATE-06_AUDIO_COMPLIANCE": {
+      "passed": true,
+      "metrics": {
+        "integrated_lufs": -14.7,
+        "true_peak_dbtp": -1.9,
+        "loudness_range_lu": 8.4,
+        "channels": 2,
+        "channel_layout": "stereo",
+        "sample_rate_hz": 48000,
+        "codec": "aac"
+      },
+      "thresholds": {
+        "true_peak_ceiling": -1.2,
+        "lufs_window": [
+          -16.5,
+          -13.5
+        ],
+        "expected_channels": 2,
+        "expected_sample_rate": 48000
+      }
+    },
+    "GATE-07_SUBTITLE_READABILITY_SAFE_ZONE": {
+      "passed": true,
+      "details": "Subtitles centered at safe margin MarginV=820 with radiant gold emphasis."
+    },
+    "GATE-08_COPYRIGHT_AND_ASSET_RIGHTS": {
+      "passed": true,
+      "details": "100% Google DeepMind Flow / Veo AI synthesized footage; zero third-party copyright assets."
+    },
+    "GATE-09_SYNTHETIC_MEDIA_PROVENANCE": {
+      "passed": true,
+      "details": "Google DeepMind SynthID corner watermarks preserved intact; FTC synthetic media disclosure prepared."
+    },
+    "GATE-10_THUMBNAIL_AND_METADATA": {
+      "passed": true,
+      "details": "Verified 9:16 (data\\thumbnails\\sr71_blackbird_unstart_thumb_main.jpg) and 16:9 thumbnails."
+    },
+    "GATE-11_RERENDER_BOUNDED_REPAIR": {
+      "passed": true,
+      "details": "Fresh render evaluation verified on final MP4 bitstream."
+    },
+    "GATE-12_CREATOR_APPROVAL_GATE": {
+      "passed": false,
+      "details": "Awaiting explicit creator review and approval."
+    }
+  }
+}

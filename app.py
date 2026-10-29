@@ -450,6 +450,11 @@ with tab1:
                             video_path=master_video_path,
                             topic_metadata=next_topic
                         )
+                        # Persist QA report so Tab 2 Creator Approval can inspect it
+                        qa_report_path = Path(f"data/{next_topic['id']}_qa_report.json")
+                        qa_report_path.parent.mkdir(parents=True, exist_ok=True)
+                        with open(qa_report_path, "w", encoding="utf-8") as qf:
+                            json.dump(eval_result, qf, indent=2)
                         st.write(f"   Gate Result: **{eval_result.get('status', 'READY_FOR_CREATOR_REVIEW')}** (Score: {eval_result.get('score', 0)}/100)")
                         status_box.update(label=f"✅ Ready for Review: {next_topic['title']}", state="complete")
                         st.success("🎉 Video generation complete! Switch to Tab 2 to preview the video and grant Creator Approval.")
@@ -547,6 +552,7 @@ with tab2:
         "dubai_sinking_islands": "Dubai Islands",
         "japan_maglev_speed": "Japan Maglev",
         "concorde_supersonic_demise": "Concorde",
+        "sr71_blackbird_unstart": "SR-71 Blackbird",
         "sr71_blackbird_mach3": "SR-71 Blackbird",
         "gotthard_base_tunnel": "Gotthard Base Tunnel",
         "venice_mose_barriers": "Venice MOSE",

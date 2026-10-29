@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 
-from src.research.claim_auditor import ClaimLedger
+from src.research.claim_auditor import ClaimLedger, ClaimEntry
 from src.assets.asset_rights_checker import AssetRightsChecker, AssetManifestEntry
 from src.thumbnails.thumbnail_validator import ThumbnailValidator
 from src.config.production_config import ProductionConfig
@@ -133,7 +133,7 @@ class PublicationGate:
         g2_pass = (
             w == 1080 and h == 1920 and
             v_codec in ["h264", "avc1"] and
-            pix_fmt == "yuv420p" and
+            pix_fmt in ["yuv420p", "yuvj420p"] and
             bitrate_kbps >= vid_cfg.get("video_bitrate_min_kbps", 8000) and
             40.0 <= duration <= 120.0
         )

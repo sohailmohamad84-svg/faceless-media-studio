@@ -89,7 +89,7 @@ class FlowMasterEngine:
             text = sc.get("narration_text", "")
             vo_path = work_dir / f"vo_{idx}.mp3"
             if text:
-                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate="+26%")
+                comm = edge_tts.Communicate(text, cls.VOICE_ID, rate="+14%")
                 await comm.save(str(vo_path))
                 cmd_p = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(vo_path)]
                 dur = float(subprocess.run(cmd_p, capture_output=True, text=True, check=True).stdout.strip())
@@ -98,10 +98,10 @@ class FlowMasterEngine:
             vo_files.append(vo_path)
             vo_durations.append(dur)
             
-            # Dynamic viral scene duration: voice duration + tight padding (strictly <= 59s total for YouTube Shorts)
+            # Dynamic viral scene duration (90-120s full documentary pacing, target ~13.5s per scene)
             is_last = (idx == len(scenes) - 1)
-            pad = 0.50 if is_last else 0.25
-            sc_dur = dur + pad
+            target_scene_dur = 13.5
+            sc_dur = max(dur + (1.0 if is_last else 0.8), target_scene_dur)
             scene_durations.append(sc_dur)
 
         total_duration = sum(scene_durations)
@@ -309,9 +309,10 @@ class FlowMasterEngine:
             "ffmpeg", "-y",
             "-i", str(merged_video),
             "-i", str(mastered_wav),
-            "-vf", f"subtitles={clean_ass_sub}",
+            "-vf", f"subtitles={clean_ass_sub},format=yuv420p",
             "-r", str(cls.FPS),
-            "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
+            "-c:v", "libx264", "-preset", "fast",
+            "-b:v", "10000k", "-minrate", "10000k", "-maxrate", "10000k", "-bufsize", "10000k", "-nal-hrd", "cbr",
             "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
             "-t", f"{total_duration:.2f}",
