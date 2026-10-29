@@ -40,6 +40,7 @@ credentials.json
 # Project Renders & Exports (Large media files)
 projects/
 exports/
+!exports/taipei_101_damper_master_1080p.mp4
 data/cache/
 data/flow_clips/
 data/flow_chrome_profile/
