@@ -417,32 +417,45 @@ with tab1:
 
         if trigger_now:
             with st.status(f"🎬 Producing Master Short: {next_topic['title']}...", expanded=True) as status_box:
-                st.write("1. 📚 Verifying Claim Ledger and Primary Engineering Sources...")
-                st.write("2. 🎙️ Synthesizing ChristopherNeural narration, dynamic ducking & Foley...")
-                out_filename = f"{next_topic['id']}_master_1080p.mp4"
-                try:
-                    # Execute master video assembly via FlowMasterEngine
-                    loop = asyncio.new_event_loop()
-                    asyncio.set_event_loop(loop)
-                    master_video_path = loop.run_until_complete(
-                        FlowMasterEngine.build_master_video(
-                            scenes=next_topic["scenes"],
-                            output_filename=out_filename,
-                            ambient_sfx="tension_drone.wav"
+                missing_clips = [
+                    sc.get("input_video")
+                    for sc in next_topic.get("scenes", [])
+                    if not Path(sc.get("input_video", "")).exists()
+                ]
+                if missing_clips:
+                    status_box.update(label=f"⚠️ Missing Footage: {len(missing_clips)} scene clip(s) not found", state="error")
+                    st.error(
+                        f"**Raw AI footage not found on disk:** The scene clips for `{next_topic['id']}` have not been generated yet "
+                        f"(missing `{missing_clips[0]}`). Please generate the scene clips via the Google Flow / Veo 2 workflow on your workstation "
+                        "before triggering final master video assembly."
+                    )
+                else:
+                    st.write("1. 📚 Verifying Claim Ledger and Primary Engineering Sources...")
+                    st.write("2. 🎙️ Synthesizing ChristopherNeural narration, dynamic ducking & Foley...")
+                    out_filename = f"{next_topic['id']}_master_1080p.mp4"
+                    try:
+                        # Execute master video assembly via FlowMasterEngine
+                        loop = asyncio.new_event_loop()
+                        asyncio.set_event_loop(loop)
+                        master_video_path = loop.run_until_complete(
+                            FlowMasterEngine.build_master_video(
+                                scenes=next_topic["scenes"],
+                                output_filename=out_filename,
+                                ambient_sfx="tension_drone.wav"
+                            )
                         )
-                    )
-                    st.write(f"3. 🎞️ Master file rendered: `{master_video_path.name}` ({master_video_path.stat().st_size:,} bytes)")
-                    st.write("4. 🛡️ Running 12-Gate Comprehensive Quality Audit...")
-                    eval_result = PublicationGate.evaluate_all_12_gates(
-                        video_path=master_video_path,
-                        topic_metadata=next_topic
-                    )
-                    st.write(f"   Gate Result: **{eval_result.get('status', 'READY_FOR_CREATOR_REVIEW')}** (Score: {eval_result.get('score', 0)}/100)")
-                    status_box.update(label=f"✅ Ready for Review: {next_topic['title']}", state="complete")
-                    st.success("🎉 Video generation complete! Switch to Tab 2 to preview the video and grant Creator Approval.")
-                except Exception as ex:
-                    status_box.update(label=f"⚠️ Generation error: {ex}", state="error")
-                    st.error(f"Error during video assembly: {ex}")
+                        st.write(f"3. 🎞️ Master file rendered: `{master_video_path.name}` ({master_video_path.stat().st_size:,} bytes)")
+                        st.write("4. 🛡️ Running 12-Gate Comprehensive Quality Audit...")
+                        eval_result = PublicationGate.evaluate_all_12_gates(
+                            video_path=master_video_path,
+                            topic_metadata=next_topic
+                        )
+                        st.write(f"   Gate Result: **{eval_result.get('status', 'READY_FOR_CREATOR_REVIEW')}** (Score: {eval_result.get('score', 0)}/100)")
+                        status_box.update(label=f"✅ Ready for Review: {next_topic['title']}", state="complete")
+                        st.success("🎉 Video generation complete! Switch to Tab 2 to preview the video and grant Creator Approval.")
+                    except Exception as ex:
+                        status_box.update(label=f"⚠️ Generation error: {ex}", state="error")
+                        st.error(f"Error during video assembly: {ex}")
 
     # Multi-Day Backlog Queue with Filters
     st.markdown('<div class="section-title">📅 Upcoming Multi-Day Production Pipeline</div>', unsafe_allow_html=True)
