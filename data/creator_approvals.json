@@ -1,1 +1,15 @@
-{}
+{
+  "sr71_blackbird_unstart": {
+    "video_id": "sr71_blackbird_unstart",
+    "file_path": "exports\\sr71_blackbird_unstart_master_1080p.mp4",
+    "file_sha256": "70846766b81bc495f40264091ed71d0a492b44e3b64f2eb88a5e079aad69f16d",
+    "metadata_hash": "8afc2a36a48579b7102d2d5d5a88189bb3cb921392ede648781e6b3770bf3429",
+    "thumbnail_sha256": "fb2c505abca7b7f949e8849c027610cf1bfe6ccbb51bf4bd1e0474a34b8ab048",
+    "qa_score": null,
+    "qa_status": null,
+    "approved_at": "2026-10-30T19:34:34.348745Z",
+    "reviewer_name": "Creator",
+    "notes": "Verified factual accuracy, eliminated act whooshes, high-CTR thumbnail.",
+    "status": "CREATOR_APPROVED"
+  }
+}

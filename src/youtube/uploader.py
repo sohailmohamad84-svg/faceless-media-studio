@@ -276,6 +276,15 @@ class YouTubePublisher:
                 status, response = request.next_chunk()
 
             youtube_id = response.get("id")
+            
+            # Set high-CTR thumbnail if provided
+            if thumb_p and thumb_p.exists() and youtube_id:
+                try:
+                    thumb_media = MediaFileUpload(str(thumb_p), mimetype="image/jpeg")
+                    youtube.thumbnails().set(videoId=youtube_id, media_body=thumb_media).execute()
+                except Exception as thumb_err:
+                    print(f"Thumbnail upload notice (may require verified phone on YT channel): {thumb_err}")
+
             return {
                 "success": True,
                 "youtube_video_id": youtube_id,
