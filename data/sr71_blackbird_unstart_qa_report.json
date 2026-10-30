@@ -1,6 +1,6 @@
 {
   "file_path": "exports\\sr71_blackbird_unstart_master_1080p.mp4",
-  "file_sha256": "0e56c1f391ee1615140087c1d773c3cf1c0aa2c384fe8f391ab1512556e7e3cd",
+  "file_sha256": "8e186368aee1724a78b0007f804d84385bfd06c5709fda969f5e9a20a604d1c7",
   "score": 100,
   "status": "READY_FOR_CREATOR_REVIEW",
   "overall_pass": false,
@@ -9,14 +9,14 @@
   "gates": {
     "GATE-01_FILE_INTEGRITY_DECODING": {
       "passed": true,
-      "details": "File verified: 99,705,594 bytes, 0 bitstream decode errors, SHA256: 0e56c1f391ee1615...",
-      "file_size_bytes": 99705594,
+      "details": "File verified: 99,367,906 bytes, 0 bitstream decode errors, SHA256: 8e186368aee1724a...",
+      "file_size_bytes": 99367906,
       "decode_errors": 0
     },
     "GATE-01_FILE_INTEGRITY": {
       "passed": true,
-      "details": "File verified: 99,705,594 bytes, 0 bitstream decode errors, SHA256: 0e56c1f391ee1615...",
-      "file_size_bytes": 99705594,
+      "details": "File verified: 99,367,906 bytes, 0 bitstream decode errors, SHA256: 8e186368aee1724a...",
+      "file_size_bytes": 99367906,
       "decode_errors": 0
     },
     "GATE-02_CONTAINER_STANDARDS": {
@@ -46,26 +46,26 @@
     "GATE-03_BITRATE_COMPRESSION_QUALITY": {
       "passed": true,
       "metrics": {
-        "bitrate_kbps": 8670,
+        "bitrate_kbps": 8640,
         "target_min_kbps": 8000,
         "dense_frame_sampling_passed": true
       },
-      "details": "Container bitrate: 8,670 kbps (min: 8,000 kbps), 8 acts verified."
+      "details": "Container bitrate: 8,640 kbps (min: 8,000 kbps), 8 acts verified."
     },
     "GATE-03_FULL_VIDEO_VISUAL_INSPECTION": {
       "passed": true,
       "metrics": {
-        "bitrate_kbps": 8670,
+        "bitrate_kbps": 8640,
         "target_min_kbps": 8000,
         "dense_frame_sampling_passed": true
       },
-      "details": "Container bitrate: 8,670 kbps (min: 8,000 kbps), 8 acts verified."
+      "details": "Container bitrate: 8,640 kbps (min: 8,000 kbps), 8 acts verified."
     },
     "GATE-04_AUDIO_LOUDNESS_INTELLIGIBILITY": {
       "passed": true,
       "metrics": {
         "integrated_lufs": -15.1,
-        "true_peak_dbtp": -1.3,
+        "true_peak_dbtp": -1.5,
         "loudness_range_lu": 5.7,
         "channels": 2,
         "channel_layout": "stereo",
@@ -86,7 +86,7 @@
       "passed": true,
       "metrics": {
         "integrated_lufs": -15.1,
-        "true_peak_dbtp": -1.3,
+        "true_peak_dbtp": -1.5,
         "loudness_range_lu": 5.7,
         "channels": 2,
         "channel_layout": "stereo",
@@ -168,11 +168,11 @@
     },
     "GATE-13_CRYPTOGRAPHIC_HASH_IDENTITY": {
       "passed": true,
-      "details": "SHA-256 bitstream fingerprint locked: 0e56c1f391ee1615140087c1d773c3cf1c0aa2c384fe8f391ab1512556e7e3cd"
+      "details": "SHA-256 bitstream fingerprint locked: 8e186368aee1724a78b0007f804d84385bfd06c5709fda969f5e9a20a604d1c7"
     },
     "GATE-11_RERENDER_BOUNDED_REPAIR": {
       "passed": true,
-      "details": "SHA-256 bitstream fingerprint locked: 0e56c1f391ee1615140087c1d773c3cf1c0aa2c384fe8f391ab1512556e7e3cd"
+      "details": "SHA-256 bitstream fingerprint locked: 8e186368aee1724a78b0007f804d84385bfd06c5709fda969f5e9a20a604d1c7"
     },
     "GATE-14_CREATOR_APPROVAL_GATE": {
       "passed": false,

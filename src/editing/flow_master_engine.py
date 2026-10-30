@@ -140,12 +140,20 @@ class FlowMasterEngine:
                     str(out_vid)
                 ]
             else:
+                # Probe input duration to stretch/fit smoothly without looping jump-cuts
+                cmd_p = ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", str(in_vid)]
+                try:
+                    in_dur = float(subprocess.run(cmd_p, capture_output=True, text=True, check=True).stdout.strip())
+                except Exception:
+                    in_dur = 10.0
+                pts_factor = (sc_dur / in_dur) if in_dur > 0 else 1.0
+                dynamic_filter = f"setpts={pts_factor:.6f}*PTS,{cls.SCALE_FILTER}"
+
                 cmd_clean = [
                     "ffmpeg", "-y", "-threads", "2",
-                    "-stream_loop", "-1",
                     "-i", str(in_vid),
                     "-t", f"{sc_dur:.2f}",
-                    "-vf", cls.SCALE_FILTER,
+                    "-vf", dynamic_filter,
                     "-r", str(cls.FPS),
                     "-c:v", "libx264", "-preset", "fast", "-crf", str(cls.CRF),
                     "-pix_fmt", "yuv420p",
