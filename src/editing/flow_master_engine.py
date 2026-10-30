@@ -252,34 +252,34 @@ class FlowMasterEngine:
                         
             current_time_sec += sc_dur
 
-        # Build smooth ducking envelope (-6 dB during speech with 40ms attack/decay)
-        smooth_win = int(0.04 * cls.SAMPLE_RATE)
+        # Build smooth musical ducking envelope (-3.5 dB during speech with 250ms smooth transition)
+        smooth_win = int(0.25 * cls.SAMPLE_RATE)
         kernel = np.ones(smooth_win, dtype=np.float32) / smooth_win
         smoothed_speech = np.convolve(speech_mask.astype(np.float32), kernel, mode="same")
-        # Attenuation factor: 1.0 when quiet, 0.45 (-7 dB) when speaking
-        ducking_mult = 1.0 - (smoothed_speech * 0.55)
+        # Attenuation factor: 1.0 when quiet, 0.65 (-3.7 dB) when speaking (natural, transparent)
+        ducking_mult = 1.0 - (smoothed_speech * 0.35)
 
-        # Ambient bed with ducking
+        # Ambient bed with smooth ducking
         amb_path = sfx_dir / ambient_sfx
         if amb_path.exists():
-            raw_amb = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * 0.08
+            raw_amb = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * 0.06
             for s in range(0, total_samples, len(raw_amb)):
                 e = min(total_samples, s + len(raw_amb))
                 amb_track[s:e] += raw_amb[:e - s]
         amb_track *= ducking_mult
 
-        # Continuous engine roar bed with ducking
+        # Continuous engine roar bed with smooth ducking
         if engine_bed_sfx:
             eng_path = sfx_dir / engine_bed_sfx
             if eng_path.exists():
-                raw_eng = cls._load_audio_pcm(eng_path, cls.SAMPLE_RATE) * 0.12
+                raw_eng = cls._load_audio_pcm(eng_path, cls.SAMPLE_RATE) * 0.10
                 for s in range(0, total_samples, len(raw_eng)):
                     e = min(total_samples, s + len(raw_eng))
                     engine_track[s:e] += raw_eng[:e - s]
                 engine_track *= ducking_mult
         
-        # Foley ducking during active speech (attenuate by 30% when overlapping speech)
-        foley_duck_mult = 1.0 - (smoothed_speech * 0.30)
+        # Foley ducking during active speech (attenuate by 20% when overlapping speech)
+        foley_duck_mult = 1.0 - (smoothed_speech * 0.20)
         foley_track *= foley_duck_mult
 
         # Sum tracks

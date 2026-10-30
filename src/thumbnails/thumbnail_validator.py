@@ -46,11 +46,12 @@ class ThumbnailValidator:
                             "error": f"Incorrect dimensions for 9:16: {w}x{h} (required {cls.REQUIRED_9X16_WIDTH}x{cls.REQUIRED_9X16_HEIGHT})."
                         }
                 elif expected_aspect == "16:9":
-                    if w != cls.REQUIRED_16X9_WIDTH or h != cls.REQUIRED_16X9_HEIGHT:
+                    is_valid_16_9 = (w == cls.REQUIRED_16X9_WIDTH and h == cls.REQUIRED_16X9_HEIGHT) or (w == 1920 and h == 1080)
+                    if not is_valid_16_9:
                         return {
                             "valid": False,
                             "file_path": str(file_path),
-                            "error": f"Incorrect dimensions for 16:9: {w}x{h} (required {cls.REQUIRED_16X9_WIDTH}x{cls.REQUIRED_16X9_HEIGHT})."
+                            "error": f"Incorrect dimensions for 16:9: {w}x{h} (required 1280x720 or 1920x1080)."
                         }
 
                 return {

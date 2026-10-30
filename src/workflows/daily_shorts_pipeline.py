@@ -937,19 +937,9 @@ VIRAL_SHORTS_QUEUE = [
                 ],
                 "foley": [
                     {
-                        "sfx": "cinematic_whoosh.wav",
+                        "sfx": "desert_wind.wav",
                         "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.5,
-                        "gain": 0.4
+                        "gain": 0.15
                     }
                 ]
             },
@@ -970,18 +960,7 @@ VIRAL_SHORTS_QUEUE = [
                     "slowing {\\c&H00D7FF&}2,200 mph air{\\c&HFFFFFF&}",
                     "down to {\\c&H00D7FF&}subsonic speeds{\\c&HFFFFFF&}."
                 ],
-                "foley": [
-                    {
-                        "sfx": "cinematic_whoosh.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "warning_beep.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 3,
@@ -1002,19 +981,9 @@ VIRAL_SHORTS_QUEUE = [
                 ],
                 "foley": [
                     {
-                        "sfx": "cinematic_whoosh.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
                         "sfx": "shockwave_unstart_blast.wav",
-                        "time_offset": 2.5,
-                        "gain": 0.55
-                    },
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.45
+                        "time_offset": 3.0,
+                        "gain": 0.40
                     }
                 ]
             },
@@ -1037,19 +1006,14 @@ VIRAL_SHORTS_QUEUE = [
                 ],
                 "foley": [
                     {
-                        "sfx": "cinematic_whoosh.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
+                        "sfx": "warning_beep.wav",
+                        "time_offset": 0.5,
+                        "gain": 0.20
                     },
                     {
                         "sfx": "metal_stress_creak.wav",
-                        "time_offset": 1.0,
-                        "gain": 0.45
-                    },
-                    {
-                        "sfx": "gate_clank.wav",
-                        "time_offset": 0.2,
-                        "gain": 0.35
+                        "time_offset": 1.5,
+                        "gain": 0.30
                     }
                 ]
             },
@@ -1070,18 +1034,7 @@ VIRAL_SHORTS_QUEUE = [
                     "with the intake diffuser {\\c&H00D7FF&}producing 80%{\\c&HFFFFFF&}",
                     "of its {\\c&H00D7FF&}total forward thrust{\\c&HFFFFFF&}."
                 ],
-                "foley": [
-                    {
-                        "sfx": "cinematic_whoosh.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "drill_rumble.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 6,
@@ -1100,18 +1053,7 @@ VIRAL_SHORTS_QUEUE = [
                     "sealing fuel joints",
                     "that {\\c&H00D7FF&}leaked on the ground{\\c&HFFFFFF&}."
                 ],
-                "foley": [
-                    {
-                        "sfx": "cinematic_whoosh.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.2,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 7,
@@ -1132,14 +1074,9 @@ VIRAL_SHORTS_QUEUE = [
                 ],
                 "foley": [
                     {
-                        "sfx": "cinematic_whoosh.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.4
+                        "sfx": "thunder_strike.wav",
+                        "time_offset": 2.0,
+                        "gain": 0.25
                     }
                 ]
             },
@@ -1161,14 +1098,9 @@ VIRAL_SHORTS_QUEUE = [
                 ],
                 "foley": [
                     {
-                        "sfx": "cinematic_whoosh.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.25
+                        "sfx": "chime.wav",
+                        "time_offset": 8.0,
+                        "gain": 0.20
                     }
                 ]
             }
