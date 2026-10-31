@@ -1,6 +1,6 @@
 {
   "file_path": "exports\\gotthard_base_tunnel_master_1080p.mp4",
-  "file_sha256": "26d6d434bd82991b25981e370eb5650c43048e39351eb6faed7902090b5d9ba7",
+  "file_sha256": "5da7edc5f5e77fd1a4c8a59558c38e7aa33689b4f2464f6eed1ff498a2b12e47",
   "score": 100,
   "status": "READY_FOR_CREATOR_REVIEW",
   "overall_pass": false,
@@ -9,14 +9,14 @@
   "gates": {
     "GATE-01_FILE_INTEGRITY_DECODING": {
       "passed": true,
-      "details": "File verified: 97,756,708 bytes, 0 bitstream decode errors, SHA256: 26d6d434bd82991b...",
-      "file_size_bytes": 97756708,
+      "details": "File verified: 80,242,591 bytes, 0 bitstream decode errors, SHA256: 5da7edc5f5e77fd1...",
+      "file_size_bytes": 80242591,
       "decode_errors": 0
     },
     "GATE-01_FILE_INTEGRITY": {
       "passed": true,
-      "details": "File verified: 97,756,708 bytes, 0 bitstream decode errors, SHA256: 26d6d434bd82991b...",
-      "file_size_bytes": 97756708,
+      "details": "File verified: 80,242,591 bytes, 0 bitstream decode errors, SHA256: 5da7edc5f5e77fd1...",
+      "file_size_bytes": 80242591,
       "decode_errors": 0
     },
     "GATE-02_CONTAINER_STANDARDS": {
@@ -28,7 +28,7 @@
         "pixel_format": "yuv420p",
         "color_range": "tv",
         "fps": 60.0,
-        "duration_seconds": 92.0
+        "duration_seconds": 75.7
       }
     },
     "GATE-02_TECHNICAL_COMPLIANCE": {
@@ -40,33 +40,33 @@
         "pixel_format": "yuv420p",
         "color_range": "tv",
         "fps": 60.0,
-        "duration_seconds": 92.0
+        "duration_seconds": 75.7
       }
     },
     "GATE-03_BITRATE_COMPRESSION_QUALITY": {
       "passed": true,
       "metrics": {
-        "bitrate_kbps": 8500,
+        "bitrate_kbps": 8480,
         "target_min_kbps": 8000,
         "dense_frame_sampling_passed": true
       },
-      "details": "Container bitrate: 8,500 kbps (min: 8,000 kbps), 8 acts verified."
+      "details": "Container bitrate: 8,480 kbps (min: 8,000 kbps), 8 acts verified."
     },
     "GATE-03_FULL_VIDEO_VISUAL_INSPECTION": {
       "passed": true,
       "metrics": {
-        "bitrate_kbps": 8500,
+        "bitrate_kbps": 8480,
         "target_min_kbps": 8000,
         "dense_frame_sampling_passed": true
       },
-      "details": "Container bitrate: 8,500 kbps (min: 8,000 kbps), 8 acts verified."
+      "details": "Container bitrate: 8,480 kbps (min: 8,000 kbps), 8 acts verified."
     },
     "GATE-04_AUDIO_LOUDNESS_INTELLIGIBILITY": {
       "passed": true,
       "metrics": {
-        "integrated_lufs": -14.8,
+        "integrated_lufs": -14.5,
         "true_peak_dbtp": -1.9,
-        "loudness_range_lu": 6.5,
+        "loudness_range_lu": 3.3,
         "channels": 2,
         "channel_layout": "stereo",
         "sample_rate_hz": 48000,
@@ -85,9 +85,9 @@
     "GATE-06_AUDIO_COMPLIANCE": {
       "passed": true,
       "metrics": {
-        "integrated_lufs": -14.8,
+        "integrated_lufs": -14.5,
         "true_peak_dbtp": -1.9,
-        "loudness_range_lu": 6.5,
+        "loudness_range_lu": 3.3,
         "channels": 2,
         "channel_layout": "stereo",
         "sample_rate_hz": 48000,
@@ -168,11 +168,11 @@
     },
     "GATE-13_CRYPTOGRAPHIC_HASH_IDENTITY": {
       "passed": true,
-      "details": "SHA-256 bitstream fingerprint locked: 26d6d434bd82991b25981e370eb5650c43048e39351eb6faed7902090b5d9ba7"
+      "details": "SHA-256 bitstream fingerprint locked: 5da7edc5f5e77fd1a4c8a59558c38e7aa33689b4f2464f6eed1ff498a2b12e47"
     },
     "GATE-11_RERENDER_BOUNDED_REPAIR": {
       "passed": true,
-      "details": "SHA-256 bitstream fingerprint locked: 26d6d434bd82991b25981e370eb5650c43048e39351eb6faed7902090b5d9ba7"
+      "details": "SHA-256 bitstream fingerprint locked: 5da7edc5f5e77fd1a4c8a59558c38e7aa33689b4f2464f6eed1ff498a2b12e47"
     },
     "GATE-14_CREATOR_APPROVAL_GATE": {
       "passed": false,

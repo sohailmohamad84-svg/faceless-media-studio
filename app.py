@@ -447,7 +447,8 @@ with tab1:
                                 FlowMasterEngine.build_master_video(
                                     scenes=next_topic["scenes"],
                                     output_filename=out_filename,
-                                    ambient_sfx="tension_drone.wav"
+                                    ambient_sfx="tension_drone.wav",
+                                    engine_bed_sfx="drill_rumble.wav"
                                 )
                             )
                             st.write(f"3. 🎞️ Master file rendered: `{master_video_path.name}` ({master_video_path.stat().st_size:,} bytes)")

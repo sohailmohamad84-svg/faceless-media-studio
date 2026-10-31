@@ -35,7 +35,8 @@ async def main():
     master_path = await FlowMasterEngine.build_master_video(
         scenes=topic["scenes"],
         output_filename=out_filename,
-        ambient_sfx="tension_drone.wav"
+        ambient_sfx="tension_drone.wav",
+        engine_bed_sfx="drill_rumble.wav"
     )
     
     print(f"\nMaster render complete: {master_path}")

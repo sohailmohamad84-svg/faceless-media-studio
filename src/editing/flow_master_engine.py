@@ -101,16 +101,15 @@ class FlowMasterEngine:
             vo_files.append(vo_path)
             vo_durations.append(dur)
             
-            # Scene duration: explicit, parameter, 8-act standard (11.50s), or dynamic fallback
+            # Scene duration: explicit, parameter, or dynamic voice-fitted pacing
             if "duration" in sc:
                 sc_dur = float(sc["duration"])
             elif target_scene_duration is not None:
                 sc_dur = float(target_scene_duration)
-            elif len(scenes) == 8:
-                sc_dur = 11.50
             else:
                 is_last = (idx == len(scenes) - 1)
-                sc_dur = max(dur + (1.0 if is_last else 0.8), 13.5)
+                buffer = 0.50 if is_last else 0.40
+                sc_dur = round(dur + buffer, 2)
             scene_durations.append(sc_dur)
 
         total_duration = sum(scene_durations)
@@ -252,27 +251,35 @@ class FlowMasterEngine:
                         
             current_time_sec += sc_dur
 
-        # Build smooth musical ducking envelope (-3.5 dB during speech with 250ms smooth transition)
+        # Build smooth musical ducking envelope (-4.1 dB during speech with 250ms smooth transition)
         smooth_win = int(0.25 * cls.SAMPLE_RATE)
         kernel = np.ones(smooth_win, dtype=np.float32) / smooth_win
         smoothed_speech = np.convolve(speech_mask.astype(np.float32), kernel, mode="same")
-        # Attenuation factor: 1.0 when quiet, 0.65 (-3.7 dB) when speaking (natural, transparent)
-        ducking_mult = 1.0 - (smoothed_speech * 0.35)
+        # Attenuation factor: 1.0 when quiet, 0.62 (-4.1 dB) when speaking (natural, transparent)
+        ducking_mult = 1.0 - (smoothed_speech * 0.38)
 
-        # Ambient bed with smooth ducking
+        # Ambient bed with smooth ducking and seamless edge loop smoothing
         amb_path = sfx_dir / ambient_sfx
         if amb_path.exists():
-            raw_amb = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * 0.06
+            raw_amb = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * 0.16
+            fade_samples = int(0.15 * cls.SAMPLE_RATE)
+            if len(raw_amb) > fade_samples * 2:
+                raw_amb[:fade_samples] *= np.linspace(0.0, 1.0, fade_samples, dtype=np.float32)
+                raw_amb[-fade_samples:] *= np.linspace(1.0, 0.0, fade_samples, dtype=np.float32)
             for s in range(0, total_samples, len(raw_amb)):
                 e = min(total_samples, s + len(raw_amb))
                 amb_track[s:e] += raw_amb[:e - s]
         amb_track *= ducking_mult
 
-        # Continuous engine roar bed with smooth ducking
+        # Continuous engine / subterranean rumble bed with smooth ducking
         if engine_bed_sfx:
             eng_path = sfx_dir / engine_bed_sfx
             if eng_path.exists():
-                raw_eng = cls._load_audio_pcm(eng_path, cls.SAMPLE_RATE) * 0.10
+                raw_eng = cls._load_audio_pcm(eng_path, cls.SAMPLE_RATE) * 0.08
+                fade_samples = int(0.15 * cls.SAMPLE_RATE)
+                if len(raw_eng) > fade_samples * 2:
+                    raw_eng[:fade_samples] *= np.linspace(0.0, 1.0, fade_samples, dtype=np.float32)
+                    raw_eng[-fade_samples:] *= np.linspace(1.0, 0.0, fade_samples, dtype=np.float32)
                 for s in range(0, total_samples, len(raw_eng)):
                     e = min(total_samples, s + len(raw_eng))
                     engine_track[s:e] += raw_eng[:e - s]
@@ -343,7 +350,7 @@ class FlowMasterEngine:
         # Escape path for FFmpeg subtitles filter
         clean_ass_sub = ass_path.as_posix().replace(":", r"\:")
         cmd_mux = [
-            "ffmpeg", "-y", "-threads", "2",
+            "ffmpeg", "-y",
             "-i", str(merged_video),
             "-i", str(mastered_wav),
             "-vf", f"subtitles={clean_ass_sub},format=yuv420p",
