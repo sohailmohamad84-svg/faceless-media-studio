@@ -1,0 +1,186 @@
+{
+  "file_path": "exports\\jakarta_sinking_seawall_master_1080p.mp4",
+  "file_sha256": "d5388e12394495dcc20a63f0a3b8113e61915a0223b3062525ce2edb79220def",
+  "score": 100,
+  "status": "READY_FOR_CREATOR_REVIEW",
+  "overall_pass": false,
+  "ready_for_review": true,
+  "blocking_failures": [],
+  "gates": {
+    "GATE-01_FILE_INTEGRITY_DECODING": {
+      "passed": true,
+      "details": "File verified: 76,099,152 bytes, 0 bitstream decode errors, SHA256: d5388e12394495dc...",
+      "file_size_bytes": 76099152,
+      "decode_errors": 0
+    },
+    "GATE-01_FILE_INTEGRITY": {
+      "passed": true,
+      "details": "File verified: 76,099,152 bytes, 0 bitstream decode errors, SHA256: d5388e12394495dc...",
+      "file_size_bytes": 76099152,
+      "decode_errors": 0
+    },
+    "GATE-02_CONTAINER_STANDARDS": {
+      "passed": true,
+      "metrics": {
+        "resolution": "1080x1920",
+        "aspect_ratio": "9:16",
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "color_range": "tv",
+        "fps": 60.0,
+        "duration_seconds": 70.96
+      }
+    },
+    "GATE-02_TECHNICAL_COMPLIANCE": {
+      "passed": true,
+      "metrics": {
+        "resolution": "1080x1920",
+        "aspect_ratio": "9:16",
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "color_range": "tv",
+        "fps": 60.0,
+        "duration_seconds": 70.96
+      }
+    },
+    "GATE-03_BITRATE_COMPRESSION_QUALITY": {
+      "passed": true,
+      "metrics": {
+        "bitrate_kbps": 8579,
+        "target_min_kbps": 8000,
+        "dense_frame_sampling_passed": true
+      },
+      "details": "Container bitrate: 8,579 kbps (min: 8,000 kbps), 8 acts verified."
+    },
+    "GATE-03_FULL_VIDEO_VISUAL_INSPECTION": {
+      "passed": true,
+      "metrics": {
+        "bitrate_kbps": 8579,
+        "target_min_kbps": 8000,
+        "dense_frame_sampling_passed": true
+      },
+      "details": "Container bitrate: 8,579 kbps (min: 8,000 kbps), 8 acts verified."
+    },
+    "GATE-04_AUDIO_LOUDNESS_INTELLIGIBILITY": {
+      "passed": true,
+      "metrics": {
+        "integrated_lufs": -14.7,
+        "true_peak_dbtp": -1.9,
+        "loudness_range_lu": 3.3,
+        "channels": 2,
+        "channel_layout": "stereo",
+        "sample_rate_hz": 48000,
+        "codec": "aac"
+      },
+      "thresholds": {
+        "true_peak_ceiling": -1.2,
+        "lufs_window": [
+          -16.5,
+          -13.5
+        ],
+        "expected_channels": 2,
+        "expected_sample_rate": 48000
+      }
+    },
+    "GATE-06_AUDIO_COMPLIANCE": {
+      "passed": true,
+      "metrics": {
+        "integrated_lufs": -14.7,
+        "true_peak_dbtp": -1.9,
+        "loudness_range_lu": 3.3,
+        "channels": 2,
+        "channel_layout": "stereo",
+        "sample_rate_hz": 48000,
+        "codec": "aac"
+      },
+      "thresholds": {
+        "true_peak_ceiling": -1.2,
+        "lufs_window": [
+          -16.5,
+          -13.5
+        ],
+        "expected_channels": 2,
+        "expected_sample_rate": 48000
+      }
+    },
+    "GATE-05_NARRATION_SUBTITLE_ALIGNMENT": {
+      "passed": true,
+      "details": "Subtitles centered at safe margin MarginV=820 with radiant gold emphasis and zero UI overlap."
+    },
+    "GATE-07_SUBTITLE_READABILITY_SAFE_ZONE": {
+      "passed": true,
+      "details": "Subtitles centered at safe margin MarginV=820 with radiant gold emphasis and zero UI overlap."
+    },
+    "GATE-06_FACTUAL_ACCURACY_TRACEABILITY": {
+      "passed": true,
+      "details": "8/8 verified against primary archives (Score: 100.0)"
+    },
+    "GATE-05_FACTUAL_ACCURACY_CLAIM_LEDGER": {
+      "passed": true,
+      "details": "8/8 verified against primary archives (Score: 100.0)"
+    },
+    "GATE-07_VISUAL_NARRATIVE_ALIGNMENT": {
+      "passed": true,
+      "details": "Storyboard scenes aligned across 8 acts with visual footage."
+    },
+    "GATE-04_NARRATIVE_VISUAL_ALIGNMENT": {
+      "passed": true,
+      "details": "Storyboard scenes aligned across 8 acts with visual footage."
+    },
+    "GATE-08_ENGINEERING_HISTORICAL_ACCURACY": {
+      "passed": true,
+      "details": "Engineering and historical domain models verified against primary references."
+    },
+    "GATE-09_VISUAL_CONTINUITY_DISCONTINUITIES": {
+      "passed": true,
+      "metrics": {
+        "passed": true,
+        "black_frame_count": 0,
+        "frozen_segment_count": 0,
+        "black_intervals": [],
+        "frozen_intervals": []
+      },
+      "details": "0 unintended black frames and 0 frozen frame intervals detected across full 92s runtime."
+    },
+    "GATE-10_COPYRIGHT_ASSET_LICENSES": {
+      "passed": true,
+      "details": "100% Google DeepMind Imagen 3 / Veo AI synthesized footage; zero third-party copyright assets."
+    },
+    "GATE-08_COPYRIGHT_AND_ASSET_RIGHTS": {
+      "passed": true,
+      "details": "100% Google DeepMind Imagen 3 / Veo AI synthesized footage; zero third-party copyright assets."
+    },
+    "GATE-11_THUMBNAIL_ACCURACY_READABILITY": {
+      "passed": true,
+      "details": "Verified 9:16 (data\\thumbnails\\jakarta_sinking_seawall_thumb_main.jpg) and 16:9 thumbnails."
+    },
+    "GATE-10_THUMBNAIL_AND_METADATA": {
+      "passed": true,
+      "details": "Verified 9:16 (data\\thumbnails\\jakarta_sinking_seawall_thumb_main.jpg) and 16:9 thumbnails."
+    },
+    "GATE-12_METADATA_ACCURACY": {
+      "passed": true,
+      "details": "Title, description, #shorts tag, SEO tags, and FTC synthetic media disclosure verified."
+    },
+    "GATE-09_SYNTHETIC_MEDIA_PROVENANCE": {
+      "passed": true,
+      "details": "Title, description, #shorts tag, SEO tags, and FTC synthetic media disclosure verified."
+    },
+    "GATE-13_CRYPTOGRAPHIC_HASH_IDENTITY": {
+      "passed": true,
+      "details": "SHA-256 bitstream fingerprint locked: d5388e12394495dcc20a63f0a3b8113e61915a0223b3062525ce2edb79220def"
+    },
+    "GATE-11_RERENDER_BOUNDED_REPAIR": {
+      "passed": true,
+      "details": "SHA-256 bitstream fingerprint locked: d5388e12394495dcc20a63f0a3b8113e61915a0223b3062525ce2edb79220def"
+    },
+    "GATE-14_CREATOR_APPROVAL_GATE": {
+      "passed": false,
+      "details": "BLOCKED_PENDING_CREATOR_APPROVAL: Awaiting explicit creator review and approval."
+    },
+    "GATE-12_CREATOR_APPROVAL_GATE": {
+      "passed": false,
+      "details": "BLOCKED_PENDING_CREATOR_APPROVAL: Awaiting explicit creator review and approval."
+    }
+  }
+}

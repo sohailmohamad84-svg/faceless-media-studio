@@ -562,6 +562,7 @@ with tab2:
         "sr71_blackbird_unstart": "SR-71 Blackbird",
         "sr71_blackbird_mach3": "SR-71 Blackbird",
         "gotthard_base_tunnel": "Gotthard Base Tunnel",
+        "jakarta_sinking_seawall": "Jakarta Giant Sea Wall",
         "venice_mose_barriers": "Venice MOSE",
         "boeing_747_hump_origin": "Boeing 747",
         "project_azorian_claw": "Project Azorian",
