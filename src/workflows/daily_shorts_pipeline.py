@@ -1524,18 +1524,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Cinematic low tracking shot through a flooded Jakarta street where murky ocean water laps against second-story shop signs, concrete flood walls holding back dark sea, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_1.mp4",
                 "narration_text": "Sinking ten inches every single year, this mega-city of ten million people is literally collapsing into the ocean.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "water_rush.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 2,
@@ -1544,13 +1533,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D geological cross-section beneath Jakarta streets showing illegal deep water wells draining underground aquifers, porous soil layers collapsing like an empty sponge, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_2.mp4",
                 "narration_text": "Because piped municipal water is scarce, millions of illegal deep wells suck water out of underground aquifers, causing the clay soil beneath the city to deflate like an empty sponge.",
-                "foley": [
-                    {
-                        "sfx": "drill_rumble.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 3,
@@ -1559,13 +1542,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D satellite elevation map over northern Jakarta showing dark blue contour lines sinking below zero-meter sea level, Java Sea towering behind reinforced dikes, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_3.mp4",
                 "narration_text": "Today, over forty percent of north Jakarta lies below sea level, kept dry only by aging concrete sea walls that crack under monsoon storm surges.",
-                "foley": [
-                    {
-                        "sfx": "warning_beep.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 4,
@@ -1574,13 +1551,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Holographic 3D blueprint animation of the 25-mile offshore 'Great Garuda' sea wall shaped like a mythical eagle spanning across Jakarta Bay, artificial barrier islands glowing in gold, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_4.mp4",
                 "narration_text": "To stop the catastrophe, Indonesia launched the Great Garuda: a forty-billion-dollar, twenty-five-mile sea dike shaped like a mythical eagle spanning across the bay.",
-                "foley": [
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 5,
@@ -1589,13 +1560,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Giant marine crane barges dumping multi-ton interlocking concrete tetrapods into roaring ocean waters along the perimeter of the offshore seawall, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_5.mp4",
                 "narration_text": "Thousands of interlocking concrete tetrapods and rock armor are lowered into forty feet of open ocean to create a breakwater capable of withstanding category-four typhoons.",
-                "foley": [
-                    {
-                        "sfx": "gate_clank.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 6,
@@ -1604,13 +1569,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D satellite push from sinking Jakarta over 800 miles across the Java Sea into the dense green rainforests of East Kalimantan where Nusantara smart city is being built, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_6.mp4",
                 "narration_text": "Realizing engineering might only buy twenty years, the government made a historic decision: completely abandoning Jakarta and carving an entirely new capital city inside the Borneo jungle.",
-                "foley": [
-                    {
-                        "sfx": "warning_beep.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 7,
@@ -1619,13 +1578,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Colossal high-volume Archimedes screw pumps discharging millions of gallons of trapped river water over the sea wall back into the open Java Sea, heavy spray, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_7.mp4",
                 "narration_text": "Giant drainage pumping stations must continuously lift river floodwaters over the high dikes, burning massive electrical grids just to keep streets above water.",
-                "foley": [
-                    {
-                        "sfx": "water_rush.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.4
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 8,
@@ -1634,13 +1587,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Sweeping golden hour drone shot looking out from the sea wall towards the Jakarta skyline reflecting on the glowing ocean, warm cinematic sunset, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/jakarta_scene_8.mp4",
                 "narration_text": "Can megaprojects save coastal cities, or is moving inland the only real answer? Subscribe and share your thoughts below.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.25
-                    }
-                ]
+                "foley": []
             }
         ]
     },

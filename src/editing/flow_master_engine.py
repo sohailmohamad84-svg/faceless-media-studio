@@ -70,9 +70,10 @@ class FlowMasterEngine:
         cls,
         scenes: List[Dict[str, Any]],
         output_filename: str,
-        ambient_sfx: str = "tension_drone.wav",
+        ambient_sfx: Optional[str] = "cinematic_ambient_pulse.wav",
         engine_bed_sfx: Optional[str] = None,
-        target_scene_duration: Optional[float] = None
+        target_scene_duration: Optional[float] = None,
+        ambient_gain: float = 0.05
     ) -> Path:
         """
         Builds a broadcast-master short from scenes:
@@ -259,17 +260,18 @@ class FlowMasterEngine:
         ducking_mult = 1.0 - (smoothed_speech * 0.38)
 
         # Ambient bed with smooth ducking and seamless edge loop smoothing
-        amb_path = sfx_dir / ambient_sfx
-        if amb_path.exists():
-            raw_amb = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * 0.16
-            fade_samples = int(0.15 * cls.SAMPLE_RATE)
-            if len(raw_amb) > fade_samples * 2:
-                raw_amb[:fade_samples] *= np.linspace(0.0, 1.0, fade_samples, dtype=np.float32)
-                raw_amb[-fade_samples:] *= np.linspace(1.0, 0.0, fade_samples, dtype=np.float32)
-            for s in range(0, total_samples, len(raw_amb)):
-                e = min(total_samples, s + len(raw_amb))
-                amb_track[s:e] += raw_amb[:e - s]
-        amb_track *= ducking_mult
+        if ambient_sfx:
+            amb_path = sfx_dir / ambient_sfx
+            if amb_path.exists():
+                raw_amb = cls._load_audio_pcm(amb_path, cls.SAMPLE_RATE) * ambient_gain
+                fade_samples = int(0.15 * cls.SAMPLE_RATE)
+                if len(raw_amb) > fade_samples * 2:
+                    raw_amb[:fade_samples] *= np.linspace(0.0, 1.0, fade_samples, dtype=np.float32)
+                    raw_amb[-fade_samples:] *= np.linspace(1.0, 0.0, fade_samples, dtype=np.float32)
+                for s in range(0, total_samples, len(raw_amb)):
+                    e = min(total_samples, s + len(raw_amb))
+                    amb_track[s:e] += raw_amb[:e - s]
+            amb_track *= ducking_mult
 
         # Continuous engine / subterranean rumble bed with smooth ducking
         if engine_bed_sfx:

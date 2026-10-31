@@ -1,6 +1,6 @@
 {
   "file_path": "exports\\jakarta_sinking_seawall_master_1080p.mp4",
-  "file_sha256": "d5388e12394495dcc20a63f0a3b8113e61915a0223b3062525ce2edb79220def",
+  "file_sha256": "571f5a38f6f1bc2cfcde82bd9b6594893dbb18cfb2871b37c143c9c14e733e07",
   "score": 100,
   "status": "READY_FOR_CREATOR_REVIEW",
   "overall_pass": false,
@@ -9,14 +9,14 @@
   "gates": {
     "GATE-01_FILE_INTEGRITY_DECODING": {
       "passed": true,
-      "details": "File verified: 76,099,152 bytes, 0 bitstream decode errors, SHA256: d5388e12394495dc...",
-      "file_size_bytes": 76099152,
+      "details": "File verified: 76,100,196 bytes, 0 bitstream decode errors, SHA256: 571f5a38f6f1bc2c...",
+      "file_size_bytes": 76100196,
       "decode_errors": 0
     },
     "GATE-01_FILE_INTEGRITY": {
       "passed": true,
-      "details": "File verified: 76,099,152 bytes, 0 bitstream decode errors, SHA256: d5388e12394495dc...",
-      "file_size_bytes": 76099152,
+      "details": "File verified: 76,100,196 bytes, 0 bitstream decode errors, SHA256: 571f5a38f6f1bc2c...",
+      "file_size_bytes": 76100196,
       "decode_errors": 0
     },
     "GATE-02_CONTAINER_STANDARDS": {
@@ -64,9 +64,9 @@
     "GATE-04_AUDIO_LOUDNESS_INTELLIGIBILITY": {
       "passed": true,
       "metrics": {
-        "integrated_lufs": -14.7,
+        "integrated_lufs": -14.6,
         "true_peak_dbtp": -1.9,
-        "loudness_range_lu": 3.3,
+        "loudness_range_lu": 3.7,
         "channels": 2,
         "channel_layout": "stereo",
         "sample_rate_hz": 48000,
@@ -85,9 +85,9 @@
     "GATE-06_AUDIO_COMPLIANCE": {
       "passed": true,
       "metrics": {
-        "integrated_lufs": -14.7,
+        "integrated_lufs": -14.6,
         "true_peak_dbtp": -1.9,
-        "loudness_range_lu": 3.3,
+        "loudness_range_lu": 3.7,
         "channels": 2,
         "channel_layout": "stereo",
         "sample_rate_hz": 48000,
@@ -168,11 +168,11 @@
     },
     "GATE-13_CRYPTOGRAPHIC_HASH_IDENTITY": {
       "passed": true,
-      "details": "SHA-256 bitstream fingerprint locked: d5388e12394495dcc20a63f0a3b8113e61915a0223b3062525ce2edb79220def"
+      "details": "SHA-256 bitstream fingerprint locked: 571f5a38f6f1bc2cfcde82bd9b6594893dbb18cfb2871b37c143c9c14e733e07"
     },
     "GATE-11_RERENDER_BOUNDED_REPAIR": {
       "passed": true,
-      "details": "SHA-256 bitstream fingerprint locked: d5388e12394495dcc20a63f0a3b8113e61915a0223b3062525ce2edb79220def"
+      "details": "SHA-256 bitstream fingerprint locked: 571f5a38f6f1bc2cfcde82bd9b6594893dbb18cfb2871b37c143c9c14e733e07"
     },
     "GATE-14_CREATOR_APPROVAL_GATE": {
       "passed": false,
