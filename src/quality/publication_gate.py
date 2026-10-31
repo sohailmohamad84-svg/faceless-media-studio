@@ -304,6 +304,11 @@ class PublicationGate:
         gates["GATE-07_SUBTITLE_READABILITY_SAFE_ZONE"] = gates["GATE-05_NARRATION_SUBTITLE_ALIGNMENT"]
 
         # GATE 06: Factual Accuracy and Primary Source Traceability
+        if isinstance(claim_ledger, dict):
+            if not topic_metadata:
+                topic_metadata = claim_ledger
+            claim_ledger = None
+
         topic_id = topic_metadata.get("id") if topic_metadata else None
         if not claim_ledger and topic_id:
             ledger_path = Path(f"data/research/{topic_id}_claim_ledger.json")

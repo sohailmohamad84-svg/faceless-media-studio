@@ -417,11 +417,14 @@ with tab1:
 
         if trigger_now:
             with st.status(f"🎬 Producing Master Short: {next_topic['title']}...", expanded=True) as status_box:
+                out_filename = f"{next_topic['id']}_master_1080p.mp4"
+                existing_master = Path(f"exports/{out_filename}")
+                has_existing_master = existing_master.exists() and existing_master.stat().st_size > 5_000_000
                 missing_clips = [
                     sc.get("input_video")
                     for sc in next_topic.get("scenes", [])
                     if not Path(sc.get("input_video", "")).exists()
-                ]
+                ] if not has_existing_master else []
                 if missing_clips:
                     status_box.update(label=f"⚠️ Missing Footage: {len(missing_clips)} scene clip(s) not found", state="error")
                     st.error(
@@ -430,12 +433,10 @@ with tab1:
                         "before triggering final master video assembly."
                     )
                 else:
-                    out_filename = f"{next_topic['id']}_master_1080p.mp4"
-                    existing_master = Path(f"exports/{out_filename}")
                     try:
                         st.write("1. 📚 Verifying Claim Ledger and Primary Engineering Sources...")
                         st.write("2. 🎙️ Synthesizing ChristopherNeural narration, dynamic ducking & Foley...")
-                        if existing_master.exists() and existing_master.stat().st_size > 5_000_000:
+                        if has_existing_master:
                             st.write(f"3. 🎞️ Master broadcast container ready: `{existing_master.name}` ({existing_master.stat().st_size:,} bytes)")
                             master_video_path = existing_master
                         else:
@@ -576,11 +577,13 @@ with tab2:
             "report": f"{item['id']}_qa_report.json"
         })
 
-    # Prioritize Taipei 101 and episodes with completed renders/reports at the very top
+    # Prioritize active next topic and episodes with unapproved completed renders/reports at the very top
+    active_id = unproduced_items[0]["id"] if unproduced_items else ""
     all_episodes.sort(key=lambda e: (
-        0 if e["id"] == "taipei_101_damper"
-        else 1 if Path(e["file"]).exists() or (CreatorApprovalManager.find_qa_report_path(e["id"]) is not None)
-        else 2
+        0 if e["id"] == active_id
+        else 1 if (Path(e["file"]).exists() or (CreatorApprovalManager.find_qa_report_path(e["id"]) is not None)) and e["id"] not in published_ids
+        else 2 if Path(e["file"]).exists() or (CreatorApprovalManager.find_qa_report_path(e["id"]) is not None)
+        else 3
     ))
 
     def format_episode_label(ep_id: str) -> str:
@@ -588,8 +591,8 @@ with tab2:
         if not match:
             return ep_id
         tag = topic_tags.get(ep_id, ep_id.replace("_", " ").title())
-        star = "⭐ " if ep_id == "taipei_101_damper" else ""
-        return f"{star}[{tag}] {match['title']}"
+        prefix = "🚀 " if ep_id == active_id else ("🟢 " if ep_id in published_ids else "")
+        return f"{prefix}[{tag}] {match['title']}"
 
     sel_ep_id = st.selectbox(
         "Select Video for Full Inspection & Sign-off",
@@ -742,32 +745,49 @@ with tab3:
     st.markdown('<div class="section-title">🎨 Purpose-Built Thumbnail Studio (Part 9)</div>', unsafe_allow_html=True)
     st.caption("Every episode features Main, Alternative A, Alternative B (9:16 Shorts covers) and 16:9 Promotional Landscape artwork.")
 
+    t_ep_id = st.selectbox(
+        "Select Topic for Thumbnail Inspection",
+        [e["id"] for e in all_episodes],
+        index=0,
+        format_func=format_episode_label,
+        key="thumb_studio_select"
+    )
     t_col1, t_col2, t_col3, t_col4 = st.columns(4)
-    th_main = Path("data/thumbnails/taipei_101_damper_thumb_main.jpg")
-    th_alta = Path("data/thumbnails/taipei_101_damper_thumb_alt_a.jpg")
-    th_altb = Path("data/thumbnails/taipei_101_damper_thumb_alt_b.jpg")
-    th_promo = Path("data/thumbnails/taipei_101_damper_thumb_promo_16x9.jpg")
+    th_main = Path(f"data/thumbnails/{t_ep_id}_thumb_main.jpg")
+    th_alta = Path(f"data/thumbnails/{t_ep_id}_thumb_alt_a.jpg")
+    th_altb = Path(f"data/thumbnails/{t_ep_id}_thumb_alt_b.jpg")
+    th_promo = Path(f"data/thumbnails/{t_ep_id}_thumb_wide.jpg")
+    if not th_promo.exists():
+        th_promo = Path(f"data/thumbnails/{t_ep_id}_thumb_promo_16x9.jpg")
 
     with t_col1:
         st.markdown("**Main Cover (9:16)**")
         if th_main.exists():
             st.image(str(th_main), use_container_width=True)
             st.caption(f"1080x1920 • {th_main.stat().st_size:,} bytes")
+        else:
+            st.info("Main cover pending.")
     with t_col2:
         st.markdown("**Alternative A (9:16)**")
         if th_alta.exists():
             st.image(str(th_alta), use_container_width=True)
             st.caption(f"1080x1920 • {th_alta.stat().st_size:,} bytes")
+        else:
+            st.info("Alt A pending.")
     with t_col3:
         st.markdown("**Alternative B (9:16)**")
         if th_altb.exists():
             st.image(str(th_altb), use_container_width=True)
             st.caption(f"1080x1920 • {th_altb.stat().st_size:,} bytes")
+        else:
+            st.info("Alt B pending.")
     with t_col4:
         st.markdown("**Promotional (16:9)**")
         if th_promo.exists():
             st.image(str(th_promo), use_container_width=True)
-            st.caption(f"1280x720 • {th_promo.stat().st_size:,} bytes")
+            st.caption(f"1920x1080 • {th_promo.stat().st_size:,} bytes")
+        else:
+            st.info("Promo wide pending.")
 
 
 # ==========================================

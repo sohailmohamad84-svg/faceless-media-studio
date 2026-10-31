@@ -902,7 +902,7 @@ VIRAL_SHORTS_QUEUE = [
     },
     {
         "id": "sr71_blackbird_unstart",
-        "title": "The Jet Engine That Blew Itself Apart at Mach 3.2 #shorts",
+        "title": "The Jet That Choked at Mach 3.2: The SR-71 Unstart #shorts",
         "category": "Aviation & Speed",
         "hook": "A one-millimeter shockwave misplacement slammed this Mach 3 spy plane sideways in mid-air.",
         "description": "At 2,200 MPH, the SR-71 Blackbird relied on moving spike cones to keep engines alive. What happens when supersonic air chokes a jet engine in fifty milliseconds?\n\n\u2708\ufe0f Like & Subscribe for daily high-retention aviation & physics documentaries!\n\n#shorts #sr71 #blackbird #aviation #planes #mach3 #engineering #supersonic #military",
@@ -1312,19 +1312,28 @@ VIRAL_SHORTS_QUEUE = [
                 "scene_num": 1,
                 "title": "The Deep Alpine Portal Hook",
                 "graphic_type": "DYNAMIC_SPEED_TRACKING",
-                "prompt": "High-speed Swiss electric train shooting into a massive concrete tunnel portal carved into the sheer snowcapped rock face of the Swiss Alps at 155 MPH, motion blur, 4k 60fps vertical 9:16",
+                "prompt": "Cinematic low tracking shot of high-speed Swiss electric train shooting into massive concrete tunnel portal carved into sheer snowcapped Swiss Alps rockface at 155 MPH, motion blur, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_1.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "PORTAL ERSTFELD // DEPTH: 7,500 FT // SPEED: 155 MPH // STATUS: ENTERING",
                 "narration_text": "Buried beneath seven thousand five hundred feet of solid alpine rock is the longest and deepest railway tunnel ever constructed.",
+                "subtitle_phrases": [
+                    "Buried beneath {\\c&H00D7FF&}7,500 feet{\\c&HFFFFFF&}",
+                    "of {\\c&H00D7FF&}solid alpine rock{\\c&HFFFFFF&}",
+                    "is the {\\c&H00D7FF&}longest and deepest{\\c&HFFFFFF&}",
+                    "railway tunnel ever constructed."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
                         "time_offset": 0.0,
-                        "gain": 0.35
+                        "gain": 0.25
                     },
                     {
                         "sfx": "impact_boom.wav",
                         "time_offset": 0.5,
-                        "gain": 0.4
+                        "gain": 0.35
                     }
                 ]
             },
@@ -1334,12 +1343,20 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "3D_SATELLITE_DEM",
                 "prompt": "3D geological cross-section cutting through the Swiss Alps showing the 57-kilometer Gotthard tunnel running flat through the base beneath massive peaks, glowing red depth indicators, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_2.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "GEOLOGY // LENGTH: 57 KM (35 MI) // FORMATIONS: 80 ROCK TYPES // 17 YEARS",
                 "narration_text": "Thirty-five miles long, the Gotthard Base Tunnel cuts through eighty distinct geological rock formations that took seventeen years to conquer.",
+                "subtitle_phrases": [
+                    "{\\c&H00D7FF&}35 miles long{\\c&HFFFFFF&}, the Gotthard Base Tunnel",
+                    "cuts through {\\c&H00D7FF&}80 distinct rock formations{\\c&HFFFFFF&}",
+                    "that took {\\c&H00D7FF&}17 years to conquer{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "warning_beep.wav",
                         "time_offset": 0.3,
-                        "gain": 0.3
+                        "gain": 0.20
                     }
                 ]
             },
@@ -1349,12 +1366,21 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "DYNAMIC_ACTION_TRACKING",
                 "prompt": "Massive 400-meter-long Tunnel Boring Machine cutterhead grinding through solid granite rock under high pressure water jets, steel disc cutters throwing stone chips, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_3.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "TBM HERRENKNECHT // HEAD: 9.5M // EXCAVATION: 28M TONS // 5X GIZA PYRAMIDS",
                 "narration_text": "Four football-field-long tunnel boring machines excavated twenty-eight million tons of rock, enough stone to build the Great Pyramid of Giza five times over.",
+                "subtitle_phrases": [
+                    "Four {\\c&H00D7FF&}football-field-long TBMs{\\c&HFFFFFF&}",
+                    "excavated {\\c&H00D7FF&}28 million tons of rock{\\c&HFFFFFF&},",
+                    "enough to build the {\\c&H00D7FF&}Great Pyramid of Giza{\\c&HFFFFFF&}",
+                    "{\\c&H00D7FF&}five times over{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "drill_rumble.wav",
                         "time_offset": 0.3,
-                        "gain": 0.4
+                        "gain": 0.35
                     }
                 ]
             },
@@ -1364,12 +1390,21 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "3D_ARCHITECTURAL_CUTAWAY",
                 "prompt": "3D cutaway showing the geothermal heat transfer from crushing mountain pressure heating tunnel rock walls to 115 degrees Fahrenheit, industrial ventilation pipes pumping ice water, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_4.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "GEOTHERMAL HEAT // ROCK TEMP: 115°F (46°C) // VENTILATION: ICE REFRIGERATION",
                 "narration_text": "Deep in the mountain core, geothermal heat pushed rock temperatures to a blistering one hundred and fifteen degrees Fahrenheit, requiring massive refrigeration plants to keep miners alive.",
+                "subtitle_phrases": [
+                    "Deep in the mountain core,",
+                    "geothermal heat pushed rock temps to {\\c&H00D7FF&}115°F{\\c&HFFFFFF&},",
+                    "requiring {\\c&H00D7FF&}massive refrigeration plants{\\c&HFFFFFF&}",
+                    "just to keep miners alive."
+                ],
                 "foley": [
                     {
                         "sfx": "water_rush.wav",
                         "time_offset": 0.3,
-                        "gain": 0.35
+                        "gain": 0.30
                     }
                 ]
             },
@@ -1379,12 +1414,21 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "FORENSIC_SIMULATION",
                 "prompt": "Forensic engineering animation of heavy hydraulic steel yielding rings deforming under millions of pounds of crushing rock pressure without collapsing, glowing stress vectors, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_5.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "OVERBURDEN PRESSURE // ROCK SQUEEZE: 2.3 FT // STEEL YIELD RINGS: ABSORBING",
                 "narration_text": "Under millions of pounds of overburden pressure, soft sedimentary rock squeezed inward by over two feet, forcing engineers to invent sliding steel rings that yield without collapsing.",
+                "subtitle_phrases": [
+                    "Under {\\c&H00D7FF&}millions of pounds of pressure{\\c&HFFFFFF&},",
+                    "soft rock {\\c&H00D7FF&}squeezed inward by over 2 feet{\\c&HFFFFFF&},",
+                    "forcing engineers to invent {\\c&H00D7FF&}sliding steel rings{\\c&HFFFFFF&}",
+                    "that {\\c&H00D7FF&}yield without collapsing{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
-                        "sfx": "gate_clank.wav",
+                        "sfx": "metal_stress_creak.wav",
                         "time_offset": 0.4,
-                        "gain": 0.35
+                        "gain": 0.30
                     }
                 ]
             },
@@ -1394,12 +1438,20 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "DYNAMIC_ACTION_TRACKING",
                 "prompt": "Dramatic final breakthrough shot of the TBM cutterhead chewing through the last wall of rock, miners cheering as dust clears with laser alignment beam hitting exact center target, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_6.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "HISTORIC BREAKTHROUGH // DISTANCE: 28 MILES // LASER DEVIATION: < 1.0 CM",
                 "narration_text": "When drill heads met from opposite sides of the Alps after drilling twenty-eight miles in pitch darkness, the laser alignment error was less than one centimeter.",
+                "subtitle_phrases": [
+                    "When drill heads met from {\\c&H00D7FF&}opposite sides{\\c&HFFFFFF&}",
+                    "after drilling {\\c&H00D7FF&}28 miles in pitch darkness{\\c&HFFFFFF&},",
+                    "the laser alignment error was {\\c&H00D7FF&}less than 1 centimeter{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "impact_boom.wav",
                         "time_offset": 0.4,
-                        "gain": 0.4
+                        "gain": 0.35
                     }
                 ]
             },
@@ -1409,12 +1461,20 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "AERODYNAMIC_SHOCKWAVE",
                 "prompt": "Aerodynamic simulation of a 155 MPH passenger train shooting through the tunnel tube pushing a massive air piston shockwave into side ventilation pressure relief shafts, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_7.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "AERODYNAMICS // TUBE SPEED: 155 MPH // AIR PISTON EFFECT // RELIEF DUCTS: OPEN",
                 "narration_text": "Trains blast through the single-track tubes at one hundred and fifty-five miles per hour, pushing air ahead of them like an enormous pneumatic piston.",
+                "subtitle_phrases": [
+                    "Trains blast through single-track tubes at {\\c&H00D7FF&}155 mph{\\c&HFFFFFF&},",
+                    "pushing air ahead of them",
+                    "like an {\\c&H00D7FF&}enormous pneumatic piston{\\c&HFFFFFF&}."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
                         "time_offset": 0.2,
-                        "gain": 0.35
+                        "gain": 0.25
                     }
                 ]
             },
@@ -1424,12 +1484,20 @@ VIRAL_SHORTS_QUEUE = [
                 "graphic_type": "GOLDEN_FINISH_CTA",
                 "prompt": "Golden hour drone shot following high-speed train emerging from Gotthard south portal into lush sunlit Swiss valley with snow-capped peaks in background, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/gotthard_scene_8.mp4",
+                "duration": 11.50,
+                "voice_rate": "+16%",
+                "hud_telemetry": "TRANS-ALPINE CORRIDOR // GOTTHARD BASE // DEPTH: 2,300M // WORLD RECORD",
                 "narration_text": "Would you board a train traveling twenty miles beneath a mountain range? Subscribe and let us know in the comments.",
+                "subtitle_phrases": [
+                    "Would you board a train traveling",
+                    "{\\c&H00D7FF&}20 miles beneath a mountain range{\\c&HFFFFFF&}?",
+                    "Subscribe and let us know in the comments."
+                ],
                 "foley": [
                     {
                         "sfx": "tension_drone.wav",
                         "time_offset": 0.0,
-                        "gain": 0.25
+                        "gain": 0.20
                     }
                 ]
             }
