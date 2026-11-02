@@ -11,5 +11,44 @@
     "reviewer_name": "Creator",
     "notes": "Verified factual accuracy, eliminated act whooshes, high-CTR thumbnail.",
     "status": "CREATOR_APPROVED"
+  },
+  "gotthard_base_tunnel": {
+    "video_id": "gotthard_base_tunnel",
+    "file_path": "exports\\gotthard_base_tunnel_master_1080p.mp4",
+    "file_sha256": "5da7edc5f5e77fd1a4c8a59558c38e7aa33689b4f2464f6eed1ff498a2b12e47",
+    "metadata_hash": "bc0024fcb5c540d97f97ff95e7a25c2acda71628387ff6ab909a38a94e99e54e",
+    "thumbnail_sha256": "4ac1572967d30b4eb7fb7c9745675a0b2cb86d1d4f73b6da9c61fa33afc7e958",
+    "qa_score": 100,
+    "qa_status": "READY_FOR_CREATOR_REVIEW",
+    "approved_at": "2026-10-31T12:52:05.492841Z",
+    "reviewer_name": "Creator",
+    "notes": "Verified factual accuracy, audio compliance, and visual continuity.",
+    "status": "CREATOR_APPROVED"
+  },
+  "jakarta_sinking_seawall": {
+    "video_id": "jakarta_sinking_seawall",
+    "file_path": "exports\\jakarta_sinking_seawall_master_1080p.mp4",
+    "file_sha256": "571f5a38f6f1bc2cfcde82bd9b6594893dbb18cfb2871b37c143c9c14e733e07",
+    "metadata_hash": "cf70036c66684ec58102a819a17721a54cf37be7ac54596b0da3e56a3398ff83",
+    "thumbnail_sha256": "7b8908b34ddc388d5ed6e663cbba60f75dbec8410dfcaad4dc11af39e542223c",
+    "qa_score": 100,
+    "qa_status": "READY_FOR_CREATOR_REVIEW",
+    "approved_at": "2026-10-31T15:40:02.144550Z",
+    "reviewer_name": "Creator",
+    "notes": "Verified factual accuracy, audio compliance, and visual continuity.",
+    "status": "CREATOR_APPROVED"
+  },
+  "boeing_747_hump_secret": {
+    "video_id": "boeing_747_hump_secret",
+    "file_path": "exports\\boeing_747_hump_secret_master_1080p.mp4",
+    "file_sha256": "d5026259b616d9ebcf3b792e81ba83d114965e4fbeb8e45cdde4539dffba7d79",
+    "metadata_hash": "98fc6dea9183dbd1a23daec02905e7069c167aaab1295c15eaffb5872a6857b1",
+    "thumbnail_sha256": "efbfb930cb50fccd55af7abe0b7a58a374b3245df62420783c94c3240955ee08",
+    "qa_score": 100,
+    "qa_status": "READY_FOR_CREATOR_REVIEW",
+    "approved_at": "2026-11-02T18:56:34.999771Z",
+    "reviewer_name": "Creator",
+    "notes": "Verified factual accuracy, audio compliance, and visual continuity.",
+    "status": "CREATOR_APPROVED"
   }
 }
