@@ -1615,18 +1615,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Dramatic low-angle tracking shot of a Boeing 747-400 rotating off runway at sunset, four giant turbofan engines roaring with golden exhaust haze, distinctive upper deck hump catching warm light, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_1.mp4",
                 "narration_text": "The Boeing seven-forty-seven is the most recognizable passenger airliner in human history. But its iconic cockpit hump was designed for a secret military reason.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.5,
-                        "gain": 0.4
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 2,
@@ -1635,13 +1624,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Split screen comparing a sleek Concorde supersonic airliner slicing through Mach clouds to a widebody 747 subsonic airliner, glowing Mach numbers, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_2.mp4",
                 "narration_text": "In the nineteen-sixties, Boeing engineers were convinced that supersonic jets like Concorde would make all subsonic passenger planes completely obsolete within ten years.",
-                "foley": [
-                    {
-                        "sfx": "warning_beep.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 3,
@@ -1650,13 +1633,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D architectural cutaway of the 747 nose swinging completely upward on massive hinges, allowing two semi-truck shipping containers to drive straight down the main cargo deck, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_3.mp4",
                 "narration_text": "To keep the plane profitable once passengers abandoned it, they designed it as a freighter: placing the flight deck on the second floor so the entire nose could swing open on hinges.",
-                "foley": [
-                    {
-                        "sfx": "gate_clank.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 4,
@@ -1665,13 +1642,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Wind tunnel aerodynamic visualization showing Whitcomb area-rule airflow smoothing around the 747 cockpit hump, air pressure streamlines curving without drag penalties, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_4.mp4",
                 "narration_text": "Aerodynamicist Richard Whitcomb discovered that fairing the hump smoothly into the fuselage actually reduced transonic drag, making the massive jet faster and more fuel-efficient.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.2,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 5,
@@ -1680,13 +1651,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Colossal indoor drone tracking shot inside Boeing's Everett Factory, the largest building by volume in the world, with three 747 fuselages under construction under massive yellow bridge cranes, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_5.mp4",
                 "narration_text": "Boeing staked the entire company's existence on the project, building the largest building by volume on Earth in Everett, Washington, just to assemble it.",
-                "foley": [
-                    {
-                        "sfx": "drill_rumble.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 6,
@@ -1695,13 +1660,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D global cartography showing sonic boom ban flight restrictions over land, forcing supersonic airliners off lucrative continental routes while 747s conquer global skies, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_6.mp4",
                 "narration_text": "When sonic boom bans killed continental supersonic travel, the Queen of the Skies didn't become obsolete: it revolutionized affordable global travel for over five decades.",
-                "foley": [
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.4
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 7,
@@ -1710,13 +1669,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Time-lapse of heavy mechanized military pallets and jet engines sliding effortlessly into the gaping open nose of a 747 freighter under airport floodlights, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_7.mp4",
                 "narration_text": "Today, while passenger 747s have retired, hundreds of 747 freighters still fly the world's most critical supply chains thanks to that exact second-story cockpit.",
-                "foley": [
-                    {
-                        "sfx": "gate_clank.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 8,
@@ -1725,13 +1678,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Majestic golden hour shot of a Boeing 747 soaring into pink clouds at sunset, sun glinting off the upper deck windows, cinematic warm lighting, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/boeing747_scene_8.mp4",
                 "narration_text": "Have you ever flown on the upper deck of a 747? Subscribe and leave your memories in the comments below.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.25
-                    }
-                ]
+                "foley": []
             }
         ]
     },
