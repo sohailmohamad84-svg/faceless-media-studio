@@ -50,5 +50,18 @@
     "reviewer_name": "Creator",
     "notes": "Verified factual accuracy, audio compliance, and visual continuity.",
     "status": "CREATOR_APPROVED"
+  },
+  "project_azorian_salvage": {
+    "video_id": "project_azorian_salvage",
+    "file_path": "exports\\project_azorian_salvage_master_1080p.mp4",
+    "file_sha256": "e235a3f8eeeb7d4f27f17a3db05e598fb9013283cc3d5ae40cb6f1ff6ffbefc4",
+    "metadata_hash": null,
+    "thumbnail_sha256": "b91ffb2d89cc32f0c1b7c7d5d25bea61f6ad8e8a0f353f819df5042604aec19d",
+    "qa_score": 100,
+    "qa_status": "READY_FOR_CREATOR_REVIEW",
+    "approved_at": "2026-11-03T19:45:20.623735Z",
+    "reviewer_name": "Creator",
+    "notes": "Verified 8 unique Veo 2 cinematic scenes, Option 1 clean audio mix, 100/100 QA passed.",
+    "status": "CREATOR_APPROVED"
   }
 }
