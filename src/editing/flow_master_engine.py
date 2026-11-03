@@ -83,6 +83,27 @@ class FlowMasterEngine:
         work_dir.mkdir(parents=True, exist_ok=True)
         sfx_dir = Path("data/sfx")
         
+        # Step 0: Input clip uniqueness & bitstream deduplication verification
+        import hashlib
+        seen_clip_hashes = {}
+        for idx, sc in enumerate(scenes):
+            in_vid = Path(sc.get("input_video", ""))
+            if not in_vid.exists():
+                raise FileNotFoundError(f"Missing input video for Scene {idx + 1}: {in_vid}")
+            if in_vid.stat().st_size < 100_000:
+                raise ValueError(f"Input video for Scene {idx + 1} is corrupted or empty: {in_vid} ({in_vid.stat().st_size} bytes)")
+            
+            with open(in_vid, "rb") as vf:
+                v_hash = hashlib.sha256(vf.read()).hexdigest()
+            if v_hash in seen_clip_hashes:
+                prev_idx = seen_clip_hashes[v_hash]
+                raise ValueError(
+                    f"CRITICAL ERROR: Duplicate scene clip loop detected! Scene {idx + 1} ({in_vid.name}) "
+                    f"has identical SHA-256 bitstream as Scene {prev_idx + 1} ({scenes[prev_idx].get('input_video')}). "
+                    f"Every scene in a viral short MUST feature distinct, unique footage."
+                )
+            seen_clip_hashes[v_hash] = idx
+        
         # Step 1: Generate narration takes first to dynamically drive scene timing
         vo_files = []
         vo_durations = []

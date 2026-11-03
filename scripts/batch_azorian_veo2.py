@@ -69,11 +69,18 @@ async def download_tile_at_index(page, tile_idx, dest_path):
         return False
         
     tile = tiles.nth(tile_idx)
-    await tile.click()
-    await page.wait_for_timeout(2000)
+    box = await tile.bounding_box()
+    if not box:
+        print(f"ERROR: No bounding box for tile {tile_idx}", flush=True)
+        return False
+    cx = box["x"] + box["width"] / 2
+    cy = box["y"] + box["height"] / 2
+    print(f"Clicking tile center at ({cx:.1f}, {cy:.1f})...", flush=True)
+    await page.mouse.click(cx, cy)
+    await page.wait_for_timeout(2500)
     
     dl_btn = page.locator("button[aria-label*='Download'], button:has-text('download')").first
-    for _ in range(10):
+    for _ in range(12):
         if await dl_btn.count() > 0 and await dl_btn.is_enabled():
             break
         await page.wait_for_timeout(1000)

@@ -341,11 +341,31 @@ class PublicationGate:
         # Legacy alias
         gates["GATE-05_FACTUAL_ACCURACY_CLAIM_LEDGER"] = gates["GATE-06_FACTUAL_ACCURACY_TRACEABILITY"]
 
-        # GATE 07: Visual-to-Narration Alignment
+        # GATE 07: Visual-to-Narration Alignment & Scene Clip Uniqueness
         g7_pass = topic_metadata is not None and len(topic_metadata.get("scenes", [])) >= 4
+        g7_details = f"Storyboard scenes aligned across {len(topic_metadata.get('scenes', []))} acts with visual footage." if g7_pass else "Missing scene narrative alignment data."
+        
+        # Enforce 100% bitstream deduplication across all scene video inputs
+        if topic_metadata and "scenes" in topic_metadata:
+            import hashlib
+            clip_seen = {}
+            for s_idx, sc in enumerate(topic_metadata["scenes"]):
+                in_p = Path(sc.get("input_video", ""))
+                if in_p.exists():
+                    with open(in_p, "rb") as vf:
+                        chash = hashlib.sha256(vf.read()).hexdigest()
+                    if chash in clip_seen:
+                        prev_s = clip_seen[chash]
+                        g7_pass = False
+                        err_msg = f"GATE-07: Duplicate scene video loop detected! Scene {s_idx + 1} ({in_p.name}) duplicates Scene {prev_s + 1}."
+                        blocking_failures.append(err_msg)
+                        g7_details = f"FAILED: {err_msg}"
+                        break
+                    clip_seen[chash] = s_idx
+                    
         gates["GATE-07_VISUAL_NARRATIVE_ALIGNMENT"] = {
             "passed": g7_pass,
-            "details": f"Storyboard scenes aligned across {len(topic_metadata.get('scenes', []))} acts with visual footage." if g7_pass else "Missing scene narrative alignment data."
+            "details": g7_details
         }
         # Legacy alias
         gates["GATE-04_NARRATIVE_VISUAL_ALIGNMENT"] = gates["GATE-07_VISUAL_NARRATIVE_ALIGNMENT"]
