@@ -1707,18 +1707,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Underwater cinematic shot in pitch black ocean depth where deep-sea submersible spotlights reveal the crushed black hull of Soviet nuclear missile submarine K-129 resting on the abyssal plain, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_1.mp4",
                 "narration_text": "Three miles beneath the Pacific Ocean, a sunken Soviet nuclear submarine held nuclear missiles and top-secret cryptographic codebooks.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.35
-                    },
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.5,
-                        "gain": 0.4
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 2,
@@ -1727,13 +1716,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D architectural cutaway of the 618-foot Hughes Glomar Explorer ship, exterior showing deep-sea manganese nodule mining gear, interior cutaway revealing a gigantic secret submarine moon pool inside the hull, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_2.mp4",
                 "narration_text": "To recover it without starting World War Three, the CIA enlisted eccentric billionaire Howard Hughes to build a six-hundred-foot ship under the cover of mining ocean minerals.",
-                "foley": [
-                    {
-                        "sfx": "warning_beep.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 3,
@@ -1742,13 +1725,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Massive 200-foot articulated steel capture claw named Clementine with colossal hydraulic mechanical fingers descending through a bottom well into dark ocean water, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_3.mp4",
                 "narration_text": "Inside the ship was a hidden moon pool housing Clementine: a multi-million-pound mechanical steel claw designed to grip the entire submarine hull.",
-                "foley": [
-                    {
-                        "sfx": "gate_clank.wav",
-                        "time_offset": 0.4,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 4,
@@ -1757,13 +1734,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "3D forensic simulation of three miles of threaded 30-foot heavy drill pipes lowering the heavy claw through abyssal ocean currents, tension and bending stresses glowing on the steel pipe string, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_4.mp4",
                 "narration_text": "Lowering the claw required connecting three miles of heavy steel pipe sections one by one, supporting over sixteen million pounds of dead weight in violent ocean currents.",
-                "foley": [
-                    {
-                        "sfx": "drill_rumble.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.35
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 5,
@@ -1772,13 +1743,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Forensic underwater simulation of two steel claw fingers snapping under catastrophic shear load at 9,000 feet depth, sending two-thirds of the submarine hull tumbling back down into the abyss, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_5.mp4",
                 "narration_text": "As the claw hoisted the submarine off the seabed, two claw fingers suffered catastrophic structural failure: snapping under immense tension and dropping two-thirds of the sub back to the bottom.",
-                "foley": [
-                    {
-                        "sfx": "impact_boom.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.45
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 6,
@@ -1787,13 +1752,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Inside the secret moon pool under sterile floodlights, naval engineers inspect the recovered 38-foot bow section containing nuclear torpedoes and lost crew members, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_6.mp4",
                 "narration_text": "The recovered bow section contained two nuclear-tipped torpedoes and the bodies of six Soviet submariners, who were given a formal military burial at sea with full naval honors.",
-                "foley": [
-                    {
-                        "sfx": "water_rush.wav",
-                        "time_offset": 0.3,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 7,
@@ -1802,13 +1761,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Declassified vintage CIA file stamps slamming onto confidential memos with glowing text: 'NEITHER CONFIRM NOR DENY', vintage film grain, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_7.mp4",
                 "narration_text": "When journalists uncovered the mission, the CIA created the famous legal response still used today: stating they could 'neither confirm nor deny' the existence of the project.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.2,
-                        "gain": 0.3
-                    }
-                ]
+                "foley": []
             },
             {
                 "scene_num": 8,
@@ -1817,13 +1770,7 @@ VIRAL_SHORTS_QUEUE = [
                 "prompt": "Cinematic golden hour drone shot flying over open Pacific Ocean waters with the sun setting on calm deep blue waves, warm reflective light, 4k 60fps vertical 9:16",
                 "input_video": "data/flow_clips/azorian_scene_8.mp4",
                 "narration_text": "Was spending four billion dollars for a piece of a submarine worth the risk? Subscribe and tell us what you think below.",
-                "foley": [
-                    {
-                        "sfx": "tension_drone.wav",
-                        "time_offset": 0.0,
-                        "gain": 0.25
-                    }
-                ]
+                "foley": []
             }
         ]
     },

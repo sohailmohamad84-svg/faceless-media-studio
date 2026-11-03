@@ -566,6 +566,7 @@ with tab2:
         "boeing_747_hump_secret": "Boeing 747 Hump Secret",
         "venice_mose_barriers": "Venice MOSE",
         "boeing_747_hump_origin": "Boeing 747",
+        "project_azorian_salvage": "Project Azorian (Ocean Claw)",
         "project_azorian_claw": "Project Azorian",
         "channel_tunnel_breakthrough": "Channel Tunnel",
         "troll_a_platform": "Troll A Platform"
